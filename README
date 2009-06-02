@@ -1,0 +1,66 @@
+-*- Mode: org; org-newline-after-item: nil -*-
+* 
+* write a tranditional compatible calc for mama
+** don't notice any difference when using the first time
+   with a configuable "skin" of calc, which can simulates many different models
+   of calcs.
+   showing the key which she presses in a color (or 凹陷效果)
+   update the "tranditional" screen anytime a real world calc does.
+   the advanced feature windows can be hided in options. this will make it like
+   a (good) simulator of tranditional calcs.
+** history show
+** compare any two recent calc:
+    most of the time, she will calc at least twice.
+    if the final sum match, she feels good, and may calc a third time anyway.
+    if the final sum doesn't match. she definitly calc a 3rd time without 
+    knowing what is wrong in the first 2 calc.
+      This is where my calc comes handy. It will auto compare all input and 
+      partial sum result (for every number displayed on tranditional "screen".
+      show a diff like compare with colors showing the diff op and number.
+        even she still goes for a 3rd time.
+        she can compare all the 3 calc in a diff. which will make she know what
+        wrong in the first calc and 2nd calc.
+*** press A saves the last group of calc in register A.
+**** a group is a series of keys after the CLEAR key.
+**** a register contains all the info for a group. which can be recalled to cmp
+     with other group of calc.
+**** she can "edit" any numbers and ops in a group, then "rerun" the group.
+***** edit should be a very easy op. and the calc will allow edit many times
+      with promts on "sceen"
+***** yes. group are "runrunable"
+      This is more or less like a kbd macro for a real computer.
+      yes, you could even define, save and load a group use other tools (for 
+      example, an editor) without touching the "screen" keyboard.
+  bonus(optional): allow both RPN and dumb tranditional notation.
+  bonus: leave interface which allow "touch screen" press "buttons" on different
+         "models" screen.
+  bonus(opional): allow producing real world "calc like kbd" to use in my app.
+                  the app doesn't rely on computer kbd at all. a good layout of
+                  input signal catch and representation will help achive this.
+                  This allow factories(companies) to produce kbd to sell with 
+                  my software. the kbd can contain screens in them. my app will
+                  have different ways/interfaces to export its "screen" to fit
+                  10 digit display. colored display. allow thousand point sep.
+                  and so on. make "screen" very configuable. allow multiscreen
+                  simulately running on one session of calc. This will make it
+                  easier to test my software and good to end users.
+** ternominals
+*** "screen"  means tranditional screen of a calc.
+*** "touch screen" means screen which can be oped by finger/hand touch/move
+    like iphone.
+*** "calc like bbd" a phisical kbd looks like a tranditional calc, but can be
+    connected to computer using USB and op as a kbd for my calc. Allow it to 
+    contain screen.
+*** "models" a center model of a phsical calc
+** impleplementation related
+*** the app will be free software(GPLv2 or later). but
+    allow a price for Apple Store. it takes time for me to package and migirate.
+    allow donation via paypal and alipay.
+*** screen are very configuable
+*** multi screen support at the same time.
+    like one graphic card driven two LCD.
+*** input are very configuable
+**** kbd are bery configurable
+     even allow a javescript web interface to my app. both input and display.
+     use table, css and images for "drawing" the kbd and screen.
+** use UnitTest help me design the structure and arrange the code.
