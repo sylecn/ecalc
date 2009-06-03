@@ -6,9 +6,10 @@ import junit.framework.TestSuite;
 public class AllTests {
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for ecalc");
+		TestSuite suite = new TestSuite();
 		//$JUnit-BEGIN$
-		
+		suite.addTest(new TestSuite(MachineTest.class));
+		suite.addTest(new TestSuite(KeysTest.class));
 		//$JUnit-END$
 		return suite;
 	}
