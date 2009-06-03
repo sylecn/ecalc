@@ -1,0 +1,138 @@
+-*- mode: text; indent-tabs-mode: nil -*-
+Use Cases
+
+notations:
+  I use cal for ecalc.
+  [ reg A ] means a drop down list
+  [ D1, D2, A ] means a drop down list contains selection D1, D2 and A.
+
+user start cal
+cal shows default kbd device and default screen device.
+
+in screen window, user press keys on keyboard
+if the key is invalid, do nothing. show msg in console.
+if the key is number, all active cal screen shows the number, kbd has an
+    animation show what's pressed.
+if the key is op, check whether it is valid op for current env.
+if it is invalid, warn the user, blink screen and kbd error light.
+    show msg in console.
+if it is valid, push number to history window, depends on the screen type(cal
+    model type).
+    if op is +-*/ show op in screen,
+    if op is Clear, reset history stack, don't clear history, for undo feature.
+        make no numbers and no ops in current cal.
+    if op is Backspace, and valid, delete one char of the number.
+                        and invalid, do nothing, show msg in console.
+    if op is =, invalid, only show in console.
+                valid, show result. push the cal to cal stack. clear
+                history window. If cal looks similar to previous cal, and
+                result match, show a green light bulb in history window.
+                result doesn't match, show a red light bulb in history window.
+                and show a diff, show the difference in red, matches in gray.
+
+user press save to A key in history window
+save the current cal to register A. it doesn't matter whether it's a completed
+cal or a partial one.
+
+user press recall A key
+First save current cal to last-active register (no matter finished or not).
+Then recall what's stored in register A. restore the screens and history window.
+
+user click the number or op in diff window
+the number becomes editable.
+user change the number/op, and leave the box. refresh the diff.
+
+user click send to history button in diff window
+the cal [maybe already edited in diff] is send to history window.
+
+user click the number or op in history window
+the number becomes editable.
+user change the number/op, and leave the box. redo the cal.
+
+user click continue calc from here button in history window
+  put current history to last active.
+  loads the cal above the marked line in screen 
+user click continue from here button in history window
+
+
+
+sys internal
+do/refresh diff
+if the diff is a match, show green light bulb.
+if the diff is not a match, show red light bulb.
+show how many number mismatch and op mismatch.
+
+====================
+windows may appear:
+console: a text area for logs and debug info
+history: shows numbers, ops, and partial results. like this
+       | current   | last-active | old    |
+         2           1             1      
+         *           +             +      
+         1     3     1    2        1    2 
+         +           +             ------      
+         5     8     1    3        1    
+         *           +             +      
+         6     48    4    7        4    5 
+         +           -------       +
+         10    58                  2    7
+         *                         +
+         3     174                 1    8
+         ---------                 ------
+
+         old contains all history in current session (after ecalc starts).
+         
+         
+diff: if similar cal is detected, it will be activated automatically. shows
+       | current   | last-active |
+         1           1
+         +           +
+         1    2      1    2
+         +           +
+         <11> <13>   <1>  <3>
+         +           +
+         4    17     4    7
+         -------     -------
+
+         Only compare the first col of course. Because the second col was
+         supposed to be wrong if there is one mismatch in the 1st col.
+         if there is more than one error. show all of them in red.
+
+         <x> means show in red color.
+
+register window: shows something like history, but only one slot is available.
+      | [Reg A]  |   available regs:  |
+        2              Current          
+        *              last active      
+        1     3        A                
+        +              D1               
+        5     8        D2               
+        *              buttons:         
+        6     48       ------------
+        +           
+        10    58    
+        *           
+        3     174   
+        ---------
+        buttons: show, copy to D1, copy to D2, copy to history
+
+buttons in history window
+Save to A
+Load from A
+
+buttons in diff window
+below each cal:
+save to [D1]
+load from [A, last-active]
+send to history
+
+Full-International-Support
+languages
+
+valid keys:
+[0-9]
++-*/
+=
+Clear
+Backspace
+
