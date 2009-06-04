@@ -1,9 +1,5 @@
 
-AllTests.java,76
-public class AllTests 6,80
-	public static Test suite(AllTests.suite8,105
-
-Keys.java,1493
+Keys.java,1849
 public enum Keys 3,16
 	KEY0,Keys.KEY04,35
 		KEY1,Keys.KEY15,42
@@ -17,49 +13,61 @@ public enum Keys 3,16
 		KEY9,Keys.KEY913,106
 		KEY00,Keys.KEY0014,114
 		KEY_DOT,Keys.KEY_DOT15,123
-		KEY_ADD,Keys.KEY_ADD16,134
-		KEY_SUBTRACT,Keys.KEY_SUBTRACT17,145
-		KEY_MULTIPLY,Keys.KEY_MULTIPLY18,161
-		KEY_DIVIDE,Keys.KEY_DIVIDE19,177
-		KEY_CLEAR,Keys.KEY_CLEAR20,191
-		KEY_BACKSPACE;Keys.KEY_BACKSPACE21,204
-	public Keys.public23,223
-	public boolean Keys.boolean23,223
-	public boolean isNumber(Keys.isNumber23,223
-	public boolean isNumber(Keys Keys.Keys23,223
-	public boolean isNumber(Keys key)Keys.key23,223
-	public Keys.public43,489
-	public String Keys.String43,489
-	public String toString(Keys.toString43,489
-	public String toString(Keys Keys.Keys43,489
-	public String toString(Keys key)Keys.key43,489
-	public Keys.public83,1091
-	public static Keys.static83,1091
-	public static double Keys.double83,1091
-	public static double doOp(Keys.doOp83,1091
-	public static double doOp(Keys Keys.Keys83,1091
-	public static double doOp(Keys op,Keys.op83,1091
-	public static double doOp(Keys op, double Keys.double83,1091
-	public static double doOp(Keys op, double n1,Keys.n183,1091
-	public static double doOp(Keys op, double n1, double Keys.double83,1091
-	public static double doOp(Keys op, double n1, double n2)Keys.n283,1091
+		KEY_MINUS,Keys.KEY_MINUS16,134
+		KEY_ADD,Keys.KEY_ADD17,147
+		KEY_SUBTRACT,Keys.KEY_SUBTRACT18,158
+		KEY_MULTIPLY,Keys.KEY_MULTIPLY19,174
+		KEY_DIVIDE,Keys.KEY_DIVIDE20,190
+		KEY_CLEAR,Keys.KEY_CLEAR21,204
+		KEY_BACKSPACE;Keys.KEY_BACKSPACE22,217
+	public Keys.public24,236
+	public static Keys.static24,236
+	public static boolean Keys.boolean24,236
+	public static boolean isNumber(Keys.isNumber24,236
+	public static boolean isNumber(Keys Keys.Keys24,236
+	public static boolean isNumber(Keys key)Keys.key24,236
+	public Keys.public45,527
+	public static Keys.static45,527
+	public static boolean Keys.boolean45,527
+	public static boolean isOp(Keys.isOp45,527
+	public static boolean isOp(Keys Keys.Keys45,527
+	public static boolean isOp(Keys key)Keys.key45,527
+	public Keys.public50,608
+	public String Keys.String50,608
+	public String toString(Keys.toString50,608
+	public String toString(Keys Keys.Keys50,608
+	public String toString(Keys key)Keys.key50,608
+	public Keys.public94,1276
+	public static Keys.static94,1276
+	public static double Keys.double94,1276
+	public static double doOp(Keys.doOp94,1276
+	public static double doOp(Keys Keys.Keys94,1276
+	public static double doOp(Keys op,Keys.op94,1276
+	public static double doOp(Keys op, double Keys.double94,1276
+	public static double doOp(Keys op, double n1,Keys.n194,1276
+	public static double doOp(Keys op, double n1, double Keys.double94,1276
+	public static double doOp(Keys op, double n1, double n2)Keys.n294,1276
 
 KeysTest.java,77
 public class KeysTest 8,76
 		public void testDoOp(KeysTest.testDoOp11,108
 
-Machine.java,404
+Machine.java,605
 public class Machine 3,16
 	private double number_old Machine.number_old6,60
 	private double number Machine.number8,111
 	private String number_str Machine.number_str9,141
 	private boolean after_dot Machine.after_dot12,228
 	private Keys op Machine.op15,287
-	public Machine Machine.Machine17,314
-	public double getResult(Machine.getResult24,425
-	public void keyPress(Machine.keyPress31,557
+	private Keys last_key Machine.last_key18,338
+	public Machine(Machine.Machine20,371
+	private void debug(Machine.debug23,395
+	private String toggle_minus_sign(Machine.toggle_minus_sign27,460
+	private void clear(Machine.clear41,705
+	public double getResult(Machine.getResult52,905
+	public void keyPress(Machine.keyPress59,1037
 
-MachineTest.java,680
+MachineTest.java,1278
 public class MachineTest 8,73
 	private Machine m;MachineTest.m9,100
 	private double delta MachineTest.delta10,120
@@ -71,4 +79,12 @@ public class MachineTest 8,73
 	@Test public void testKey00_3(MachineTest.testKey00_349,1004
 	@Test public void testNumberInt(MachineTest.testNumberInt57,1193
 	@Test public void testNumberFloat(MachineTest.testNumberFloat64,1352
-	@Test public void testClear(MachineTest.testClear73,1572
+	@Test public void testMinusNumber(MachineTest.testMinusNumber73,1572
+	@Test public void testDoubleMinus(MachineTest.testDoubleMinus79,1712
+	@Test public void testClearIsNotNumber(MachineTest.testClearIsNotNumber89,1955
+	@Test public void testClear1(MachineTest.testClear193,2058
+	@Test public void testClear2(MachineTest.testClear299,2192
+	@Test public void testError1(MachineTest.testError1111,2514
+	@Test public void testDefaultNumberOnScreen(MachineTest.testDefaultNumberOnScreen117,2630
+	@Test public void testChangeOp(MachineTest.testChangeOp122,2728
+	@Test public void testPracticalLegalAdd(MachineTest.testPracticalLegalAdd135,2985

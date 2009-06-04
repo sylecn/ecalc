@@ -11,7 +11,8 @@ CLASSES = \
 	Keys.java \
 	KeysTest.java \
         Machine.java \
-	MachineTest.java
+	MachineTest.java \
+	Screen.java
 
 default: classes
 

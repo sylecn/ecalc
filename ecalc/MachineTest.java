@@ -61,14 +61,35 @@ public class MachineTest {
 		assertEquals(125, m.getResult(), delta);
 	}
 
-	@Test public void testNumberFloat() {
+	@Test public void testNumberFloat1() {
 		m.keyPress(Keys.KEY1);
 		m.keyPress(Keys.KEY_DOT);
 		m.keyPress(Keys.KEY2);
 		m.keyPress(Keys.KEY5);
 		assertEquals(1.25, m.getResult(), delta);
-		m.keyPress(Keys.KEY_CLEAR);
 	}
+
+	@Test public void testNumberFloat2() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_DOT);
+		assertEquals(1, m.getResult(), delta);
+	}
+
+	@Test public void testMinusNumber() {
+		m.keyPress(Keys.KEY_MINUS);
+		m.keyPress(Keys.KEY1);
+		assertEquals(-1, m.getResult(), delta);
+	}
+
+	@Test public void testDoubleMinus() {
+		m.keyPress(Keys.KEY_MINUS);
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_MINUS);
+		assertEquals(1, m.getResult(), delta);
+		m.keyPress(Keys.KEY_MINUS);
+		assertEquals(-1, m.getResult(), delta);
+	}
+	
 
 	@Test public void testClearIsNotNumber() {
 		assertEquals(false, Keys.isNumber(Keys.KEY_CLEAR));
@@ -91,5 +112,53 @@ public class MachineTest {
 		m.keyPress(Keys.KEY1);
 		assertEquals(1, m.getResult(), delta);
 	}
+
+	@Test public void testError1() {
+		m.keyPress(Keys.KEY2);
+		m.keyPress(Keys.KEY_CLEAR);
+		// assertEquals(, );
+	}
+
+	@Test public void testDefaultNumberOnScreen() {
+		
+		assertEquals(0, m.getResult(), delta);
+	}
+	
+	@Test public void testChangeOp() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_SUBTRACT);
+		m.keyPress(Keys.KEY_ADD);
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(2, m.getResult(), delta);
+		m.keyPress(Keys.KEY_MULTIPLY);
+		m.keyPress(Keys.KEY1);
+		assertEquals(1, m.getResult(), delta);
+		m.keyPress(Keys.KEY_MINUS);
+		m.keyPress(Keys.KEY00);
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(-200, m.getResult(), delta);
+	}
+	
+
+	/**
+	 * with MINUS CLEAR ADD
+	 */
+	@Test public void testPracticalLegalAdd() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_MINUS);
+		m.keyPress(Keys.KEY2);
+		assertEquals(-12, m.getResult(), delta);
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(-12, m.getResult(), delta);
+		m.keyPress(Keys.KEY6);
+		assertEquals(6, m.getResult(), delta);
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(-6, m.getResult(), delta);
+		m.keyPress(Keys.KEY7);
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(1, m.getResult(), delta);
+	}
+
 	
 }

@@ -13,6 +13,7 @@ public enum Keys {
 		KEY9,
 		KEY00,
 		KEY_DOT,
+		KEY_MINUS,
 		KEY_ADD,
 		KEY_SUBTRACT,
 		KEY_MULTIPLY,
@@ -34,13 +35,19 @@ public enum Keys {
 		case KEY9:
 		case KEY00:
 		case KEY_DOT:
+		case KEY_MINUS:
 			return true;
 		default:
 			return false;
 		}
 	}
 
-	public String toString(Keys key) {
+	public static boolean isOp(Keys key) {
+		return ! isNumber(key);
+	}
+					     
+
+	public static String toString(Keys key) {
 		switch (key) {
 		case KEY0:
 			return "0";
@@ -66,6 +73,8 @@ public enum Keys {
 			return "00";
 		case KEY_DOT:
 			return ".";
+		case KEY_MINUS:
+			return "-";
 		case KEY_ADD:
 			return "+";
 		case KEY_SUBTRACT:
