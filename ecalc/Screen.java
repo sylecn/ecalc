@@ -2,7 +2,7 @@ package ecalc;
 
 /**
  * screen is a base class for all physical screens.
- * it is part of a Machine.
+ * it can be attached to a Machine.
  *
  * almost everything is package level privilege for use in Machine Class.
  */

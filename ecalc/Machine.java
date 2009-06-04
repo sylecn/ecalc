@@ -115,8 +115,8 @@ public class Machine {
 			} else {
 				if ((last_key != null) &&
 				    (Keys.isOp(last_key))) {
-					debug("change op from " + op
-					      + " to " + key + ".\n");
+					// debug("change op from " + op
+					//       + " to " + key + ".\n");
 					op = key;
 					return;
 				}
@@ -131,3 +131,6 @@ public class Machine {
 	}
 }
 
+// Local Variables:
+// unit-test-command: (lambda () (zerop (shell-command "make -s check")))
+// End:
