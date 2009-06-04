@@ -16,7 +16,9 @@ public enum Keys {
 		KEY_ADD,
 		KEY_SUBTRACT,
 		KEY_MULTIPLY,
-		KEY_DIVIDE;
+		KEY_DIVIDE,
+		KEY_CLEAR,
+		KEY_BACKSPACE;
 	
 	public boolean isNumber(Keys key) {
 		switch (key) {

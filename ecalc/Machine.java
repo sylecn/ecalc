@@ -18,7 +18,13 @@ public class Machine {
 		
 	}
 
+	/**
+	 * return cal result. if no cal, return current (partial) input number.
+	 */
 	public double getResult() {
+		if (! number_str.isEmpty()) {
+			return Double.parseDouble(number_str);
+		}
 		return number_old;
 	}
 
@@ -37,7 +43,7 @@ public class Machine {
 			number_str += key.toString(key);
 		} else {
 			if (op == null) {
-				number_old = Integer.parseInt(number_str);
+				number_old = Double.parseDouble(number_str);
 				number_str = "";
 				op = key;
 			} else {

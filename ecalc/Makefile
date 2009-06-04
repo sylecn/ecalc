@@ -20,7 +20,8 @@ classes: $(CLASSES:.java=.class)
 clean:
 	$(RM) *.class
 
-test:
+test: check
+check:default
 	$(JUNIT) ecalc.KeysTest ecalc.MachineTest
 
 check-junit:
