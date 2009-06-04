@@ -51,7 +51,11 @@ public class Machine {
 		number_str = number;
 		screen.main_panel = number_str;
 	}
-					  
+
+	private void updateOp(Keys newop) {
+		op = newop;
+		screen.updateOp(op);
+	}
 				   
 	/**
 	 * clear for Key.KEY_CLEAR
@@ -103,13 +107,11 @@ public class Machine {
 				}
 			}
 			updateNumberString(number_str + Keys.toString(key));
-			// number_str += key.toString(key);
-			// screen.main_panel = number_str;
 		} else {
 			if (op == null) {
 				number_old = Double.parseDouble(number_str);
 				updateNumberString("");
-				op = key;
+				updateOp(key);
 			} else {
 				if ((last_key != null) &&
 				    (Keys.isOp(last_key))) {

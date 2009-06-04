@@ -23,12 +23,19 @@ public class Screen {
 	 */
 	boolean error_signal = false;
 	String error_msg = "";
-	
+
 	boolean op_plus = false;
 	boolean op_subtract = false;
 	boolean op_multiply = false;
 	boolean op_divide = false;
 
+	void clearOp() {
+		op_plus = false;
+		op_subtract = false;
+		op_multiply = false;
+		op_divide = false;
+	}
+			     
 	void clear() {
 		main_panel = "0";
 		minus_sign = false;
@@ -36,10 +43,7 @@ public class Screen {
 		error_signal = false;
 		error_msg = "";
 
-		op_plus = false;
-		op_subtract = false;
-		op_multiply = false;
-		op_divide = false;
+		clearOp();
 	}
 
 	void Screen() {
@@ -59,6 +63,26 @@ public class Screen {
 		error_msg = "";
 		error_signal = false;
 	}
-			     
-				     
+
+	void updateOp(Keys op) {
+		clearOp();
+		switch (op) {
+		case KEY_ADD:
+			op_plus = true;
+			break;
+		case KEY_SUBTRACT:
+			op_subtract = true;
+			break;
+		case KEY_MULTIPLY:
+			op_multiply = true;
+			break;
+		case KEY_DIVIDE:
+			op_divide = true;
+			break;
+		default:
+			/* never reach */
+			break;
+		}
+	}
+						     
 }
