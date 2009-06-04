@@ -2,7 +2,7 @@ package ecalc;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import org.junit.*;
 
 
 public class MachineTest {
@@ -28,7 +28,7 @@ public class MachineTest {
 		m.keyPress(Keys.KEY1);
 		m.keyPress(Keys.KEY_MULTIPLY);
 		m.keyPress(Keys.KEY2);
-		m.keyPress(Keys.KEY_ADD));
+		m.keyPress(Keys.KEY_ADD);
 		assertEquals(12.0, m.getResult(), 0.0000001);
 	}
 }
