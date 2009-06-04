@@ -26,3 +26,5 @@ check:default
 
 check-junit:
 	$(JUNIT) org.junit.tests.AllTests
+tags:
+	etags *.java

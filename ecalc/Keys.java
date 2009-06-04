@@ -20,7 +20,7 @@ public enum Keys {
 		KEY_CLEAR,
 		KEY_BACKSPACE;
 	
-	public boolean isNumber(Keys key) {
+	public static boolean isNumber(Keys key) {
 		switch (key) {
 		case KEY0:
 		case KEY1:
@@ -74,6 +74,8 @@ public enum Keys {
 			return "*";
 		case KEY_DIVIDE:
 			return "/";
+		case KEY_CLEAR:
+			return "C";
 		default:
 			/* never reach here. */
 			return "INVILID_KEY";
@@ -91,6 +93,8 @@ public enum Keys {
 		case KEY_DIVIDE:
 			//It is upper level program's job to catch exceptions.
 			return n1 / n2;
+		case KEY_CLEAR:
+			//fall through
 		default:
 			//TODO throw exception here. NoSuchOp
 			return 0.0;

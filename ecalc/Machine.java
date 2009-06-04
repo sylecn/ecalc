@@ -14,8 +14,22 @@ public class Machine {
 	//current operation
 	private Keys op = null;
 	
-	public Machine () {
-		
+	public Machine() {
+	}
+
+	private void debug(String msg) {
+		System.out.println(msg);
+	}
+	
+	/**
+	 * clear for Key.KEY_CLEAR
+	 */	  
+	private void clear() {
+		number = 0.0;
+		number_str = "";
+		number_old = 0.0;
+		after_dot = false;
+		op = null;
 	}
 
 	/**
@@ -29,7 +43,7 @@ public class Machine {
 	}
 
 	public void keyPress(Keys key) {
-		if (key.isNumber(key)) {
+		if (Keys.isNumber(key)) {
 			if (key == Keys.KEY_DOT) {
 				if (! after_dot) {
 					after_dot = true;
@@ -42,6 +56,11 @@ public class Machine {
 			}
 			number_str += key.toString(key);
 		} else {
+			if (key == Keys.KEY_CLEAR) {
+				debug("catch KEY_CLEAR.");
+				clear();
+				return;
+			}
 			if (op == null) {
 				number_old = Double.parseDouble(number_str);
 				number_str = "";

@@ -70,11 +70,17 @@ public class MachineTest {
 		m.keyPress(Keys.KEY_CLEAR);
 	}
 
-	@Test public void testClear() {
-		m.keyPress(Keys.KEY1);
+	@Test public void testClearIsNotNumber() {
+		assertEquals(false, Keys.isNumber(Keys.KEY_CLEAR));
+	}
+	
+	@Test public void testClear1() {
+		m.keyPress(Keys.KEY2);
 		m.keyPress(Keys.KEY_CLEAR);
 		assertEquals(0, m.getResult(), delta);
+	}
 
+	@Test public void testClear2() {
 		m.keyPress(Keys.KEY1);
 		m.keyPress(Keys.KEY_ADD);
 		m.keyPress(Keys.KEY_CLEAR);
