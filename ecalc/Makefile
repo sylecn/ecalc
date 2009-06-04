@@ -12,7 +12,10 @@ CLASSES = \
 	KeysTest.java \
         Machine.java \
 	MachineTest.java \
-	Screen.java
+	Screen.java \
+	ScreenManager.java \
+	ConsoleScreen.java \
+	ConsoleScreenTest.java
 
 default: classes
 
@@ -23,7 +26,7 @@ clean:
 
 test: check
 check:default
-	$(JUNIT) ecalc.KeysTest ecalc.MachineTest
+	$(JUNIT) ecalc.KeysTest ecalc.MachineTest ecalc.ConsoleScreenTest
 
 check-junit:
 	$(JUNIT) org.junit.tests.AllTests

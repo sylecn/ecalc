@@ -1,12 +1,12 @@
 package ecalc;
 
 /**
- * screen is a base class for all physical screens.
- * it can be attached to a Machine.
+ * Screen is a adapter for all physical screens, which is a Displayer.
+ * Screen controls Displayer.
  *
  * almost everything is package level privilege for use in Machine Class.
  */
-public class Screen {
+public abstract class Screen {
 
 	//TODO every var change should trigger an event to tell screen.
 
@@ -84,5 +84,6 @@ public class Screen {
 			break;
 		}
 	}
-						     
+
+	abstract void updateScreen();
 }

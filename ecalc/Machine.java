@@ -2,7 +2,7 @@ package ecalc;
 
 public class Machine {
 
-	public Screen screen;
+	private ScreenManager screen;
 	
 	//previous number
 	private double number_old = 0.0;
@@ -20,9 +20,13 @@ public class Machine {
 	private Keys last_key = null;
 	
 	public Machine() {
-		screen = new Screen();
+		screen = new ScreenManager();
 	}
 
+	public void addScreen(Screen d) {
+		screen.addScreen(d);
+	}
+					  
 	private void debug(String msg) {
 		System.out.println(msg);
 	}
@@ -49,7 +53,7 @@ public class Machine {
 
 	private void updateNumberString(String number) {
 		number_str = number;
-		screen.main_panel = number_str;
+		screen.updateMainPanel(number_str);
 	}
 
 	private void updateOp(Keys newop) {

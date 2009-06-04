@@ -11,7 +11,6 @@ public class MachineTest {
 
 	@Before public void setUp() {
 		m = new Machine();
-		// s = new ConsoleScreen();
 	}
 	
 	@Test public void testAdd() {
@@ -161,10 +160,10 @@ public class MachineTest {
 		assertEquals(1, m.getResult(), delta);
 	}
 
-	// @Test public void testAttachScreen() {
-	// 	m.attachSceen(s);
-	// 	m.keyPress(Keys.KEY1);
-	// 	assertEquals("1", s.getMainPanelStr());
-	// }
+	@Test public void testAttachScreen() {
+		ConsoleScreen d = new ConsoleScreen();
+		m.addScreen(d);
+		m.keyPress(Keys.KEY1);
+	}
 	
 }
