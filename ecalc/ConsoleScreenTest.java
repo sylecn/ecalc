@@ -52,24 +52,24 @@ public class ConsoleScreenTest {
 		assertEquals("op:+ num:1 err:none", cs.getDisplayStr());
 	}
 
-	// @Test public void testOpShoudNotClearPreviousNumber2() {
-	// 	m.keyPress(Keys.KEY1);
-	// 	m.keyPress(Keys.KEY_ADD);
-	// 	m.keyPress(Keys.KEY2);
-	// 	assertEquals("op:+ num:2 err:none", cs.getDisplayStr());
-	// }
+	@Test public void testOpShoudNotClearPreviousNumber2() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_ADD);
+		m.keyPress(Keys.KEY2);
+		assertEquals("op:+ num:2 err:none", cs.getDisplayStr());
+	}
 
 	
 	//op should not clear previous number if user haven't press a number key
 	//That's the way why there is a big ADD, but no EQUAL on my Keyboard
-	// @Test public void testOp() {
-	// 	m.keyPress(Keys.KEY1);
-	// 	m.keyPress(Keys.KEY_ADD);
-	// 	m.keyPress(Keys.KEY3);
-	// 	assertEquals("op:+ num:3 err:none", cs.getDisplayStr());
-	// 	m.keyPress(Keys.KEY_ADD);
-	// 	assertEquals(4, m.getResult(), MachineTest.delta);
-	// 	assertEquals("op:+ num:4 err:none", cs.getDisplayStr());
-	// }
+	@Test public void testOp() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_ADD);
+		m.keyPress(Keys.KEY3);
+		assertEquals("op:+ num:3 err:none", cs.getDisplayStr());
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(4, m.getResult(), MachineTest.delta);
+		assertEquals("op:+ num:4 err:none", cs.getDisplayStr());
+	}
 	
 }

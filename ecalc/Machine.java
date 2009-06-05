@@ -51,10 +51,15 @@ public class Machine {
 	 * return cal result. if no cal, return current (partial) input number.
 	 */
 	public double getResult() {
+		// debug("number_str=" + number_str + " op=" + Keys.toString(op));
+		if (op != null) {
+			return number_old;
+		}
 		if (! number_str.isEmpty()) {
 			return Double.parseDouble(number_str);
 		}
-		return number_old;
+		
+		return 0.0;
 	}
 
 	//====================
@@ -107,6 +112,9 @@ public class Machine {
 		//any new input clears the error msg.
 		screen.clearErrorMsg();
 		if (Keys.isNumber(key)) {
+			if (Keys.isOp(last_key)) {
+				updateNumberString("");
+			}
 			if (key == Keys.KEY_MINUS) {
 				toggleMinusSign();
 				return;
@@ -127,11 +135,9 @@ public class Machine {
 		} else {
 			if (op == null) {
 				number_old = Double.parseDouble(number_str);
-				updateNumberString("");
 				updateOp(key);
 			} else {
-				if ((last_key != null) &&
-				    (Keys.isOp(last_key))) {
+				if (Keys.isOp(last_key)) {
 					// debug("change op from " + op
 					//       + " to " + key + ".\n");
 					updateOp(key);
@@ -139,8 +145,9 @@ public class Machine {
 				}
 
 				number = Double.parseDouble(number_str);
-				updateNumberString("");
 				number_old = Keys.doOp(op, number_old, number);
+				screen.updateMainPanel(Double.toString(number_old));
+				;
 				updateOp(key);
 			}
 		}
@@ -148,6 +155,3 @@ public class Machine {
 	}
 }
 
-// Local Variables:
-// unit-test-command: (lambda () (zerop (shell-command "make -s check")))
-// End:

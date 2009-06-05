@@ -15,8 +15,11 @@ public class MachineTest {
 	
 	@Test public void testAdd() {
 		m.keyPress(Keys.KEY1);
+		assertEquals(1, m.getResult(), delta);
 		m.keyPress(Keys.KEY_ADD);
+		assertEquals(1, m.getResult(), delta);
 		m.keyPress(Keys.KEY1);
+		assertEquals(1, m.getResult(), delta);
 		m.keyPress(Keys.KEY_ADD);
 		assertEquals(2.0, m.getResult(), delta);
 	}
@@ -133,7 +136,6 @@ public class MachineTest {
 		assertEquals(2, m.getResult(), delta);
 		m.keyPress(Keys.KEY_MULTIPLY);
 		m.keyPress(Keys.KEY1);
-		assertEquals(1, m.getResult(), delta);
 		m.keyPress(Keys.KEY_MINUS);
 		m.keyPress(Keys.KEY00);
 		m.keyPress(Keys.KEY_ADD);
@@ -152,7 +154,6 @@ public class MachineTest {
 		m.keyPress(Keys.KEY_ADD);
 		assertEquals(-12, m.getResult(), delta);
 		m.keyPress(Keys.KEY6);
-		assertEquals(6, m.getResult(), delta);
 		m.keyPress(Keys.KEY_ADD);
 		assertEquals(-6, m.getResult(), delta);
 		m.keyPress(Keys.KEY7);

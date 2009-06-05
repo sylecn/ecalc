@@ -43,11 +43,18 @@ public enum Keys {
 	}
 
 	public static boolean isOp(Keys key) {
-		return ! isNumber(key);
+		if (key == null) {
+			return false;
+		} else {
+			return ! isNumber(key);
+		}
 	}
 					     
 
 	public static String toString(Keys key) {
+		if (key == null) {
+			return "none";
+		}
 		switch (key) {
 		case KEY0:
 			return "0";
