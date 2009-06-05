@@ -1,6 +1,7 @@
 package ecalc;
 
 import java.util.regex.*;
+import java.text.*;
 
 public class Machine {
 
@@ -95,39 +96,40 @@ public class Machine {
 	String formalizeNumberString(String num) {
 		String re = num;
 
-		//TODO
-		// double d = Double.parseDouble(re);
-		// (if (d < 
+		double d = Double.parseDouble(re);
+		debug("formalize: str=" + num + " "
+		      + "double=" + d);
 
-		
-		if (re.indexOf(".") != -1) {
-			// remove trailing zeros
-			// re = re.replaceAll("0+$", "");
-			// for efficiency, use compiled regexp.
-			re = TRAILING_ZEROS.matcher(re).replaceAll("");
+		//"digit" overflow
+		if (Math.abs(d) < 1e-12) {
+			return "0";
+		}
+		if (Math.abs(d) > 888888888888.0) {
+			screen.setErrorMsg("num too big to show.");
+			return "888888888888";
+		}
 
-			// remove trailing dot
-			if (re.endsWith(".")) {
-				re = re.substring(0, re.length() - 1);
+		NumberFormat formatter = new DecimalFormat("############.############");
+		re = formatter.format(d);
+
+
+		int len = re.length();
+		if (len > 12) {
+			debug("raw length > 12");
+			String part1 = re.substring(0, 12);
+			String part2 = re.substring(12);
+			debug("part1=" + part1 + " part2=" + part2);
+			if (part1.indexOf(".") != -1) {
+				part1 += part2.charAt(0);
+				debug("found dot. part1=" + part1 + " part2=" + part2);
 			}
+			if ((part1.charAt(0) == '-') && (part2.length() > 1)) {
+				part1 = part1.substring(1) + part2.charAt(1);
+				debug("found minus. part1=" + part1 + " part2=" + part2);
+			}
+			re = part1;
 		}
 		
-		boolean minus = false;
-		if (re.charAt(0) == '-') {
-			minus = true;
-			re = re.substring(1, re.length());
-		}
-
-		// remove heading zeros
-		re = BEGINNING_ZEROS.matcher(re).replaceAll("");
-
-		if (re.isEmpty()) {
-			re = "0";
-		} else {
-			if (minus) {
-				re = "-" + re;
-			}
-		}
 		
 		return re;
 	}

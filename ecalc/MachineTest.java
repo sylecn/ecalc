@@ -224,20 +224,31 @@ public class MachineTest {
 		assertEquals("-2.01", m.formalizeNumber(-002.010));
 		assertEquals("0", m.formalizeNumber(0000));
 		assertEquals("0", m.formalizeNumber(-0.0));
-		
-		// assertEquals("0.00000003", m.formalizeNumber(3e-8));
-		// assertEquals("0.00000003333", m.formalizeNumber(3.3333333e-8));
-		// assertEquals("0.00000003333", m.formalizeNumber(-1.25e-8));
-		// assertEquals("0.0000013", m.formalizeNumber(1.3e-6));
+
+		//translate sci notation
+		assertEquals("0.00000003", m.formalizeNumber(3e-8));
+		assertEquals("0.00000003333", m.formalizeNumber(3.3333333e-8));
+		assertEquals("-0.0000000125", m.formalizeNumber(-1.25e-8));
+		assertEquals("0.0000013", m.formalizeNumber(1.3e-6));
 
 		//12-bit restriction
-		// assertEquals("1.22222222222", m.formalizeNumber(1.22222222222222222222222));
-		// assertEquals("0", m.formalizeNumber(3.3333333e-13));
-
+		assertEquals("0", m.formalizeNumber(3.3333333e-13));
+		assertEquals("888888888888", m.formalizeNumber(3.3333333e13));
+		assertEquals("888888888888", m.formalizeNumber(1.0e12));
+		assertEquals("111111111111", m.formalizeNumber(111111111111.0));
+		assertEquals("112345678901", m.formalizeNumber(1.12345678901e11));
+		//trunk, don't round. because it's not important.
+		assertEquals("112345678901", m.formalizeNumber(1.123456789016e11));
+		assertEquals("0.12345678901", m.formalizeNumber(0.12345678901));
+		assertEquals("0.12345678901", m.formalizeNumber(0.123456789012));
+		assertEquals("-0.123456789", m.formalizeNumber(-0.1234567890));
+		//minus is not displayed in main_panel
+		assertEquals("0.12345678901", m.formalizeNumber(-0.12345678901));
+		assertEquals("0.12345678901", m.formalizeNumber(-0.123456789012));
+		assertEquals("0.12345678901", m.formalizeNumber(-0.123456789018));
 	}
 
 	@Test public void testDisplayMinusZero() {
-		gap();
 		m.keyPress(Keys.KEY_MINUS);
 		m.keyPress(Keys.KEY00);
 		assertEquals("-00", m.getNumberStr());
@@ -246,7 +257,6 @@ public class MachineTest {
 		m.keyPress(Keys.KEY_MINUS);
 		m.keyPress(Keys.KEY_ADD);
 		assertEquals(0, m.getResult(), delta);
-		gap();
 		assertEquals("0", m.getNumberStr());
 	}
 
