@@ -32,3 +32,7 @@ check-junit:
 	$(JUNIT) org.junit.tests.AllTests
 tags:
 	etags *.java
+temp.class:Temp.java
+	$(JC) Temp.java
+temp:Temp.class
+	$(JAVA) ecalc/Temp

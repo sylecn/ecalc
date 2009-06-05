@@ -36,6 +36,19 @@ public class ConsoleScreenTest {
 		m.keyPress(Keys.KEY5);
 		assertEquals("op:none num:123.5 err:none", cs.getDisplayStr());
 	}
+	
+	@Test public void testNumberDisplayOver12digits() {
+		for (int i = 0; i < 15; ++i) {
+			m.keyPress(Keys.KEY1);
+		}
+		assertEquals("op:none num:111111111111 err:digit full", cs.getDisplayStr());
+	}
+
+	//TODO
+	//
+	// assertEquals("1.22222222222", "1.22222222222222222222222");
+	// assertEquals("0", "0.0000000000000000033333333");
+
 
 	@Test public void testMinusNumberDisplay() {
 		m.keyPress(Keys.KEY1);
@@ -62,14 +75,14 @@ public class ConsoleScreenTest {
 	
 	//op should not clear previous number if user haven't press a number key
 	//That's the way why there is a big ADD, but no EQUAL on my Keyboard
-	// @Test public void testOp() {
-	// 	m.keyPress(Keys.KEY1);
-	// 	m.keyPress(Keys.KEY_ADD);
-	// 	m.keyPress(Keys.KEY3);
-	// 	assertEquals("op:+ num:3 err:none", cs.getDisplayStr());
-	// 	m.keyPress(Keys.KEY_ADD);
-	// 	assertEquals(4, m.getResult(), MachineTest.delta);
-	// 	assertEquals("op:+ num:4 err:none", cs.getDisplayStr());
-	// }
+	@Test public void testOp() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_ADD);
+		m.keyPress(Keys.KEY3);
+		assertEquals("op:+ num:3 err:none", cs.getDisplayStr());
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(4, m.getResult(), MachineTest.delta);
+		assertEquals("op:+ num:4 err:none", cs.getDisplayStr());
+	}
 	
 }

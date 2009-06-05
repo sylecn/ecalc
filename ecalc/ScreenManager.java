@@ -30,8 +30,18 @@ public class ScreenManager {
 		for (int i = 0; i < count; ++i) {
 			screens[i].updateMainPanel(num);
 		}
-		
 	}
+
+	void updateResult(String re) {
+		for (int i = 0; i < count; ++i) {
+			screens[i].updateMainPanel(re);
+			if (re.charAt(0) == '-') {
+				screens[i].resetMinusSign(true);
+			} else {
+				screens[i].resetMinusSign(false);
+			}
+		}
+	}				     
 
 	void updateOp(Keys op) {
 		for (int i = 0; i < count; ++i) {

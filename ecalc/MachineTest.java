@@ -9,6 +9,11 @@ public class MachineTest {
 	private Machine m;
 	public static final double delta = 0.00000001;
 
+	void gap() {
+		System.out.println();
+		System.out.println("====================");
+	}
+
 	@Before public void setUp() {
 		m = new Machine();
 	}
@@ -146,7 +151,36 @@ public class MachineTest {
 		m.keyPress(Keys.KEY_ADD);
 		assertEquals(-200, m.getResult(), delta);
 	}
+
+	@Test public void testDivideSimple() {
+		m.keyPress(Keys.KEY8);
+		m.keyPress(Keys.KEY_DIVIDE);
+		m.keyPress(Keys.KEY4);
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(2, m.getResult(), delta);
+	}
+
+	@Test public void testDivideFloatNumberDisplay() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_DIVIDE);
+		m.keyPress(Keys.KEY3);
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(0.33333333333, m.getResult(), delta);
+		// assertEquals("0.33333333333", m.getNumberStr());
+	}
 	
+	@Test public void testSmallNumberDisplay() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY_DIVIDE);
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY00);
+		m.keyPress(Keys.KEY00);
+		m.keyPress(Keys.KEY00);
+		m.keyPress(Keys.KEY00);
+		m.keyPress(Keys.KEY00);
+		m.keyPress(Keys.KEY_ADD);
+		// assertEquals("0.00000003", m.getNumberStr());
+	}
 
 	/**
 	 * with MINUS CLEAR ADD
@@ -171,5 +205,38 @@ public class MachineTest {
 		m.addScreen(d);
 		m.keyPress(Keys.KEY1);
 	}
+
+	@Test public void testFormalizeZeros() {
+		assertEquals("7", m.formalizeNumber(7.0));
+		assertEquals("-127.12", m.formalizeNumber(-127.120));
+		assertEquals("70", m.formalizeNumber(70));
+		assertEquals("1", m.formalizeNumber(1.000));
+		assertEquals("0", m.formalizeNumber(0.000));
+		assertEquals("2", m.formalizeNumber(002));
+		assertEquals("-2.01", m.formalizeNumber(-002.01));
+		assertEquals("-2.01", m.formalizeNumber(-002.010));
+		assertEquals("0", m.formalizeNumber(0000));
+		assertEquals("0", m.formalizeNumber(-0.0));
+		//TODO
+		// assertEquals("0.00000003", m.formalizeNumber(3e-8));
+		// assertEquals("0.00000003333", m.formalizeNumber(3.3333333e-8));
+		// assertEquals("0.00000003333", m.formalizeNumber(-1.25e-8));
+		// assertEquals("0.0000013", m.formalizeNumber(1.3e-6));
+	}
+
+	@Test public void testDisplayMinusZero() {
+		gap();
+		m.keyPress(Keys.KEY_MINUS);
+		m.keyPress(Keys.KEY00);
+		assertEquals("-00", m.getNumberStr());
+		m.keyPress(Keys.KEY_ADD);
+		m.keyPress(Keys.KEY00);
+		m.keyPress(Keys.KEY_MINUS);
+		m.keyPress(Keys.KEY_ADD);
+		assertEquals(0, m.getResult(), delta);
+		gap();
+		assertEquals("0", m.getNumberStr());
+	}
+
 	
 }

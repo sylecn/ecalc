@@ -25,7 +25,11 @@ public class ConsoleScreen extends Screen{
 			       
 	void updateScreen () {
 		//output format "op:+ num:-123.4 err:none";
-		System.out.println(getDisplayStr());
+		if (main_panel.length() > 12) {
+			setErrorMsgNoNotify("digit full");
+		}
+		//temply disabled
+		// System.out.println(getDisplayStr());
 	}
 
 	//for unittest purpose only

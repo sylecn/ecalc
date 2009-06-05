@@ -58,9 +58,18 @@ public abstract class Screen {
 		updateScreen();
 	}
 
-	void setErrorMsg(String msg) {
+	void resetMinusSign(boolean minus) {
+		minus_sign = minus;
+		updateScreen();
+	}
+
+	void setErrorMsgNoNotify(String msg) {
 		error_msg = msg;
 		error_signal = true;
+	}
+	
+	void setErrorMsg(String msg) {
+		setErrorMsgNoNotify(msg);
 		updateScreen();
 	}
 

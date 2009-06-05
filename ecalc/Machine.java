@@ -1,5 +1,7 @@
 package ecalc;
 
+import java.util.regex.*;
+
 public class Machine {
 
 	private ScreenManager screen;
@@ -27,8 +29,16 @@ public class Machine {
 	// support functions
 	//====================
 
+	//for test only
 	private void debug(String msg) {
 		System.out.println(msg);
+	}
+
+	//this is the standard machine console
+	//this can direct to GUI or text file later.
+	private void console(String msg) {
+		//temply
+		// System.out.println(msg);
 	}
 
 	private String toggleMinusSignForNumber(String number) {
@@ -66,6 +76,70 @@ public class Machine {
 		
 		return 0.0;
 	}
+
+
+	// formalize
+	//   1.33333333333333333333 to 1.3333333333  (12 digits)
+	//   3e-8 to 0.00000003
+	static final Pattern TRAILING_ZEROS = Pattern.compile("0+$");
+	static final Pattern BEGINNING_ZEROS = Pattern.compile("^0+");
+	
+	String formalizeNumberString(String num) {
+		String re = num;
+
+		//TODO
+		// double d = Double.parseDouble(re);
+		// (if (d < 
+
+		
+		if (re.indexOf(".") != -1) {
+			// remove trailing zeros
+			// re = re.replaceAll("0+$", "");
+			// for efficiency, use compiled regexp.
+			re = TRAILING_ZEROS.matcher(re).replaceAll("");
+
+			// remove trailing dot
+			if (re.endsWith(".")) {
+				re = re.substring(0, re.length() - 1);
+			}
+		}
+		
+		boolean minus = false;
+		if (re.charAt(0) == '-') {
+			minus = true;
+			re = re.substring(1, re.length());
+		}
+
+		// remove heading zeros
+		re = BEGINNING_ZEROS.matcher(re).replaceAll("");
+
+		if (re.isEmpty()) {
+			re = "0";
+		} else {
+			if (minus) {
+				re = "-" + re;
+			}
+		}
+		
+		return re;
+	}
+
+	String formalizeNumber(double num) {
+		String re = Double.toString(num);
+		return formalizeNumberString(re);
+	}
+					   
+					   
+	// formalize number and pass to screen
+	void showCalcResult(double result) {
+		// It's the screen's duty to update sign according to a calc
+		// result.
+		// if (! number_old < 0) {
+		// screen.;
+		// }
+		number_str = formalizeNumber(result);
+		screen.updateResult(number_str);
+	}					   
 
 	//====================
 	// interact with screen
@@ -112,6 +186,8 @@ public class Machine {
 		last_key = null;
 		
 		screen.clear();
+
+		console("Machine clear.");
 	}
 
 	//====================
@@ -119,6 +195,8 @@ public class Machine {
 	//====================
 
 	public void keyPress(Keys key) {
+		console("key press: " + Keys.toString(key) + ".");
+		
 		if (key == Keys.KEY_CLEAR) {
 			// debug("catch KEY_CLEAR.\n");
 			clear();
@@ -126,9 +204,11 @@ public class Machine {
 		}
 		//any new input clears the error msg.
 		screen.clearErrorMsg();
+		console("screen manager: clear error msg.");
 		if (Keys.isNumber(key)) {
 			if (Keys.isOp(last_key)) {
 				updateNumber("");
+				console("Machine: clear previous num.");
 			}
 			if (key == Keys.KEY_MINUS) {
 				toggleMinusSign();
@@ -141,28 +221,30 @@ public class Machine {
 					//TODO notify console
 					String msg = ". not accept here. Ignored.";
 					screen.setErrorMsg(msg);
-					//console.warn("User press dot when there is already a dot.");
-					debug(msg);
+					console("error: there is already a dot in number.");
 					return;
 				}
 			}
 			updateNumber(number_str + Keys.toString(key));
+			console("Machine: update number string.");
 		} else {
 			if (op == null) {
 				number_old = Double.parseDouble(number_str);
 				updateOp(key);
+				console("Machine: get op. last number saved.");
 			} else {
 				if (Keys.isOp(last_key)) {
-					// debug("change op from " + op
-					//       + " to " + key + ".\n");
 					updateOp(key);
+					console("Machine: " + "change op from " + op + " to " + key);
 					return;
 				}
 
 				number = Double.parseDouble(number_str);
 				number_old = Keys.doOp(op, number_old, number);
-				screen.updateMainPanel(Double.toString(number_old));
-				;
+				console("Machine: show result now.");
+				showCalcResult(number_old);
+				// debug("real=" + number_old + " "
+				//       +"str=" + getNumberStr());
 				updateOp(key);
 			}
 		}
@@ -170,3 +252,6 @@ public class Machine {
 	}
 }
 
+// Local Variables:
+// c-basic-offset: 8
+// End:
