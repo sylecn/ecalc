@@ -3,7 +3,7 @@ package ecalc;
 /**
  * an simplemetation of Screen
  */
-public class ConsoleScreen extends Screen
+public class ConsoleScreen extends BaseScreen
 	implements IFScreen {
 
 	String getDisplayStr() {
