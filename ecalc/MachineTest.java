@@ -206,6 +206,13 @@ public class MachineTest {
 		m.keyPress(Keys.KEY1);
 	}
 
+	@Test public void testNumberDisplayOver12digits() {
+		for (int i = 0; i < 15; ++i) {
+			m.keyPress(Keys.KEY1);
+		}
+		assertEquals("111111111111", m.getNumberStr());
+	}
+
 	@Test public void testFormalizeZeros() {
 		assertEquals("7", m.formalizeNumber(7.0));
 		assertEquals("-127.12", m.formalizeNumber(-127.120));
@@ -217,11 +224,16 @@ public class MachineTest {
 		assertEquals("-2.01", m.formalizeNumber(-002.010));
 		assertEquals("0", m.formalizeNumber(0000));
 		assertEquals("0", m.formalizeNumber(-0.0));
-		//TODO
+		
 		// assertEquals("0.00000003", m.formalizeNumber(3e-8));
 		// assertEquals("0.00000003333", m.formalizeNumber(3.3333333e-8));
 		// assertEquals("0.00000003333", m.formalizeNumber(-1.25e-8));
 		// assertEquals("0.0000013", m.formalizeNumber(1.3e-6));
+
+		//12-bit restriction
+		// assertEquals("1.22222222222", m.formalizeNumber(1.22222222222222222222222));
+		// assertEquals("0", m.formalizeNumber(3.3333333e-13));
+
 	}
 
 	@Test public void testDisplayMinusZero() {

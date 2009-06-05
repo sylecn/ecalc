@@ -57,6 +57,14 @@ public class Machine {
 	}
 
 
+	private void addKeyToNumber(Keys key) {
+		if (number_str.length() < 12) {
+			updateNumber(number_str + Keys.toString(key));
+		} else {
+			screen.setErrorMsg("digit full");
+		}
+	}
+
 	//for unit test only
 	String getNumberStr() {
 		return number_str;
@@ -225,7 +233,7 @@ public class Machine {
 					return;
 				}
 			}
-			updateNumber(number_str + Keys.toString(key));
+			addKeyToNumber(key);
 			console("Machine: update number string.");
 		} else {
 			if (op == null) {
