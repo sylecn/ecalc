@@ -20,7 +20,8 @@ CLASSES = \
 	Keyboard.java \
 	KeyboardTest.java \
 	ConsoleKeyboard.java \
-	NoNumberKeyForGivenNumber.java
+	NoNumberKeyForGivenNumber.java \
+	NoOpKeyForGivenString.java
 
 default: classes
 

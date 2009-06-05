@@ -79,5 +79,34 @@ public class Keyboard {
 			}
 		}
 	}
+
+	public void pressOpKey(String opkey) throws NoOpKeyForGivenString {
+		if (opkey.equals("+")) {
+			pressKey(Keys.KEY_ADD);
+			return;
+		}
+		if (opkey.equals("-")) {
+			pressKey(Keys.KEY_SUBTRACT);
+			return;
+		}
+		if (opkey.equals("*")) {
+			pressKey(Keys.KEY_MULTIPLY);
+			return;
+		}
+		if (opkey.equals("/")) {
+			pressKey(Keys.KEY_DIVIDE);
+			return;
+		}
+		if (opkey.equals("c") || opkey.equals("clear")) {
+			pressKey(Keys.KEY_CLEAR);
+			return;
+		}
+		if (opkey.equals("b") || opkey.equals("backspace")) {
+			pressKey(Keys.KEY_BACKSPACE);
+			return;
+		}
+		//never reacher here
+		throw new NoOpKeyForGivenString(opkey);
+	}
 		
 }
