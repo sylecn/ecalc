@@ -111,7 +111,7 @@ public class Ecalc extends JFrame
 				k.pressOpKey("" + key);
 				return;
 			}
-			
+			typingArea.setText(s.main_panel + newline);
 		} catch (NoNumberKeyForGivenNumber e) {
 			debug(e.getMessage());
 		} catch (NoOpKeyForGivenString e) {
@@ -148,6 +148,7 @@ public class Ecalc extends JFrame
 	 */
 	
 	public void updateScreen() {
-		displayArea.setText("new value" + s.main_panel + newline);
+		displayArea.append("new value" + s.main_panel + newline);
+		displayArea.setCaretPosition(displayArea.getDocument().getLength());
 	}
 }
