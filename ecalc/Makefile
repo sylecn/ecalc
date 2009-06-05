@@ -21,7 +21,8 @@ CLASSES = \
 	KeyboardTest.java \
 	ConsoleKeyboard.java \
 	NoNumberKeyForGivenNumber.java \
-	NoOpKeyForGivenString.java
+	NoOpKeyForGivenString.java \
+	LazyConsoleScreen.java
 
 default: classes
 

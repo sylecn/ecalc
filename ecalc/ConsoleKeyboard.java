@@ -42,9 +42,12 @@ public class ConsoleKeyboard extends Keyboard {
 		info("----");
 
 		String line = "";
-		do {
+		while (true) {
 			try {
 				line = in.readLine();
+				if (line.equals("exit")) {
+					break;
+				}
 				if (isNumber(line)) {
 					// debug("You input a number.");
 					k.pressNumberKeys(line);
@@ -59,7 +62,7 @@ public class ConsoleKeyboard extends Keyboard {
 			} catch (NoOpKeyForGivenString e) {
 				info(e.getMessage());
 			}
-		} while (! line.equals("exit"));
+		}
 
 		info("bye.");
 	}
