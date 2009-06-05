@@ -38,7 +38,7 @@ public class Machine {
 	//this can direct to GUI or text file later.
 	private void console(String msg) {
 		//temply
-		// System.out.println(msg);
+		System.out.println(msg);
 	}
 
 	private String toggleMinusSignForNumber(String number) {
@@ -142,16 +142,17 @@ public class Machine {
 		// }
 		number_str = formalizeNumber(result);
 		screen.updateResult(number_str);
+		console("Machine: show result now. result is " + number_str);
 	}					   
 
 	//====================
 	// interact with screen
 	//====================
 
-	public void addScreen(Screen d) {
+	public void addScreen(IFScreen d) {
 		screen.addScreen(d);
 	}
-					  
+
 	private void toggleMinusSign() {
 		updateNumber(toggleMinusSignForNumber(number_str));
 		screen.toggleMinusSign();
@@ -248,7 +249,6 @@ public class Machine {
 				console("Machine: fatal error: NoSuchOp " + e.getMessage());
 				return;
 			}
-			console("Machine: show result now.");
 			showCalcResult(number_old);
 			// debug("real=" + number_old + " "
 			//       +"str=" + getNumberStr());

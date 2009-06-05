@@ -3,7 +3,8 @@ package ecalc;
 /**
  * an simplemetation of Screen
  */
-public class ConsoleScreen extends Screen{
+public class ConsoleScreen extends Screen
+	implements IFScreen {
 
 	String getDisplayStr() {
 		String opstr = "op:";
@@ -23,7 +24,7 @@ public class ConsoleScreen extends Screen{
 		return opstr + " " + num + " " + err;
 	}
 			       
-	void updateScreen () {
+	public void updateScreen () {
 		//output format "op:+ num:-123.4 err:none";
 		//temply
 		// System.out.println(getDisplayStr());

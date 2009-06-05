@@ -235,7 +235,7 @@ public class MachineTest {
 
 	@Test public void testAttachScreen() {
 		ConsoleScreen d = new ConsoleScreen();
-		m.addScreen(d);
+		m.addScreen((IFScreen)d);
 		m.keyPress(Keys.KEY1);
 	}
 

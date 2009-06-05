@@ -6,7 +6,8 @@ package ecalc;
  *
  * almost everything is package level privilege for use in Machine Class.
  */
-public abstract class Screen {
+public class Screen
+	implements IFScreen {
 
 	/**
 	 * main_panel is the biggest display area.
@@ -28,7 +29,7 @@ public abstract class Screen {
 	boolean op_divide = false;
 	Keys op = null;
 
-	void clearOp() {
+	public void clearOp() {
 		op_plus = false;
 		op_subtract = false;
 		op_multiply = false;
@@ -36,7 +37,7 @@ public abstract class Screen {
 		op = null;
 	}
 			     
-	void clear() {
+	public void clear() {
 		main_panel = "0";
 		minus_sign = false;
 		
@@ -51,27 +52,27 @@ public abstract class Screen {
 		clear();
 	}
 
-	void toggleMinusSign() {
+	public void toggleMinusSign() {
 		minus_sign = ! minus_sign;
 		updateScreen();
 	}
 
-	void resetMinusSign(boolean minus) {
+	public void resetMinusSign(boolean minus) {
 		minus_sign = minus;
 		updateScreen();
 	}
 
-	void setErrorMsgNoNotify(String msg) {
+	public void setErrorMsgNoNotify(String msg) {
 		error_msg = msg;
 		error_signal = true;
 	}
 	
-	void setErrorMsg(String msg) {
+	public void setErrorMsg(String msg) {
 		setErrorMsgNoNotify(msg);
 		updateScreen();
 	}
 
-	void clearErrorMsg() {
+	public void clearErrorMsg() {
 		if (error_signal) {
 			error_msg = "";
 			error_signal = false;
@@ -79,12 +80,12 @@ public abstract class Screen {
 		}
 	}
 
-	void updateMainPanel(String num) {
+	public void updateMainPanel(String num) {
 		main_panel = num;
 		updateScreen();
 	}
 
-	void updateOp(Keys op) {
+	public void updateOp(Keys op) {
 		clearOp();
 		this.op = op;
 		switch (op) {
@@ -107,5 +108,6 @@ public abstract class Screen {
 		updateScreen();
 	}
 
-	abstract void updateScreen();
+	public void updateScreen() {}
+
 }

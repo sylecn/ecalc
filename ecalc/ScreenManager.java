@@ -8,14 +8,14 @@ public class ScreenManager {
 	//INFO I don't know how to use pointer or ref for storing class.
 	//     So I use static inefficient object array. let gc deal with the
 	//     problem.
-	private Screen[] screens;
+	private IFScreen[] screens;
 	private int count = 0;
 
 	public ScreenManager() {
-		screens = new Screen[20];
+		screens = new IFScreen[20];
 	}
 
-	void addScreen(Screen d) {
+	void addScreen(IFScreen d) {
 		screens[count] = d;
 		count++;
 	}

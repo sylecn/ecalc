@@ -11,7 +11,7 @@ public class ConsoleScreenTest {
 	@Before public void setUp() {
 		cs = new ConsoleScreen();
 		m = new Machine();
-		m.addScreen(cs);
+		m.addScreen((IFScreen)cs);
 	}
 	
 

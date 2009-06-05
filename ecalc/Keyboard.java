@@ -6,16 +6,23 @@ package ecalc;
 public class Keyboard {
 
 	private Machine m;
+
+	private void debug(String msg) {
+		System.out.println(msg);
+	}
 	
 	public void connectToMachine(Machine m) {
 		if (m != null) {
 			this.m = m;
 		}
-		//signal error here.
+		//TODO signal error: trying to connect to nothing.
 	}
 
 	public void pressKey(Keys key) {
-		m.keyPress(key);
+		if (m != null) {
+			m.keyPress(key);
+		}
+		//TODO signal error: not connected.
 	}
 
 	public void pressNumberKey(int key) throws NoNumberKeyForGivenNumber {
@@ -56,7 +63,6 @@ public class Keyboard {
 		default:
 			throw new NoNumberKeyForGivenNumber(key);
 		}
-		
 	}
 
 	public void clear() {

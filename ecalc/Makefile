@@ -23,8 +23,10 @@ CLASSES = \
 	NoNumberKeyForGivenNumber.java \
 	NoOpKeyForGivenString.java \
 	LazyConsoleScreen.java \
-	DumbScreen.java \
-	SwingKeyboard.java
+	Ecalc.java \
+	IFScreen.java
+#	DumbScreen.java \
+#	SwingKeyboard.java
 #	SwingScreen.java
 
 
@@ -48,3 +50,5 @@ temp.class:Temp.java
 	$(JC) Temp.java
 temp:Temp.class
 	$(JAVA) ecalc/Temp
+main:default
+	$(JAVA) ecalc/Ecalc
