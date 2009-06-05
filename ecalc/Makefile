@@ -16,7 +16,11 @@ CLASSES = \
 	ScreenManager.java \
 	ConsoleScreen.java \
 	ConsoleScreenTest.java \
-	NoSuchOperationException.java
+	NoSuchOperationException.java \
+	Keyboard.java \
+	KeyboardTest.java \
+	ConsoleKeyboard.java \
+	NoNumberKeyForGivenNumber.java
 
 default: classes
 
@@ -28,6 +32,7 @@ clean:
 test: check
 check:default
 	$(JUNIT) ecalc.KeysTest ecalc.MachineTest ecalc.ConsoleScreenTest \
+	ecalc.KeyboardTest
 
 check-junit:
 	$(JUNIT) org.junit.tests.AllTests
