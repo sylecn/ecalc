@@ -46,6 +46,7 @@ public abstract class Screen {
 		error_msg = "";
 
 		clearOp();
+		updateScreen();
 	}
 
 	void Screen() {
@@ -54,20 +55,26 @@ public abstract class Screen {
 
 	void toggleMinusSign() {
 		minus_sign = ! minus_sign;
+		updateScreen();
 	}
 
 	void setErrorMsg(String msg) {
 		error_msg = msg;
 		error_signal = true;
+		updateScreen();
 	}
 
 	void clearErrorMsg() {
-		error_msg = "";
-		error_signal = false;
+		if (error_signal) {
+			error_msg = "";
+			error_signal = false;
+			updateScreen();
+		}
 	}
 
 	void updateMainPanel(String num) {
 		main_panel = num;
+		updateScreen();
 	}
 
 	void updateOp(Keys op) {
@@ -90,6 +97,7 @@ public abstract class Screen {
 			/* never reach */
 			break;
 		}
+		updateScreen();
 	}
 
 	abstract void updateScreen();

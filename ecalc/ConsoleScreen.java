@@ -12,17 +12,28 @@ public class ConsoleScreen extends Screen{
 		} else {
 			opstr += Keys.toString(op);
 		}
-		String num = "num:" + main_panel;
-		return opstr + " " + num;
+		String num = "num:" + getMainPanelString();
+		String err = "err:";
+		if (error_signal) {
+			err += error_msg;
+		} else {
+			err += "none";
+		}
+		
+		return opstr + " " + num + " " + err;
 	}
 			       
 	void updateScreen () {
-		//output format "op:+ num:-123.4";
+		//output format "op:+ num:-123.4 err:none";
 		System.out.println(getDisplayStr());
 	}
 
 	String getMainPanelString() {
-		return main_panel;
+		if (main_panel.isEmpty()) {
+			return "0";
+		} else {
+			return main_panel;
+		}
 	}
 				    
 }

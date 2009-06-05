@@ -7,7 +7,7 @@ import org.junit.*;
 
 public class MachineTest {
 	private Machine m;
-	private double delta = 0.00000001;
+	public static final double delta = 0.00000001;
 
 	@Before public void setUp() {
 		m = new Machine();

@@ -23,10 +23,10 @@ public class Machine {
 		screen = new ScreenManager();
 	}
 
-	public void addScreen(Screen d) {
-		screen.addScreen(d);
-	}
-					  
+	//====================
+	// support functions
+	//====================
+
 	private void debug(String msg) {
 		System.out.println(msg);
 	}
@@ -42,13 +42,32 @@ public class Machine {
 		}
 	}
 
-	private void toggleMinusSign() {
-		number_str = toggleMinusSignForNumber(number_str);
-		screen.toggleMinusSign();
-	}
-
 	private void addDotNow() {
 		after_dot = true;
+	}
+
+
+	/**
+	 * return cal result. if no cal, return current (partial) input number.
+	 */
+	public double getResult() {
+		if (! number_str.isEmpty()) {
+			return Double.parseDouble(number_str);
+		}
+		return number_old;
+	}
+
+	//====================
+	// interact with screen
+	//====================
+
+	public void addScreen(Screen d) {
+		screen.addScreen(d);
+	}
+					  
+	private void toggleMinusSign() {
+		updateNumberString(toggleMinusSignForNumber(number_str));
+		screen.toggleMinusSign();
 	}
 
 	private void updateNumberString(String number) {
@@ -75,15 +94,9 @@ public class Machine {
 		screen.clear();
 	}
 
-	/**
-	 * return cal result. if no cal, return current (partial) input number.
-	 */
-	public double getResult() {
-		if (! number_str.isEmpty()) {
-			return Double.parseDouble(number_str);
-		}
-		return number_old;
-	}
+	//====================
+	// Key function for Machine
+	//====================
 
 	public void keyPress(Keys key) {
 		if (key == Keys.KEY_CLEAR) {
@@ -121,14 +134,14 @@ public class Machine {
 				    (Keys.isOp(last_key))) {
 					// debug("change op from " + op
 					//       + " to " + key + ".\n");
-					op = key;
+					updateOp(key);
 					return;
 				}
-			
+
 				number = Double.parseDouble(number_str);
-				number_str = "";
+				updateNumberString("");
 				number_old = Keys.doOp(op, number_old, number);
-				op = key;
+				updateOp(key);
 			}
 		}
 		last_key = key;
