@@ -62,14 +62,14 @@ public class ConsoleScreenTest {
 	
 	//op should not clear previous number if user haven't press a number key
 	//That's the way why there is a big ADD, but no EQUAL on my Keyboard
-	@Test public void testOp() {
-		m.keyPress(Keys.KEY1);
-		m.keyPress(Keys.KEY_ADD);
-		m.keyPress(Keys.KEY3);
-		assertEquals("op:+ num:3 err:none", cs.getDisplayStr());
-		m.keyPress(Keys.KEY_ADD);
-		assertEquals(4, m.getResult(), MachineTest.delta);
-		assertEquals("op:+ num:4 err:none", cs.getDisplayStr());
-	}
+	// @Test public void testOp() {
+	// 	m.keyPress(Keys.KEY1);
+	// 	m.keyPress(Keys.KEY_ADD);
+	// 	m.keyPress(Keys.KEY3);
+	// 	assertEquals("op:+ num:3 err:none", cs.getDisplayStr());
+	// 	m.keyPress(Keys.KEY_ADD);
+	// 	assertEquals(4, m.getResult(), MachineTest.delta);
+	// 	assertEquals("op:+ num:4 err:none", cs.getDisplayStr());
+	// }
 	
 }

@@ -78,6 +78,11 @@ public class MachineTest {
 		assertEquals(1, m.getResult(), delta);
 	}
 
+	@Test public void testMinusItself() {
+		m.keyPress(Keys.KEY_MINUS);
+		assertEquals("-", m.getNumberStr());
+	}
+
 	@Test public void testMinusNumber() {
 		m.keyPress(Keys.KEY_MINUS);
 		m.keyPress(Keys.KEY1);

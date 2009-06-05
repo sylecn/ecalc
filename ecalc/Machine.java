@@ -6,7 +6,7 @@ public class Machine {
 	
 	//previous number
 	private double number_old = 0.0;
-	//curent number
+	//curent number, double and String
 	private double number = 0.0;
 	private String number_str = "";
 
@@ -47,6 +47,11 @@ public class Machine {
 	}
 
 
+	//for unit test only
+	String getNumberStr() {
+		return number_str;
+	}
+
 	/**
 	 * return cal result. if no cal, return current (partial) input number.
 	 */
@@ -71,11 +76,21 @@ public class Machine {
 	}
 					  
 	private void toggleMinusSign() {
-		updateNumberString(toggleMinusSignForNumber(number_str));
+		updateNumber(toggleMinusSignForNumber(number_str));
 		screen.toggleMinusSign();
 	}
 
-	private void updateNumberString(String number) {
+	//this is for change the display value only.
+	private void updateMainPanel(String number) {
+		if (number == "") {
+			number = "0";
+		}
+		screen.updateMainPanel(number);
+	}
+
+	//this is for real date change.
+	//will have impact on how to generate number.
+	private void updateNumber(String number) {
 		number_str = number;
 		screen.updateMainPanel(number_str);
 	}
@@ -113,7 +128,7 @@ public class Machine {
 		screen.clearErrorMsg();
 		if (Keys.isNumber(key)) {
 			if (Keys.isOp(last_key)) {
-				updateNumberString("");
+				updateNumber("");
 			}
 			if (key == Keys.KEY_MINUS) {
 				toggleMinusSign();
@@ -131,7 +146,7 @@ public class Machine {
 					return;
 				}
 			}
-			updateNumberString(number_str + Keys.toString(key));
+			updateNumber(number_str + Keys.toString(key));
 		} else {
 			if (op == null) {
 				number_old = Double.parseDouble(number_str);

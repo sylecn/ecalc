@@ -26,7 +26,7 @@ clean:
 
 test: check
 check:default
-	$(JUNIT) ecalc.KeysTest ecalc.MachineTest ecalc.ConsoleScreenTest
+	$(JUNIT) ecalc.KeysTest ecalc.MachineTest ecalc.ConsoleScreenTest \
 
 check-junit:
 	$(JUNIT) org.junit.tests.AllTests

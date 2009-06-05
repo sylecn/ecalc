@@ -12,7 +12,7 @@ public class ConsoleScreen extends Screen{
 		} else {
 			opstr += Keys.toString(op);
 		}
-		String num = "num:" + getMainPanelString();
+		String num = "num:" + main_panel;
 		String err = "err:";
 		if (error_signal) {
 			err += error_msg;
@@ -28,12 +28,8 @@ public class ConsoleScreen extends Screen{
 		System.out.println(getDisplayStr());
 	}
 
+	//for unittest purpose only
 	String getMainPanelString() {
-		if (main_panel.isEmpty()) {
-			return "0";
-		} else {
-			return main_panel;
-		}
+		return main_panel;
 	}
-				    
 }
