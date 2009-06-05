@@ -22,7 +22,9 @@ CLASSES = \
 	ConsoleKeyboard.java \
 	NoNumberKeyForGivenNumber.java \
 	NoOpKeyForGivenString.java \
-	LazyConsoleScreen.java
+	LazyConsoleScreen.java \
+	SwingKeyboard.java \
+	DumbScreen.java
 
 default: classes
 
