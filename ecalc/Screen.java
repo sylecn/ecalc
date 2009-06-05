@@ -28,12 +28,14 @@ public abstract class Screen {
 	boolean op_subtract = false;
 	boolean op_multiply = false;
 	boolean op_divide = false;
+	Keys op = null;
 
 	void clearOp() {
 		op_plus = false;
 		op_subtract = false;
 		op_multiply = false;
 		op_divide = false;
+		op = null;
 	}
 			     
 	void clear() {
@@ -64,8 +66,13 @@ public abstract class Screen {
 		error_signal = false;
 	}
 
+	void updateMainPanel(String num) {
+		main_panel = num;
+	}
+
 	void updateOp(Keys op) {
 		clearOp();
+		this.op = op;
 		switch (op) {
 		case KEY_ADD:
 			op_plus = true;
