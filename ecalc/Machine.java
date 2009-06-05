@@ -193,67 +193,95 @@ public class Machine {
 		console("Machine clear.");
 	}
 
+	private void backspace() {
+		int len = number_str.length();
+		if (len == 0) {
+			screen.setErrorMsg("backspace key: nothing to delete.");
+		} else {
+			updateNumber(number_str.substring(0, len - 1));
+		}
+	}
+
 	//====================
 	// Key function for Machine
 	//====================
 
+	private void processNumberKey(Keys key) {
+		if (Keys.isOp(last_key)) {
+			updateNumber("");
+			console("Machine: clear previous num.");
+		}
+		if (key == Keys.KEY_MINUS) {
+			toggleMinusSign();
+			return;
+		}
+		if (key == Keys.KEY_DOT) {
+			if (! after_dot) {
+				addDotNow();
+			} else {
+				String msg = ". not accept here. Ignored.";
+				screen.setErrorMsg(msg);
+				console("error: there is already a dot in number.");
+				return;
+			}
+		}
+		addKeyToNumber(key);
+		console("Machine: update number string.");
+	}
+
+	private void processOpKey(Keys key) {
+		if (op == null) {
+			number_old = Double.parseDouble(number_str);
+			updateOp(key);
+			console("Machine: get op. last number saved.");
+		} else {
+			if (Keys.isOp(last_key)) {
+				updateOp(key);
+				console("Machine: " + "change op from " + op + " to " + key);
+				return;
+			}
+
+			number = Double.parseDouble(number_str);
+			try {
+				number_old = Keys.doOp(op, number_old, number);
+			} catch (NoSuchOperationException e) {
+				console("Machine: fatal error: NoSuchOp " + e.getMessage());
+				return;
+			}
+			console("Machine: show result now.");
+			showCalcResult(number_old);
+			// debug("real=" + number_old + " "
+			//       +"str=" + getNumberStr());
+			updateOp(key);
+		}
+	}
+
 	public void keyPress(Keys key) {
 		console("key press: " + Keys.toString(key) + ".");
 		
+		//====================================
+		// special op key: clear and backspace
+		//====================================
 		if (key == Keys.KEY_CLEAR) {
 			// debug("catch KEY_CLEAR.\n");
 			clear();
 			return;
 		}
+
 		//any new input clears the error msg.
+		//clear will erase everything, so I leave it above.
 		screen.clearErrorMsg();
 		console("screen manager: clear error msg.");
+		
+		if (key == Keys.KEY_BACKSPACE) {
+			backspace();
+			return;
+		}
+		
 		if (Keys.isNumber(key)) {
-			if (Keys.isOp(last_key)) {
-				updateNumber("");
-				console("Machine: clear previous num.");
-			}
-			if (key == Keys.KEY_MINUS) {
-				toggleMinusSign();
-				return;
-			}
-			if (key == Keys.KEY_DOT) {
-				if (! after_dot) {
-					addDotNow();
-				} else {
-					String msg = ". not accept here. Ignored.";
-					screen.setErrorMsg(msg);
-					console("error: there is already a dot in number.");
-					return;
-				}
-			}
-			addKeyToNumber(key);
-			console("Machine: update number string.");
+			processNumberKey(key);
 		} else {
-			if (op == null) {
-				number_old = Double.parseDouble(number_str);
-				updateOp(key);
-				console("Machine: get op. last number saved.");
-			} else {
-				if (Keys.isOp(last_key)) {
-					updateOp(key);
-					console("Machine: " + "change op from " + op + " to " + key);
-					return;
-				}
-
-				number = Double.parseDouble(number_str);
-				try {
-					number_old = Keys.doOp(op, number_old, number);
-				} catch (NoSuchOperationException e) {
-					console("Machine: fatal error: NoSuchOp " + e.getMessage());
-					return;
-				}
-				console("Machine: show result now.");
-				showCalcResult(number_old);
-				// debug("real=" + number_old + " "
-				//       +"str=" + getNumberStr());
-				updateOp(key);
-			}
+			processOpKey(key);
 		}
 		last_key = key;
 	}

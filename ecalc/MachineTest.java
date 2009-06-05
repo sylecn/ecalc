@@ -126,6 +126,23 @@ public class MachineTest {
 		assertEquals(1, m.getResult(), delta);
 	}
 
+	@Test public void testBackspace() {
+		m.keyPress(Keys.KEY1);
+		m.keyPress(Keys.KEY2);
+		m.keyPress(Keys.KEY3);
+		m.keyPress(Keys.KEY_BACKSPACE);
+		assertEquals("12", m.getNumberStr());
+		m.keyPress(Keys.KEY_DOT);
+		assertEquals("12.", m.getNumberStr());
+		m.keyPress(Keys.KEY_BACKSPACE);
+		assertEquals("12", m.getNumberStr());
+		m.keyPress(Keys.KEY_CLEAR);
+		m.keyPress(Keys.KEY_BACKSPACE);
+		assertEquals("", m.getNumberStr());
+		// TODO in screen, test the error msg
+	}
+	
+
 	@Test public void testError1() {
 		m.keyPress(Keys.KEY2);
 		m.keyPress(Keys.KEY_CLEAR);
