@@ -25,7 +25,8 @@ public class ConsoleScreen extends Screen{
 			       
 	void updateScreen () {
 		//output format "op:+ num:-123.4 err:none";
-		System.out.println(getDisplayStr());
+		//temply
+		// System.out.println(getDisplayStr());
 	}
 
 	//for unittest purpose only

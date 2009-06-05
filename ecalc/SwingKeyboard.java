@@ -21,20 +21,16 @@ public class SwingKeyboard extends JFrame
 	//      How to make a GUI screen?
 	//======================================================================
 	
-	private static Keyboard k;
-	private static Machine m;
-	private static DumbScreen s;
-	
 	JTextArea displayArea;
 	JTextField typingArea;
 	static final String newline = System.getProperty("line.separator");
 
 	private static void setupKeyboardAndMachine() {
-		k = new Keyboard();
-		m = new Machine();
-		s = new DumbScreen();
-		m.addScreen(s);
-		k.connectToMachine(m);
+		// Keyboard k = new Keyboard();
+		// Machine m = new Machine();
+		// SwingScreen s = new SwingScreen();
+		// m.addScreen(s);
+		// k.connectToMachine(m);
 	}
     
 	public static void main(String[] args) {
@@ -42,15 +38,8 @@ public class SwingKeyboard extends JFrame
 		try {
 			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-			//UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		} catch (UnsupportedLookAndFeelException ex) {
-			ex.printStackTrace();
-		} catch (IllegalAccessException ex) {
-			ex.printStackTrace();
-		} catch (InstantiationException ex) {
-			ex.printStackTrace();
-		} catch (ClassNotFoundException ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		/* Turn off metal's use of bold fonts */
 		// UIManager.put("swing.boldMetal", Boolean.FALSE);
@@ -92,14 +81,6 @@ public class SwingKeyboard extends JFrame
 		typingArea = new JTextField(20);
 		typingArea.addKeyListener(this);
         
-		//Uncomment this if you wish to turn off focus
-		//traversal.  The focus subsystem consumes
-		//focus traversal keys, such as Tab and Shift Tab.
-		//If you uncomment the following line of code, this
-		//disables focus traversal and the Tab events will
-		//become available to the key event listener.
-		//typingArea.setFocusTraversalKeysEnabled(false);
-        
 		displayArea = new JTextArea();
 		displayArea.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(displayArea);
@@ -117,17 +98,25 @@ public class SwingKeyboard extends JFrame
     
 	/** Handle the key typed event from the text field. */
 	public void keyTyped(KeyEvent e) {
-		// displayInfo(e, "KEY TYPED: ");
+		char keyname = e.getKeyChar();
+		pressKeychar(keyname);
+		// s.updateScreen();
 	}
-    
+
+	private void pressKeychar(char key) {
+		// k.pressOpKey(string);
+		// k.pressNumberKey(int);
+		// k.clear();
+		// k.pressKey(Keys key);
+		typingArea.setText("" + key);
+	}
+				    		
 	/** Handle the key pressed event from the text field. */
 	public void keyPressed(KeyEvent e) {
-		displayInfo(e, "KEY PRESSED: ");
 	}
     
 	/** Handle the key released event from the text field. */
 	public void keyReleased(KeyEvent e) {
-		// displayInfo(e, "KEY RELEASED: ");
 	}
     
 	/** Handle the button click. */
@@ -201,5 +190,11 @@ public class SwingKeyboard extends JFrame
 				   + "    " + actionString + newline
 				   + "    " + locationString + newline);
 		displayArea.setCaretPosition(displayArea.getDocument().getLength());
+	}
+
+	public class SwingScreen extends Screen {
+		void updateScreen() {
+			typingArea.setText(main_panel);
+		}
 	}
 }
