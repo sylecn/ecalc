@@ -17,25 +17,51 @@ public class ConsoleKeyboard extends Keyboard {
 		return PATTERN_NUMBER.matcher(str).matches();
 	}
 
+	private static void info(String msg) {
+		System.out.println(msg);
+	}
+
+	private static void debug(String msg) {
+		System.out.println(msg);
+	}
+
 	public static void main(String[] args) {
 		Machine m = new Machine();
 		ConsoleScreen cs = new ConsoleScreen();
 		ConsoleKeyboard k = new ConsoleKeyboard();
 		k.connectToMachine(m);
+		m.addScreen(cs);
+
+		info("Welcome to ConsoleKeyboard!");
+		info("Sample Usage, press RET after each line:");
+		info("123");
+		info("+");
+		info("456");
+		info("+");
+		info("exit");
+		info("----");
 
 		String line = "";
-		while (! line.equals("exit")) {
+		do {
 			try {
 				line = in.readLine();
 				if (isNumber(line)) {
+					// debug("You input a number.");
 					k.pressNumberKeys(line);
 				} else {
+					// debug("You input an op.");
 					k.pressOpKey(line);
 				}
-			} catch( Exception e ) {
-				System.out.println("type exit to exit.");
+			} catch (IOException e) {
+				info(e.getMessage());
+			} catch (NoNumberKeyForGivenNumber e) {
+				info(e.getMessage());
+			} catch (NoOpKeyForGivenString e) {
+				info(e.getMessage());
 			}
-		}
+		} while (! line.equals("exit"));
+
+		info("bye.");
 	}
 	
 }
