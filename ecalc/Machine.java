@@ -221,7 +221,6 @@ public class Machine {
 				if (! after_dot) {
 					addDotNow();
 				} else {
-					//TODO notify console
 					String msg = ". not accept here. Ignored.";
 					screen.setErrorMsg(msg);
 					console("error: there is already a dot in number.");
@@ -243,7 +242,12 @@ public class Machine {
 				}
 
 				number = Double.parseDouble(number_str);
-				number_old = Keys.doOp(op, number_old, number);
+				try {
+					number_old = Keys.doOp(op, number_old, number);
+				} catch (NoSuchOperationException e) {
+					console("Machine: fatal error: NoSuchOp " + e.getMessage());
+					return;
+				}
 				console("Machine: show result now.");
 				showCalcResult(number_old);
 				// debug("real=" + number_old + " "

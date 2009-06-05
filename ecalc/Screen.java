@@ -8,8 +8,6 @@ package ecalc;
  */
 public abstract class Screen {
 
-	//TODO every var change should trigger an event to tell screen.
-
 	/**
 	 * main_panel is the biggest display area.
 	 * usually looks like 888,888,888,888.

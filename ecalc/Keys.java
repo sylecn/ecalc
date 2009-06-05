@@ -98,7 +98,7 @@ public enum Keys {
 		}
 	}
 
-	public static double doOp(Keys op, double n1, double n2) {
+	public static double doOp(Keys op, double n1, double n2) throws NoSuchOperationException {
 		switch (op) {
 		case KEY_ADD:
 			return n1 + n2;
@@ -112,8 +112,7 @@ public enum Keys {
 		case KEY_CLEAR:
 			//fall through
 		default:
-			//TODO throw exception here. NoSuchOp
-			return 0.0;
+			throw new NoSuchOperationException(op);
 		}
 	}
 }

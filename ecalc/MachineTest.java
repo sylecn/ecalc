@@ -132,6 +132,23 @@ public class MachineTest {
 		// assertEquals(, );
 	}
 
+	@Test public void testCatchNoSuchOpError() throws NoSuchOperationException {
+		try {
+			double number_old = Keys.doOp(Keys.KEY2, 1.0, 2.0);
+			fail("Should report NoSuchOp exception.");
+		} catch (NoSuchOperationException expected) {
+			; // Expected - intentional
+		}
+
+		try {
+			double number_old = Keys.doOp(Keys.KEY_ADD, 1.0, 2.0);
+			; // Expected - intentional			
+		} catch (NoSuchOperationException expected) {
+			fail("Should not report NoSuchOp exception.");
+		}
+	}
+	
+
 	@Test public void testDefaultNumberOnScreen() {
 		
 		assertEquals(0, m.getResult(), delta);

@@ -41,8 +41,7 @@ public class ConsoleScreenTest {
 		for (int i = 0; i < 15; ++i) {
 			m.keyPress(Keys.KEY1);
 		}
-		//TODO
-		// assertEquals("op:none num:111111111111 err:digit full", cs.getDisplayStr());
+		assertEquals("op:none num:111111111111 err:digit full", cs.getDisplayStr());
 	}
 
 	@Test public void testMinusNumberDisplay() {

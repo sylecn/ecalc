@@ -15,7 +15,8 @@ CLASSES = \
 	Screen.java \
 	ScreenManager.java \
 	ConsoleScreen.java \
-	ConsoleScreenTest.java
+	ConsoleScreenTest.java \
+	NoSuchOperationException.java
 
 default: classes
 

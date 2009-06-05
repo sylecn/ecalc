@@ -5,7 +5,7 @@ package ecalc;
  */
 public class ScreenManager {
 
-	//TODO I don't know how to use pointer or ref for storing class.
+	//INFO I don't know how to use pointer or ref for storing class.
 	//     So I use static inefficient object array. let gc deal with the
 	//     problem.
 	private Screen[] screens;
