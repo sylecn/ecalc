@@ -78,5 +78,10 @@ public class ConsoleScreenTest {
 		assertEquals(4, m.getResult(), MachineTest.delta);
 		assertEquals("op:+ num:4 err:none", cs.getDisplayStr());
 	}
+
+	@Test public void testBackspaceWhenNil() {
+		m.keyPress(Keys.KEY_BACKSPACE);
+		assertEquals("op:none num:0 err:backspace key: nothing to delete.", cs.getDisplayStr());
+	}
 	
 }

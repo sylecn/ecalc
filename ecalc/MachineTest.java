@@ -139,7 +139,6 @@ public class MachineTest {
 		m.keyPress(Keys.KEY_CLEAR);
 		m.keyPress(Keys.KEY_BACKSPACE);
 		assertEquals("", m.getNumberStr());
-		// TODO in screen, test the error msg
 	}
 	
 
