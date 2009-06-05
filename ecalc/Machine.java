@@ -1,6 +1,5 @@
 package ecalc;
 
-import java.util.regex.*;
 import java.text.*;
 
 public class Machine {
@@ -88,17 +87,11 @@ public class Machine {
 
 
 	// formalize
-	//   1.33333333333333333333 to 1.3333333333  (12 digits)
-	//   3e-8 to 0.00000003
-	static final Pattern TRAILING_ZEROS = Pattern.compile("0+$");
-	static final Pattern BEGINNING_ZEROS = Pattern.compile("^0+");
-	
 	String formalizeNumberString(String num) {
 		String re = num;
 
 		double d = Double.parseDouble(re);
-		debug("formalize: str=" + num + " "
-		      + "double=" + d);
+		// debug("formalize: str=" + num + " " + "double=" + d);
 
 		//"digit" overflow
 		if (Math.abs(d) < 1e-12) {
@@ -115,17 +108,17 @@ public class Machine {
 
 		int len = re.length();
 		if (len > 12) {
-			debug("raw length > 12");
+			// debug("raw length > 12");
 			String part1 = re.substring(0, 12);
 			String part2 = re.substring(12);
-			debug("part1=" + part1 + " part2=" + part2);
+			// debug("part1=" + part1 + " part2=" + part2);
 			if (part1.indexOf(".") != -1) {
 				part1 += part2.charAt(0);
-				debug("found dot. part1=" + part1 + " part2=" + part2);
+				// debug("found dot. part1=" + part1 + " part2=" + part2);
 			}
 			if ((part1.charAt(0) == '-') && (part2.length() > 1)) {
 				part1 = part1.substring(1) + part2.charAt(1);
-				debug("found minus. part1=" + part1 + " part2=" + part2);
+				// debug("found minus. part1=" + part1 + " part2=" + part2);
 			}
 			re = part1;
 		}
