@@ -6,7 +6,7 @@ package ecalc;
  *
  * almost everything is package level privilege for use in Machine Class.
  */
-public class Screen
+public class BaseScreen
 	implements IFScreen {
 
 	/**
@@ -29,7 +29,7 @@ public class Screen
 	boolean op_divide = false;
 	Keys op = null;
 
-	public void clearOp() {
+	void clearOp() {
 		op_plus = false;
 		op_subtract = false;
 		op_multiply = false;
@@ -48,7 +48,7 @@ public class Screen
 		updateScreen();
 	}
 
-	void Screen() {
+	void BaseScreen() {
 		clear();
 	}
 
@@ -62,7 +62,7 @@ public class Screen
 		updateScreen();
 	}
 
-	public void setErrorMsgNoNotify(String msg) {
+	void setErrorMsgNoNotify(String msg) {
 		error_msg = msg;
 		error_signal = true;
 	}
@@ -108,6 +108,8 @@ public class Screen
 		updateScreen();
 	}
 
+	public String getScreenName() {
+		return "BaseScreen";
+	}
 	public void updateScreen() {}
-
 }

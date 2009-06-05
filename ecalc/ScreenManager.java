@@ -10,7 +10,7 @@ public class ScreenManager {
 	//     problem.
 	private IFScreen[] screens;
 	private int count = 0;
-
+	
 	public ScreenManager() {
 		screens = new IFScreen[20];
 	}

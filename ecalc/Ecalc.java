@@ -18,7 +18,6 @@ public class Ecalc extends JFrame
 	
 	private static Machine m;
 	private static Keyboard k;
-	private static Screen s;
 
 	private static void debug(String msg) {
 		System.out.println(msg);
@@ -54,8 +53,6 @@ public class Ecalc extends JFrame
 		m = new Machine();
 		k = new Keyboard();
 		k.connectToMachine(m);
-		s = new Screen();
-		m.addScreen((IFScreen)s);
 
 		m.addScreen((IFScreen)frame);
         
@@ -99,9 +96,14 @@ public class Ecalc extends JFrame
 	 */
 	private void pressKeychar(char key) {
 		try {
-			String numbers = "0123456789._";
 			//- means subtract, _ means minus
+			
+			String numbers = "0123456789._";
 			if (numbers.indexOf(key) != -1) {
+				if (key == '_') {
+					key = '-';
+				}
+				
 				k.pressNumberKeys("" + key);
 				return;
 			}
@@ -111,7 +113,7 @@ public class Ecalc extends JFrame
 				k.pressOpKey("" + key);
 				return;
 			}
-			typingArea.setText(s.main_panel + newline);
+
 		} catch (NoNumberKeyForGivenNumber e) {
 			debug(e.getMessage());
 		} catch (NoOpKeyForGivenString e) {
@@ -127,15 +129,31 @@ public class Ecalc extends JFrame
 		pressKeychar(e.getKeyChar());
 	}
 
-	public void toggleMinusSign() {}
-	public void resetMinusSign(boolean minus) {}
-	public void updateOp(Keys op) {}
-	public void updateMainPanel(String num) {}
-	
-	public void clear() {}
-	
-	public void clearErrorMsg() {}
-	public void setErrorMsg(String msg) {}
+	/**
+	 * for IFScreen. This is a dumb screen. Doesn't have so many features.
+	 * Just leave them empty.
+	 */
+	public void toggleMinusSign() {
+		updateScreen();
+	}
+	public void resetMinusSign(boolean minus) {
+		updateScreen();
+	}
+	public void updateOp(Keys op) {
+		updateScreen();
+	}
+	public void updateMainPanel(String num) {
+		updateScreen();
+	}
+	public void clear() {
+		updateScreen();
+	}
+	public void clearErrorMsg() {
+		updateScreen();
+	}
+	public void setErrorMsg(String msg) {
+		updateScreen();
+	}
 
 	/**
 	 * TODO add screen inside Machine class.
@@ -146,9 +164,12 @@ public class Ecalc extends JFrame
 	 *
 	 * keep my IFScreen interface.
 	 */
-	
+
+	public String getScreenName() {
+		return "EcalcScreen";
+	}
 	public void updateScreen() {
-		displayArea.append("new value" + s.main_panel + newline);
-		displayArea.setCaretPosition(displayArea.getDocument().getLength());
+		displayArea.setText(m.getNumberOnMainPanel() + newline);
+		typingArea.setText("");
 	}
 }

@@ -2,9 +2,15 @@ package ecalc;
 
 import java.text.*;
 
-public class Machine {
+public class Machine
+	implements IFScreenHelper {
 
+	//====================
+	// variables
+	//====================
+	
 	private ScreenManager screen;
+	private BaseScreen bs;
 	
 	//previous number
 	private double number_old = 0.0;
@@ -20,9 +26,15 @@ public class Machine {
 
 	//record last typed key
 	private Keys last_key = null;
+
+	//====================
+	// constructor
+	//====================
 	
 	public Machine() {
 		screen = new ScreenManager();
+		bs = new BaseScreen();
+		screen.addScreen(bs);
 	}
 
 	//====================
@@ -62,6 +74,7 @@ public class Machine {
 			updateNumber(number_str + Keys.toString(key));
 		} else {
 			screen.setErrorMsg("digit full");
+			console("Machine: warning: digit full. key discarded.");
 		}
 	}
 
@@ -99,6 +112,7 @@ public class Machine {
 		}
 		if (Math.abs(d) > 888888888888.0) {
 			screen.setErrorMsg("num too big to show.");
+			console("Machine: error: num too big to show.");
 			return "888888888888";
 		}
 
@@ -143,13 +157,51 @@ public class Machine {
 		number_str = formalizeNumber(result);
 		screen.updateResult(number_str);
 		console("Machine: show result now. result is " + number_str);
-	}					   
+	}
 
-	//====================
-	// interact with screen
-	//====================
+	//============================================
+	// IFScreenHelper: Helper functions for screen
+	//============================================
+	public String getNumberOnMainPanel() {
+		return bs.main_panel;
+	}
+	public boolean isMinusNumber() {
+		return bs.minus_sign;
+	}
+
+	/**
+	 * error_signal is used to tell whether there is a error.
+	 * the specific screen can blink or show a read light to signal to user.
+	 */
+	public boolean hasError() {
+		return bs.error_signal;
+	}
+	public String getErrorMessage() {
+		return bs.error_msg;
+	}
+
+	public boolean opIsPlus() {
+		return bs.op_plus;
+	}
+	public boolean opIsSubtract() {
+		return bs.op_subtract;
+	}
+	public boolean opIsMultiply() {
+		return bs.op_multiply;
+	}
+	public boolean opIsDivide() {
+		return bs.op_divide;
+	}
+	public Keys getOp() {
+		return bs.op;
+	}
+
+	//====================================
+	// Manager screens using ScreenManager
+	//====================================
 
 	public void addScreen(IFScreen d) {
+		console("Machine: addScreen " + d);
 		screen.addScreen(d);
 	}
 
@@ -198,14 +250,15 @@ public class Machine {
 		int len = number_str.length();
 		if (len == 0) {
 			screen.setErrorMsg("backspace key: nothing to delete.");
+			console("Machine: backspace key presses, but nothing to delete.");
 		} else {
 			updateNumber(number_str.substring(0, len - 1));
 		}
 	}
 
-	//====================
+	//=========================
 	// Key function for Machine
-	//====================
+	//=========================
 
 	private void processNumberKey(Keys key) {
 		if (Keys.isOp(last_key)) {
@@ -220,9 +273,8 @@ public class Machine {
 			if (! after_dot) {
 				addDotNow();
 			} else {
-				String msg = ". not accept here. Ignored.";
-				screen.setErrorMsg(msg);
-				console("error: there is already a dot in number.");
+				screen.setErrorMsg(". not accept here. Ignored.");
+				console("Machine: warning: num already has a dot in it. this dot is discarded.");
 				return;
 			}
 		}

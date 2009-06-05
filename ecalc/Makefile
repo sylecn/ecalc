@@ -12,7 +12,7 @@ CLASSES = \
 	KeysTest.java \
         Machine.java \
 	MachineTest.java \
-	Screen.java \
+	BaseScreen.java \
 	ScreenManager.java \
 	ConsoleScreen.java \
 	ConsoleScreenTest.java \
@@ -24,11 +24,7 @@ CLASSES = \
 	NoOpKeyForGivenString.java \
 	LazyConsoleScreen.java \
 	Ecalc.java \
-	IFScreen.java
-#	DumbScreen.java \
-#	SwingKeyboard.java
-#	SwingScreen.java
-
+	IFScreen.java 
 
 default: classes
 
