@@ -24,7 +24,8 @@ CLASSES = \
 	NoOpKeyForGivenString.java \
 	LazyConsoleScreen.java \
 	Ecalc.java \
-	IFScreen.java 
+	IFScreen.java \
+	History.java
 
 default: classes
 

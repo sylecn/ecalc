@@ -7,8 +7,7 @@ import org.junit.Test;
 
 public class KeysTest {
 
-	@Test
-		public void testDoOp() {
+	@Test public void testDoOp() throws NoSuchOperationException {
 		assertEquals(2.0, Keys.doOp(Keys.KEY_ADD, 1, 1), 0.0000001);
 	}
 
