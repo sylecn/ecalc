@@ -25,7 +25,9 @@ CLASSES = \
 	LazyConsoleScreen.java \
 	Ecalc.java \
 	IFScreen.java \
-	History.java
+	History.java \
+	Calc.java \
+	CalcTest.java
 
 default: classes
 
@@ -37,7 +39,7 @@ clean:
 test: check
 check:default
 	$(JUNIT) ecalc.KeysTest ecalc.MachineTest ecalc.ConsoleScreenTest \
-	ecalc.KeyboardTest
+	ecalc.KeyboardTest ecalc.CalcTest
 
 check-junit:
 	$(JUNIT) org.junit.tests.AllTests

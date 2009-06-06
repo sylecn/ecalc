@@ -11,6 +11,9 @@ public class Machine
 	
 	private ScreenManager screen;
 	private BaseScreen bs;
+	private Calc calc;
+
+	private boolean console_on = false;
 	
 	//previous number
 	private double number_old = 0.0;
@@ -35,6 +38,7 @@ public class Machine
 		screen = new ScreenManager();
 		bs = new BaseScreen();
 		screen.addScreen(bs);
+		calc = new Calc();
 	}
 
 	//====================
@@ -49,8 +53,9 @@ public class Machine
 	//this is the standard machine console
 	//this can direct to GUI or text file later.
 	private void console(String msg) {
-		//temply
-		System.out.println(msg);
+		if (console_on) {
+			System.out.println(msg);
+		}
 	}
 
 	private String toggleMinusSignForNumber(String number) {
@@ -159,6 +164,14 @@ public class Machine
 		console("Machine: show result now. result is " + number_str);
 	}
 
+	//=====================
+	// for Calc and History
+	//=====================
+	public Calc getCurrentCalc() {
+		// TODO should I return a copy or directly?
+		return calc;
+	}
+	
 	//============================================
 	// IFScreenHelper: Helper functions for screen
 	//============================================
@@ -308,6 +321,14 @@ public class Machine
 		}
 	}
 
+	public void turnOnConsole() {
+		console_on = true;
+	}
+
+	public void turnOffConsole() {
+		console_on = false;
+	}
+	
 	public void keyPress(Keys key) {
 		console("key press: " + Keys.toString(key) + ".");
 		
