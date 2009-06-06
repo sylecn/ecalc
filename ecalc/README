@@ -1,0 +1,30 @@
+* a brief view of all files
+|--------------------------------+------+-----------+--------------------------------------------------------------------------------|
+| filelist                       |      |           |                                                                                |
+|--------------------------------+------+-----------+--------------------------------------------------------------------------------|
+| Machine.java                   | core | class     | the core module, allow keypress, provides cacl result and history              |
+| Keys.java                      | core | enum      | keys abstraction, enum type                                                    |
+| Keyboard.java                  | core | class     | keyboard abstraction. help you presskeys easier, can be connect to Machine.    |
+| BaseScreen.java                | core | class     | part of Machine, manager screen related vars and functions                     |
+| ScreenManager.java             | core | class     | part of Machine, manager connected screens                                     |
+| History.java                   | core | class     | part of Machine, manager number and op history                                 |
+| IFScreenHelper.java            | core | interface | defines how to get all things that a screen need to know.                      |
+| IFScreen.java                  | core | interface | defines what functions should a screen provide                                 |
+| NoNumberKeyForGivenNumber.java | core | exception |                                                                                |
+| NoOpKeyForGivenString.java     | core | exception |                                                                                |
+| NoSuchOperationException.java  | core | exception |                                                                                |
+|--------------------------------+------+-----------+--------------------------------------------------------------------------------|
+| ConsoleKeyboard.java           | app  |           | standalone console calc                                                        |
+| ConsoleScreen.java             |      |           |                                                                                |
+|--------------------------------+------+-----------+--------------------------------------------------------------------------------|
+| Ecalc.java                     | app  |           | standalone GUI calc                                                            |
+|--------------------------------+------+-----------+--------------------------------------------------------------------------------|
+| ConsoleScreenTest.java         | test | junit     |                                                                                |
+| KeyboardTest.java              | test | junit     |                                                                                |
+| KeysTest.java                  | test | junit     |                                                                                |
+| MachineTest.java               | test | junit     |                                                                                |
+|--------------------------------+------+-----------+--------------------------------------------------------------------------------|
+| Temp.java                      | not  |           |                                                                                |
+| DumbScreen.java                | not  |           | when Screen is an abstract class, this is used to provide a dumb Screen        |
+| LazyConsoleScreen.java         | not  |           | trying to update console screen only when there is change, but failed/no need. |
+|--------------------------------+------+-----------+--------------------------------------------------------------------------------|
