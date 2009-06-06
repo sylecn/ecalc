@@ -97,7 +97,6 @@ public class Ecalc extends JFrame
 	private void pressKeychar(char key) {
 		try {
 			//- means subtract, _ means minus
-			
 			String numbers = "0123456789._";
 			if (numbers.indexOf(key) != -1) {
 				if (key == '_') {
@@ -105,15 +104,13 @@ public class Ecalc extends JFrame
 				}
 				
 				k.pressNumberKeys("" + key);
-				return;
+			} else {
+				//c means clear, b means backspace
+				String ops = "+-*/cb";
+				if (ops.indexOf(key) != -1) {
+					k.pressOpKey("" + key);
+				}
 			}
-			//c means clear, b means backspace
-			String ops = "+-*/cb";
-			if (ops.indexOf(key) != -1) {
-				k.pressOpKey("" + key);
-				return;
-			}
-
 		} catch (NoNumberKeyForGivenNumber e) {
 			debug(e.getMessage());
 		} catch (NoOpKeyForGivenString e) {
@@ -170,6 +167,6 @@ public class Ecalc extends JFrame
 	}
 	public void updateScreen() {
 		displayArea.setText(m.getNumberOnMainPanel() + newline);
-		typingArea.setText("");
+		typingArea.setText(m.getNumberOnMainPanel() + newline);
 	}
 }

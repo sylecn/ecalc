@@ -289,8 +289,8 @@ public class Machine
 			console("Machine: get op. last number saved.");
 		} else {
 			if (Keys.isOp(last_key)) {
-				updateOp(key);
 				console("Machine: " + "change op from " + op + " to " + key);
+				updateOp(key);
 				return;
 			}
 
