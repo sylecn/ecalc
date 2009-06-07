@@ -156,7 +156,7 @@ public class Machine
 					   
 					   
 	// formalize number and pass to screen
-	void showCalcResult(double result) {
+    	void showCalcResult(double result) {
 		// It's the screen's duty to update sign according to a calc
 		// result.
 		// if (! number_old < 0) {
@@ -165,6 +165,17 @@ public class Machine
 		number_str = formalizeNumber(result);
 		screen.updateResult(number_str);
 		console("Machine: show result now. result is " + number_str);
+	}
+
+	void addCalcToHistory() {
+		h.addCalc(calc);
+		//calc = new Calc();
+	}
+
+	void endSessionOnEqual(Keys key) {
+		if (key == Keys.KEY_EQUAL) {
+			addCalcToHistory();
+		}
 	}
 
 	//=====================
@@ -268,6 +279,7 @@ public class Machine
 	private void updateOp(Keys newop) {
 		op = newop;
 		screen.updateOp(op);
+		endSessionOnEqual(newop);
 	}
 				   
 	/**
@@ -344,7 +356,7 @@ public class Machine
 		updateOp(key);
 		calc.changeOp(Keys.toString(key));
 	}
-	
+
 	private void processOpKey(Keys key) {
 		if (op == null) {
 			saveNumberToNumberOld();
