@@ -11,6 +11,8 @@ public class Machine
 	
 	private ScreenManager screen;
 	private BaseScreen bs;
+	//History is Calc manager.
+	private History h;
 	private Calc calc;
 
 	private boolean console_on = false;
@@ -39,6 +41,7 @@ public class Machine
 		bs = new BaseScreen();
 		screen.addScreen(bs);
 		calc = new Calc();
+		h = new History();
 	}
 
 	//====================
@@ -167,6 +170,10 @@ public class Machine
 	//=====================
 	// for Calc and History
 	//=====================
+	public int getHistoryCount() {
+		return 0;
+	}
+	
 	public Calc getCurrentCalc() {
 		// TODO should I return a copy or directly?
 		return calc;
@@ -317,19 +324,19 @@ public class Machine
 
 	private void saveNumberToNumberOld() {
 		number_old = Double.parseDouble(number_str);
-		debug("Machine: Calc: add number " + number_str);
+		// debug("Machine: Calc: add number " + number_str);
 		calc.addNumber(number_str);
 	}
 
 	private void saveNumberToNumber() {
 		number = Double.parseDouble(number_str);
-		debug("Machine: Calc: add number " + number_str);
+		// debug("Machine: Calc: add number " + number_str);
 		calc.addNumber(number_str);
 	}
 
 	private void getNewOp(Keys key) {
 		updateOp(key);
-		debug("Machine: Calc: add op " + Keys.toString(key));
+		// debug("Machine: Calc: add op " + Keys.toString(key));
 		calc.addOp(Keys.toString(key));
 	}
 
@@ -387,7 +394,7 @@ public class Machine
 		//any new input clears the error msg.
 		//clear will erase everything, so I leave it above.
 		screen.clearErrorMsg();
-		console("screen manager: clear error msg.");
+		// console("screen manager: clear error msg.");
 		
 		if (key == Keys.KEY_BACKSPACE) {
 			backspace();

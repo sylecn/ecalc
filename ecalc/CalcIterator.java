@@ -46,16 +46,19 @@ public class CalcIterator implements Iterator<String> {
 	}
 
 	public boolean hasNext() {
+		// debug("hasNext: numberp=" + numberp
+		//       + " number_count=" + number_count
+		//       + " opp=" + opp
+		//       + " op_count=" + op_count);
+
 		if (read_number) {
-			debug("hasNext: numberp=" + numberp
-			      + " number_count=" + number_count);
-			if ((number_count > 0) && (numberp < number_count)) {
+			if ((number_count > 0) && (numberp < number_count - 1)) {
 				return true;
 			} else {
 				return false;
 			}
 		} else {
-			if ((op_count > 0) && (opp < op_count)) {
+			if ((op_count > 0) && (opp < op_count - 1)) {
 				return true;
 			} else {
 				return false;

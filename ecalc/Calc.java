@@ -100,4 +100,13 @@ public class Calc {
 			throw new IndexOutOfBoundsException("Calc: error: No op at index " + index);
 		}
 	}
+
+	public String toString() {
+		CalcIterator ci = new CalcIterator(this);
+		String re = "";
+		while (ci.hasNext()) {
+			 re += ci.next() + "\n";
+		}
+		return re;
+	}
 }
