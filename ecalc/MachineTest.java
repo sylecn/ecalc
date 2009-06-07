@@ -293,5 +293,5 @@ public class MachineTest {
 		assertEquals("0", m.getNumberStr());
 	}
 
-	
+
 }

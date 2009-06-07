@@ -27,7 +27,9 @@ CLASSES = \
 	IFScreen.java \
 	History.java \
 	Calc.java \
-	CalcTest.java
+	CalcTest.java \
+	CalcIterator.java \
+	CalcIteratorTest.java 
 
 default: classes
 

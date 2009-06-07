@@ -19,7 +19,8 @@ public enum Keys {
 		KEY_MULTIPLY,
 		KEY_DIVIDE,
 		KEY_CLEAR,
-		KEY_BACKSPACE;
+		KEY_BACKSPACE,
+		KEY_EQUAL;
 	
 	public static boolean isNumber(Keys key) {
 		switch (key) {
@@ -92,6 +93,8 @@ public enum Keys {
 			return "/";
 		case KEY_CLEAR:
 			return "C";
+		case KEY_EQUAL:
+			return "=";
 		default:
 			/* never reach here. */
 			return "INVILID_KEY";

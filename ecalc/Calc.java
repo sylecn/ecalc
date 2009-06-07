@@ -38,7 +38,18 @@ package ecalc;
  */
 public class Calc {
 
+	private static final int MAX_NUMBER_COUNT = 1000;
+
+	private String[] numbers;
+	private int numberp;
+	private String[] ops;
+	private int opp;
+
 	public Calc() {
+		numbers = new String[MAX_NUMBER_COUNT + 1];
+		ops = new String[MAX_NUMBER_COUNT + 1];
+		numberp = -1;
+		opp = -1;
 	}
 
 	// public Calc(Calc calc) {
@@ -52,4 +63,41 @@ public class Calc {
 		return true;
 	}
 
+	void addNumber(String num) {
+		numberp++;
+		numbers[numberp] = num;
+	}
+
+	void addOp(String op) {
+		opp++;
+		ops[opp] = op;
+	}
+
+	void changeOp(String op) {
+		ops[opp] = op;
+	}
+
+	int getNumberCount() {
+		return numberp + 1;
+	}
+
+	int getOpCount() {
+		return opp + 1;
+	}
+	
+	String getNumberAt(int index) {
+		if ((index >=0) && (index <= numberp)) {
+			return numbers[index];
+		} else {
+			throw new IndexOutOfBoundsException("Calc: error: No number at index " + index);
+		}
+	}
+
+	String getOpAt(int index) {
+		if ((index >=0) && (index <= opp)) {
+			return ops[index];
+		} else {
+			throw new IndexOutOfBoundsException("Calc: error: No op at index " + index);
+		}
+	}
 }

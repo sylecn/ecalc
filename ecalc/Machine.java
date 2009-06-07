@@ -171,6 +171,26 @@ public class Machine
 		// TODO should I return a copy or directly?
 		return calc;
 	}
+
+	public void executeCalc(Calc c) {
+		clear();
+		CalcIterator ci = new CalcIterator(c);
+		Keyboard k = new Keyboard();
+		k.connectToMachine(this);
+		String current_key;
+		while (ci.hasNext()) {
+			try {
+				current_key = ci.next();
+				k.pressNumberOrOpKeys(current_key);
+			} catch (NoOpKeyForGivenString e) {
+				console("Machine: error: Bad number key when executeCalc.");
+				console(e.getMessage());
+			} catch (NoNumberKeyForGivenNumber e) {
+				console("Machine: error: Bad op key when executeCalc.");
+				console(e.getMessage());
+			}
+		}
+	}
 	
 	//============================================
 	// IFScreenHelper: Helper functions for screen
@@ -270,7 +290,7 @@ public class Machine
 	}
 
 	//=========================
-	// Key function for Machine
+	// core function for Machine
 	//=========================
 
 	private void processNumberKey(Keys key) {
@@ -295,19 +315,42 @@ public class Machine
 		console("Machine: update number string.");
 	}
 
+	private void saveNumberToNumberOld() {
+		number_old = Double.parseDouble(number_str);
+		debug("Machine: Calc: add number " + number_str);
+		calc.addNumber(number_str);
+	}
+
+	private void saveNumberToNumber() {
+		number = Double.parseDouble(number_str);
+		debug("Machine: Calc: add number " + number_str);
+		calc.addNumber(number_str);
+	}
+
+	private void getNewOp(Keys key) {
+		updateOp(key);
+		debug("Machine: Calc: add op " + Keys.toString(key));
+		calc.addOp(Keys.toString(key));
+	}
+
+	private void changeOp(Keys key) {
+		updateOp(key);
+		calc.changeOp(Keys.toString(key));
+	}
+	
 	private void processOpKey(Keys key) {
 		if (op == null) {
-			number_old = Double.parseDouble(number_str);
-			updateOp(key);
+			saveNumberToNumberOld();
+			getNewOp(key);
 			console("Machine: get op. last number saved.");
 		} else {
 			if (Keys.isOp(last_key)) {
 				console("Machine: " + "change op from " + op + " to " + key);
-				updateOp(key);
+				changeOp(key);
 				return;
 			}
 
-			number = Double.parseDouble(number_str);
+			saveNumberToNumber();
 			try {
 				number_old = Keys.doOp(op, number_old, number);
 			} catch (NoSuchOperationException e) {
@@ -317,7 +360,7 @@ public class Machine
 			showCalcResult(number_old);
 			// debug("real=" + number_old + " "
 			//       +"str=" + getNumberStr());
-			updateOp(key);
+			getNewOp(key);
 		}
 	}
 

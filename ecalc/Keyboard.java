@@ -1,7 +1,9 @@
 package ecalc;
 
+import java.util.regex.*;
+
 /**
- * general keyboard class
+ * general keyboard class, provide easy keyboard input to Machine.
  */
 public class Keyboard {
 
@@ -16,6 +18,11 @@ public class Keyboard {
 			this.m = m;
 		}
 		//TODO signal error: trying to connect to nothing.
+	}
+
+	static final Pattern PATTERN_NUMBER = Pattern.compile("-?[0-9]+.?[0-9]*");
+	private static boolean isNumber(String str) {
+		return PATTERN_NUMBER.matcher(str).matches();
 	}
 
 	public void pressKey(Keys key) {
@@ -111,8 +118,21 @@ public class Keyboard {
 			pressKey(Keys.KEY_BACKSPACE);
 			return;
 		}
+		if (opkey.equals("=")) {
+			pressKey(Keys.KEY_EQUAL);
+			return;
+		}
 		//never reacher here
 		throw new NoOpKeyForGivenString(opkey);
 	}
-		
+
+	public void pressNumberOrOpKeys(String key) throws NoOpKeyForGivenString, NoNumberKeyForGivenNumber {
+		if (isNumber(key)) {
+			// debug("You input a number.");
+			pressNumberKeys(key);
+		} else {
+			// debug("You input an op.");
+			pressOpKey(key);
+		}
+	}
 }
