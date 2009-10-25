@@ -48,7 +48,7 @@
 *** "screen"  means tranditional screen of a calc.
 *** "touch screen" means screen which can be oped by finger/hand touch/move
     like iphone.
-*** "calc like bbd" a phisical kbd looks like a tranditional calc, but can be
+*** "calc like kbd" a phisical kbd looks like a tranditional calc, but can be
     connected to computer using USB and op as a kbd for my calc. Allow it to 
     contain screen.
 *** "models" a center model of a phsical calc
