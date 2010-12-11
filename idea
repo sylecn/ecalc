@@ -24,9 +24,9 @@
 **** a group is a series of keys after the CLEAR key.
 **** a register contains all the info for a group. which can be recalled to cmp
      with other group of calc.
-**** she can "edit" any numbers and ops in a group, then "rerun" the group.
+**** she can "edit" any numbers and operators in a group, then "rerun" the group.
 ***** edit should be a very easy op. and the calc will allow edit many times
-      with promts on "sceen"
+      with promts on "screen"
 ***** yes. group are "runrunable"
       This is more or less like a kbd macro for a real computer.
       yes, you could even define, save and load a group use other tools (for 
@@ -45,10 +45,10 @@
                   simulately running on one session of calc. This will make it
                   easier to test my software and good to end users.
 ** ternominals
-*** "screen"  means tranditional screen of a calc.
-*** "touch screen" means screen which can be oped by finger/hand touch/move
+*** "screen" means tranditional screen of a calc.
+*** "touch screen" means screen which can be touched and pressed by fingers.
     like iphone.
-*** "calc like kbd" a phisical kbd looks like a tranditional calc, but can be
+*** "calc like kbd" a physical kbd looks like a tranditional calc, but can be
     connected to computer using USB and op as a kbd for my calc. Allow it to 
     contain screen.
 *** "models" a center model of a phsical calc
@@ -58,7 +58,7 @@
     allow donation via paypal and alipay.
 *** screen are very configuable
 *** multi screen support at the same time.
-    like one graphic card driven two LCD.
+    just like one graphic card can drive two Display.
 *** input are very configuable
 **** kbd are bery configurable
      even allow a javescript web interface to my app. both input and display.

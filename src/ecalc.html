@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>ecalc - an online calculator with history, register, and more</title>
+    <link type="text/css" rel="stylesheet" href="common.css" />
+    <script type="text/javascript" src="/home/sylecn/html/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="/fat32/Projects/utils.js"></script>
+    <script type="text/javascript" src="ecalc.js"></script>
+    <script type="text/javascript" src="vm.js"></script>
+  </head>
+
+  <body onkeydown="ecalc.keydown(event)">
+    <div id="container">
+      <div id="screen" class="right">0</div>
+    </div>
+    <div id="vms"></div>
+
+    <div id="developer-tools">
+      Debug Key Event:
+      <input type="checkbox" name="debug_key_event"
+	     id="debug_key_event"
+	     onchange="ecalc.toggleDebugKeyEvent()" />
+      <br />
+      <input type="button" name="clear_log" id="clear_log"
+	     value="clear log"
+	     onclick="ecalc.clearLog()" />
+      <pre id="log"></pre>
+    </div>
+  </body>
+
+</html>

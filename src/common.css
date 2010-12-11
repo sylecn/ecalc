@@ -1,0 +1,40 @@
+body {
+}
+
+a {
+}
+
+a:link {
+}
+
+a:visited {
+}
+
+a:hover {
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+#container {
+    width: 800px;
+    /* border: solid black 1px; */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#screen {
+    border: solid black 1px;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* .keystack { */
+/*     width: 200px; */
+/* } */
