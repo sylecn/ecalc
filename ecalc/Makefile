@@ -1,4 +1,4 @@
-CLASSPATH = .:/home/sylecn/projects/ecalc/:/home/sylecn/fromsource/junit4.6/junit-4.6.jar:/home/sylecn/fromsource/junit4.6/
+CLASSPATH = .:/home/sylecn/projects/ecalc/:/home/sylecn/fromsource/junit-4.8.2.jar
 JC = javac -cp $(CLASSPATH)
 JAVA = java -cp $(CLASSPATH)
 JUNIT = $(JAVA) org.junit.runner.JUnitCore
@@ -29,7 +29,7 @@ CLASSES = \
 	Calc.java \
 	CalcTest.java \
 	CalcIterator.java \
-	CalcIteratorTest.java 
+	CalcIteratorTest.java
 
 default: classes
 
