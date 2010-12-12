@@ -281,7 +281,11 @@ ecalc.vm = {
 		break;
 	    case 'DOT':
 		if (this._acceptDot) {
-		    this._partialNumber += '.';
+		    if (this._partialNumber) {
+			this._partialNumber += '.';
+		    } else {
+			this._partialNumber = '0.';
+		    }
 		    this._acceptDot = false;
 		} else {
 		    ecalc.vm.log('Warning: ignore nonsense DOT.');
@@ -293,6 +297,9 @@ ecalc.vm = {
 		} else {
 		    if (this._partialNumber.last() === '.') {
 			this._acceptDot = true;
+			if (this._partialNumber === '0.') {
+			    this._partialNumber = '';
+			}
 		    }
 		    this._partialNumber = this._partialNumber.slice(0, -1);
 		}
