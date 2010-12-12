@@ -7,6 +7,7 @@
 ** NUM6 EQUAL ADD NUM1 EQUAL NUM1 NUM2 NUM3
 ** NUM1 ADD NUM2 EQUAL ADD NUM2 ADD
 ** 1 + 123.4 BACKSPACE BACKSPACE .5 =
+** NUM1 MULTIPLY NUM3 EQUAL ADD NUM2 EQUAL
 * DONE [BUG L1] refactoring: edit history nS and oS, bind onclick directly
   on <TD>, pass x and y directly to handler function.
   then remove the giant ecalc.clickOnHistory(event) and param fetching.
@@ -15,3 +16,17 @@
 * DONE [BUG L2] in main keydown dispatch,
   ecalc and VM should accept only single char keydown, not with modifiers.
   for example, C-c should not send c to VM or ecalc.
+* DONE [BUG L4] history is wrong when a result is used as the start number of
+  a new calculation.
+
+  example: NUM1 MULTIPLY NUM3 EQUAL ADD NUM2 EQUAL
+  current History:
+  2             1
+  +             *
+                3   3
+
+  should have:
+  3             1
+  +             *
+  2   5         3   3
+

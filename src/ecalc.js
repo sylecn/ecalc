@@ -368,6 +368,16 @@ event, ',
 	ecalc.defaultVM.pressKey('DOT');
 	ecalc.defaultVM.pressKey('NUM1');
 	ecalc.defaultVM.pressKey('EQUAL');
+    },
+
+    makeTestInputForContinuesCalc: function () {
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM2');
+	ecalc.defaultVM.pressKey('EQUAL');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM3');
+	ecalc.defaultVM.pressKey('EQUAL');
     }
 };
 
@@ -412,11 +422,16 @@ $(document).ready(function () {
     // ==========
     //  UI tests
     // ==========
+    if (true) {
+	ecalc.makeTestInputForContinuesCalc();
+    }
 
-    ecalc.makeTestInputOneToFiveWithMultiply();
-    // ecalc.makeTestInputOneToFive();
-    // ecalc.makeTestInputOneToFiveMinorDifference();
-    ecalc.makeTestInputBusinessData();
-    ecalc.makeTestInputBusinessDataMinorDifference();
+    if (false) {
+	ecalc.makeTestInputOneToFiveWithMultiply();
+	// ecalc.makeTestInputOneToFive();
+	// ecalc.makeTestInputOneToFiveMinorDifference();
+	ecalc.makeTestInputBusinessData();
+	ecalc.makeTestInputBusinessDataMinorDifference();
+    }
     ecalc.updateUI();
 });

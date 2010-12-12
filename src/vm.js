@@ -9,7 +9,7 @@ if (typeof ecalc === 'undefined') {
 
 ecalc.vm = {
     log: function (msg) {
-	ecalc.log(msg);
+	ecalc.log('vm: ' + msg);
     },
     message: function (msg) {
 	ecalc.messageList.push(msg);
@@ -430,6 +430,10 @@ ecalc.vm = {
 	    case 'SUBTRACT':
 	    case 'MULTIPLY':
 		if (this._calcDone) {
+		    // continue a calculation using last result.
+		    // ecalc.vm.log('continue calc, push ' +
+		    // 		 this._numberStack.last() + ' to history nS');
+		    this.history.pushNumber(this._numberStack.last());
 		    this._calcDone = false;
 		} else {
 		    this._acceptPartialNumber();
