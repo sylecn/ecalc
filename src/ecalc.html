@@ -14,7 +14,15 @@
   <body onkeydown="ecalc.keydown(event)">
     <div id="container">
       <div id="screen" class="right">0</div>
-      <div id="history"></div>
+      <div id="history" onclick="ecalc.clickOnHistory(event)"></div>
+      <div id="input-number">
+	Edit Number:
+	<input type="text" name="number" id="number" value=""
+	       onkeydown="ecalc.inputNumberKeyDown(event)" />
+	<br />
+	<a onclick="return ecalc.confirmEditNumber()" href="#">OK</a>
+	<a onclick="return ecalc.hide(event)" href="#">Cancel</a>
+      </div>
     </div>
 
     <div id="vms"></div>

@@ -48,12 +48,12 @@ var ecalc = {
 	default: return undefined;
 	}
     },
-    keyup: function (event) {
-	var key = event.keyCode;
-	if (this.debugKeyEvent) {
-	    this.log('keyup event: keyCode = ' + key);
-	}
-    },
+    // keyup: function (event) {
+    // 	var key = event.keyCode;
+    // 	if (this.debugKeyEvent) {
+    // 	    this.log('keyup event: keyCode = ' + key);
+    // 	}
+    // },
     /**
      * the main dispatcher. listen to keyboard events.
      */
@@ -61,6 +61,12 @@ var ecalc = {
 	if (this.debugKeyEvent) {
 	    this.log('keydown event: keyCode = ' + event.keyCode);
 	}
+
+	// skip all input control
+	if (utils.isInputNode(event.target)) {
+	    return;
+	}
+
 	if (event.keyCode === 27) {
 	    // ESC clear web page, not passed to VM.
 	    this.clearLog();
@@ -89,11 +95,71 @@ var ecalc = {
 	}
 	this.updateUI();
     },
-    keypress: function (event) {
-	var key = event.charCode;
-	if (this.debugKeyEvent) {
-	    this.log('keypress event: charCode = ' + key);
+    // keypress: function (event) {
+    // 	var key = event.charCode;
+    // 	if (this.debugKeyEvent) {
+    // 	    this.log('keypress event: charCode = ' + key);
+    // 	}
+    // },
+    /**
+     * major dispatcher. edit and recompute history, update UI.
+     */
+    clickOnHistory: function (event) {
+	var td = event.target;
+	var oldValue;
+	x = td.getAttribute('data-x') || '';
+	y = td.getAttribute('data-y') || '';
+	type = td.getAttribute('data-type') || '';
+	// ecalc.log('clickOnHistory: ' + event.target.tagName +
+	// 	  ' x = ' + x +
+	// 	  ' y = ' + y +
+	// 	  ' type = ' + type);
+
+	// edit this number node
+	switch (type) {
+	case 'nS':
+	    oldValue = this.defaultVM.history._all[x].nS[y] + '';
+	    // ecalc.log(oldValue);
+	    $('#number').val(oldValue);
+	    ecalc.confirmEditNumber = function () {
+		var newValue = $('#number').val();
+		if (newValue !== oldValue) {
+		    this.defaultVM.history._all[x].nS[y] = parseFloat(newValue);
+		    this.defaultVM.history.recompute(x);
+		    this.updateUI();
+		}
+		$('#input-number').hide();
+		ecalc.confirmEditNumber = utils.noop;
+		return false;
+	    };
+	    $('#input-number').show();
+	    $('#number').focus();
+	    // update this node, and recompute the session
+	    break;
+	case 'oS':
+	    // TODO
+	    break;
+	default:
+	    // ignore
+	    ecalc.log('ignore click.');
 	}
+    },
+    confirmEditNumber: utils.noop,
+    inputNumberKeyDown: function (event) {
+	switch (event.keyCode) {
+	case 13:
+	    ecalc.confirmEditNumber();
+	    break;
+	case 27:
+	    ecalc.hide(event)
+	    break;
+	default:
+
+	}
+    },
+    hide: function (event) {
+	$(event.target.parentNode).hide();
+	return false;
     },
     updateUI: function () {
 	$('#screen').text(this.defaultVM.screen_asText());
@@ -225,10 +291,20 @@ $(document).ready(function () {
     ecalc.log("ecalc ready.");
 
     /**
+     * init UI
+     */
+    $('#input-number').hide();
+
+    /**
      * virtual machine
      */
     ecalc.defaultVM = new ecalc.vm.VirtualMachine("defaultVM");
     ecalc.updateUI();
+
+    utils.assertEqual([3, 7, 11, 16],
+		      ecalc.defaultVM.history.compute(
+			  [1, 2, 4, 4, 5], ['ADD', 'ADD', 'ADD', 'ADD']),
+		      'History.compute is broken.');
 
     ecalc.makeTestInputOneToFive();
     ecalc.makeTestInputOneToFiveMinorDifference();

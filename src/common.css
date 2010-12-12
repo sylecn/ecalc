@@ -35,9 +35,18 @@ a:hover {
 
 #container {
     width: 800px;
-    /* border: solid black 1px; */
+    border: solid black 1px;
     margin-left: auto;
     margin-right: auto;
+}
+
+#input-number {
+    background-color: white;
+    border: solid black 1px;
+    padding: 10px;
+    position: fixed;
+    left: 40%;
+    bottom: 10%;
 }
 
 #screen {

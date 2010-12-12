@@ -64,17 +64,79 @@ ecalc.vm = {
 		oS: []
 	    });
 	};
-	this._oneCalcAsHTML = function(history, compareTo) {
-	    var nS = history.nS;
-	    var oS = history.oS;
-	    var rS = history.rS;
+	/**
+	 * get a rS stack from nS and oS.
+	 * @return rS stack
+	 */
+	this.compute = function (nS, oS) {
+	    var rS = [];
+	    var result;
+	    if (nS.length > 1) {
+		utils.assert(oS.length >= 1,
+			     'compute: oS should have at least 1 op');
+		// first result
+		switch (oS[0]) {
+		case 'ADD':
+		    result = nS[0] + nS[1];
+		    break;
+		case 'SUBTRACT':
+		    result = nS[0] - nS[1];
+		    break;
+		default:
+		    // never reacher
+		    utils.assert(false,
+				 'compute(): function for Key [' +
+				 key + '] Not implemented.');
+		}
+		rS[0] = result;
+	    }
+	    for (var i = 1; i < oS.length; ++i) {
+		switch (oS[i]) {
+		case 'ADD':
+		    result = rS[i - 1] + nS[i + 1];
+		    break;
+		case 'SUBTRACT':
+		    result = rS[i - 1] - nS[i + 1];
+		    break;
+		default:
+		    // never reacher
+		    utils.assert(false,
+				 'compute(): function for Key [' +
+				 oS[i] + '] Not implemented.');
+		}
+		rS.push(result);
+	    }
+	    return rS;
+	};
+	/**
+	 * recompute this._all[index] using nS and oS.
+	 */
+	this.recompute = function (index) {
+	    var nS = this._all[index].nS;
+	    var oS = this._all[index].oS;
+	    var rS = this.compute(nS, oS);
+	    this._all[index].rS = rS;
+	};
+	/**
+	 * print one history session in this._all, optionally compare it with
+	 * compareTo session.
+	 */
+	this._oneCalcAsHTML = function(index, compareTo) {
+	    var nS = this._all[index].nS;
+	    var oS = this._all[index].oS;
+	    var rS = this._all[index].rS;
 	    var table = '<table class="history">';
+	    utils.assert(utils.isDefined(compareTo),
+			 '_oneCalcAsHTML(): comparedTo should be defined');
 	    if (compareTo !== false) {
 		// use colors to mark diff.
 		for (var i = 0; i < nS.length; i++) {
 		    table += [
 			'<tr><td class="left ',
 			nS[i] === compareTo.nS[i] ? 'match': 'diff',
+			'" data-x="', index,
+			'" data-y="', i,
+			'" data-type="nS"',
 			'">',
 			nS[i],
 			'</td>',
@@ -84,6 +146,9 @@ ecalc.vm = {
 			printResult(rS[i - 1] || ''),
 			'</td></tr><tr><td class="left ',
 			oS[i] === compareTo.oS[i] ? 'match': 'diff',
+			'" data-x="', index,
+			'" data-y="', i,
+			'" data-type="oS"',
 			'">',
 			printOp(oS[i] || ''),
 			'</td><td class="right"></td></tr>'].join('');
@@ -114,7 +179,7 @@ ecalc.vm = {
 	    if (len >= 2) {
 		// compare the last session to last but 1 session.
 		table.push('<td class="top">' +
-			   this._oneCalcAsHTML(this._all[len - 1],
+			   this._oneCalcAsHTML(len - 1,
 					       this._all[len - 2]) +
 			   '</td>');
 		howMany -= 1;
@@ -125,7 +190,7 @@ ecalc.vm = {
 	    }
 	    for (var i = 1; i <= howMany; ++i) {
 		table.push('<td class="top">' +
-			   this._oneCalcAsHTML(this._all[len - i], false) +
+			   this._oneCalcAsHTML(len - i, false) +
 			   '</td>');
 	    }
 	    return  '<div>History<table id="all-history"><tr>' +
@@ -280,7 +345,7 @@ ecalc.vm = {
 		'<br/>_partialNumber: ' + this._partialNumber +
 		'<br/>_calcDone: ' + this._calcDone +
 		'</div>';
-	}
+	};
 	/**
 	 * press key on virtual machine.
 	 */
@@ -378,8 +443,9 @@ ecalc.vm = {
 	    default:
 		// never reacher
 		utils.assert(false,
-			    'function for Key [' + key + '] Not implemented.');
+			     'pressKey(): function for Key [' + key +
+			     '] Not implemented.');
 	    }
-	}
+	};
     }
 };
