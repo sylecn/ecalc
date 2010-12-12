@@ -120,7 +120,11 @@ var ecalc = {
 	case 'nS':
 	    oldValue = this.defaultVM.history._all[x].nS[y] + '';
 	    // ecalc.log(oldValue);
+	    // make this cell editable.
+	    $(td).replaceWith('<input type="text" name="number" id="number" \
+size="5px" value="" onkeydown="ecalc.inputNumberKeyDown(event)" />');
 	    $('#number').val(oldValue);
+	    // a closure for x, y, oldValue.
 	    ecalc.confirmEditNumber = function () {
 		var newValue = $('#number').val();
 		if (newValue !== oldValue) {
@@ -128,12 +132,8 @@ var ecalc = {
 		    this.defaultVM.history.recompute(x);
 		    this.updateUI();
 		}
-		$('#input-number').hide();
-		ecalc.confirmEditNumber = utils.noop;
-		return false;
 	    };
-	    $('#input-number').show();
-	    $('#number').focus();
+	    $('#number').focus().select();
 	    // update this node, and recompute the session
 	    break;
 	case 'oS':
@@ -144,14 +144,15 @@ var ecalc = {
 	    ecalc.log('ignore click.');
 	}
     },
-    confirmEditNumber: utils.noop,
     inputNumberKeyDown: function (event) {
 	switch (event.keyCode) {
 	case 13:
 	    ecalc.confirmEditNumber();
+	    // only need to call once.
+	    ecalc.confirmEditNumber = utils.noop;
 	    break;
 	case 27:
-	    ecalc.hide(event)
+	    ecalc.hide(event);
 	    break;
 	default:
 
