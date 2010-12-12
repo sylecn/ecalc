@@ -11,6 +11,16 @@ var ecalc = {
     clearLog: function () {
 	$('#log').text('');
     },
+    messageList: [],
+    /**
+     * show a message to end user.
+     *
+     * message only shown when you call updateUI.
+     */
+    message: function (msg) {
+	// this.log('added user message: ' + msg + '\n');
+	this.messageList.push(msg);
+    },
     /**
      translate keyCode to virtual key in ecalc.vm
      acceptable keyCode:
@@ -118,7 +128,7 @@ var ecalc = {
 	// edit this number node
 	switch (type) {
 	case 'nS':
-	    oldValue = this.defaultVM.history._all[x].nS[y] + '';
+	    oldValue = this.defaultVM.history._all[x].nS[y];
 	    // ecalc.log(oldValue);
 	    // make this cell editable.
 	    $(td).replaceWith('<input type="text" name="number" id="number" \
@@ -127,17 +137,54 @@ size="5px" value="" onkeydown="ecalc.inputNumberKeyDown(event)" />');
 	    // a closure for x, y, oldValue.
 	    ecalc.confirmEditNumber = function () {
 		var newValue = $('#number').val();
-		if (newValue !== oldValue) {
-		    this.defaultVM.history._all[x].nS[y] = parseFloat(newValue);
-		    this.defaultVM.history.recompute(x);
-		    this.updateUI();
+		try {
+		    newValue = parseFloat(newValue);
+		} catch (e) {
+		    ecalc.message('Only accept number and dot.');
+		    newValue = false;
 		}
+		if (newValue && (newValue !== oldValue)) {
+		    this.defaultVM.history._all[x].nS[y] = newValue;
+		    this.defaultVM.history.recompute(x);
+		}
+		this.updateUI();
+		ecalc.confirmEditNumber = utils.noop;
 	    };
 	    $('#number').focus().select();
 	    // update this node, and recompute the session
 	    break;
 	case 'oS':
-	    // TODO
+	    oldValue = this.defaultVM.history._all[x].oS[y];
+	    // ecalc.log(oldValue);
+	    // make this cell editable.
+	    $(td).replaceWith('<input type="text" name="op" id="op" \
+size="5px" value="" onkeydown="ecalc.inputOpKeyDown(event)" />');
+	    $('#op').val(this.defaultVM.history.printOp(oldValue));
+	    // a closure for x, y, oldValue.
+	    ecalc.confirmEditOp = function () {
+		var newValue = $('#op').val();
+
+		switch (newValue) {
+		case '+':
+		    newValue = 'ADD';
+		    break;
+		case '-':
+		    newValue = 'SUBTRACT';
+		    break;
+		default:
+		    // give up, alert the user
+		    ecalc.message('Only accept +/-');
+		    newValue = false;
+		}
+		if (newValue && (newValue !== oldValue)) {
+		    this.defaultVM.history._all[x].oS[y] = newValue;
+		    this.defaultVM.history.recompute(x);
+		}
+		this.updateUI();
+		ecalc.confirmEditOp = utils.noop;
+	    };
+	    $('#op').focus().select();
+	    // update this node, and recompute the session
 	    break;
 	default:
 	    // ignore
@@ -148,14 +195,22 @@ size="5px" value="" onkeydown="ecalc.inputNumberKeyDown(event)" />');
 	switch (event.keyCode) {
 	case 13:
 	    ecalc.confirmEditNumber();
-	    // only need to call once.
-	    ecalc.confirmEditNumber = utils.noop;
 	    break;
 	case 27:
-	    ecalc.hide(event);
+	    ecalc.updateUI();
 	    break;
-	default:
-
+	default: //do nothing
+	}
+    },
+    inputOpKeyDown: function (event) {
+	switch (event.keyCode) {
+	case 13:
+	    ecalc.confirmEditOp();
+	    break;
+	case 27:
+	    ecalc.updateUI();
+	    break;
+	default: //do nothing
 	}
     },
     hide: function (event) {
@@ -166,6 +221,9 @@ size="5px" value="" onkeydown="ecalc.inputNumberKeyDown(event)" />');
 	$('#screen').text(this.defaultVM.screen_asText());
 	$('#vms').html(this.defaultVM.asHTML());
 	$('#history').html(this.defaultVM.history.asHTML());
+
+	$('#message').text(this.messageList.join('\n'));
+	this.messageList = [];
     },
     // functions used in HTML
     /**

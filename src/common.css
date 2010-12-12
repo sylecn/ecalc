@@ -40,21 +40,19 @@ a:hover {
     margin-right: auto;
 }
 
-#input-number {
-    background-color: white;
-    border: solid black 1px;
-    padding: 10px;
-    position: fixed;
-    left: 40%;
-    bottom: 10%;
-}
-
 #screen {
     border: solid black 1px;
     width: 300px;
     /* margin-left: auto; */
     /* margin-right: auto; */
     font-size: 1.5em;
+}
+
+#message {
+    position: fixed;
+    top: 10px;
+    background-color: #FFFF00;
+    color: #00FF00;
 }
 
 td.result {

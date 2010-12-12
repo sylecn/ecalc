@@ -15,14 +15,6 @@ ecalc.vm = {
      * constructor for a History
      */
     History: function () {
-	// pretty print Operators
-	var printOp = function (op) {
-	    switch (op) {
-	    case 'ADD': return '+';
-	    case 'SUBTRACT': return '-';
-	    default: return '';
-	    }
-	};
 	// pretty print result, keep 2 digits after point
 	var printResult = function (number) {
 	    var format = /[^.]*(\.\d{0,2})?/;
@@ -36,7 +28,16 @@ ecalc.vm = {
 	    // _opStack
 	    oS: []
 	}];
-	// this.current = ;
+	/**
+	 * pretty print Operators
+	 */
+	this.printOp = function (op) {
+	    switch (op) {
+	    case 'ADD': return '+';
+	    case 'SUBTRACT': return '-';
+	    default: return '';
+	    }
+	};
 	this.pushNumber = function (number) {
 	    this._all.last().nS.push(number);
 	};
@@ -150,7 +151,7 @@ ecalc.vm = {
 			'" data-y="', i,
 			'" data-type="oS"',
 			'">',
-			printOp(oS[i] || ''),
+			this.printOp(oS[i] || ''),
 			'</td><td class="right"></td></tr>'].join('');
 		};
 	    } else {
@@ -159,7 +160,7 @@ ecalc.vm = {
 			      '<td class="right result">',
 			      printResult(rS[i - 1] || ''),
 			      '</td></tr><tr><td class="left">',
-			      printOp(oS[i] || ''),
+			      this.printOp(oS[i] || ''),
 			      '</td><td class="right"></td></tr>'].join('');
 		};
 	    }
