@@ -29,6 +29,7 @@ ecalc.vm = {
 	    return format.exec(number + '')[0];
 	};
 	this._all = [];
+	this._last = false;
 	this._numberStack = [];
 	this._resultStack = [];
 	this._opStack = [];
@@ -51,23 +52,47 @@ ecalc.vm = {
 	    if (this._all.length == 10) {
 		this._all.shift();
 	    }
-	    this._all.push({
+	    this._last = {
 		nS: this._numberStack,
 		rS: this._resultStack,
 		oS: this._opStack
-	    });
+	    };
+	    this._all.push(this._last);
 	    this._numberStack = [];
 	    this._resultStack = [];
 	    this._opStack = [];
 	}
-	this._oneCalcAsHTML = function(nS, oS, rS) {
+	this._oneCalcAsHTML = function(nS, oS, rS, compareTarget) {
 	    var table = '<table class="history">';
-	    for (var i = 0; i < nS.length; i++) {
-		table += '<tr><td class="left">' + nS[i] + '</td>' +
-		    '<td class="right result">' + printResult(rS[i - 1] || '') +
-		    '</td></tr><tr><td class="left">' + printOp(oS[i] || '') +
-		    '</td><td class="right"></td></tr>';
-	    };
+	    if (compareTarget !== false) {
+		// use colors to mark diff.
+		for (var i = 0; i < nS.length; i++) {
+		    table += [
+			'<tr><td class="left ',
+			nS[i] === compareTarget.nS[i] ? 'match': 'diff',
+			'">',
+			nS[i],
+			'</td>',
+			'<td class="right result ',
+			rS[i - 1] === compareTarget.rS[i - 1] ? 'match': 'diff',
+			'">',
+			printResult(rS[i - 1] || ''),
+			'</td></tr><tr><td class="left ',
+			oS[i] === compareTarget.oS[i] ? 'match': 'diff',
+			'">',
+			printOp(oS[i] || ''),
+			'</td><td class="right"></td></tr>'].join('');
+		};
+	    } else {
+		for (var i = 0; i < nS.length; i++) {
+		    table += ['<tr><td class="left">', nS[i], '</td>',
+			      '<td class="right result">',
+			      printResult(rS[i - 1] || ''),
+			      '</td></tr><tr><td class="left">',
+			      printOp(oS[i] || ''),
+			      '</td><td class="right"></td></tr>'].join('');
+		};
+	    }
 	    table += '</table>';
 	    return table;
 	};
@@ -77,17 +102,30 @@ ecalc.vm = {
 	    // show howMany sessions? default is 3.
 	    var howMany = 3;
 	    var table = [];
-	    var len;
+	    var len = this._all.length;
 	    if (this._numberStack.length) {
 		// easier to type
 		nS = this._numberStack;
 		oS = this._opStack;
 		rS = this._resultStack;
 		table.push('<td class="top">' +
-			   this._oneCalcAsHTML(nS, oS, rS) + '</td>');
+			   this._oneCalcAsHTML(nS, oS, rS, this._last) +
+			   '</td>');
 		howMany -= 1;
+	    } else {
+		if (len >= 2) {
+		    // compare the last session to last but 1 session.
+		    nS = this._all[len - 1].nS;
+		    oS = this._all[len - 1].oS;
+		    rS = this._all[len - 1].rS;
+		    table.push('<td class="top">' +
+			       this._oneCalcAsHTML(nS, oS, rS,
+						   this._all[len - 2]) +
+			       '</td>');
+		    howMany -= 1;
+		    len -= 1;
+		}
 	    }
-	    len = this._all.length;
 	    if (len < howMany) {
 		howMany = len;
 	    }
@@ -96,7 +134,8 @@ ecalc.vm = {
 		oS = this._all[len - i - 1].oS;
 		rS = this._all[len - i - 1].rS;
 		table.push('<td class="top">' +
-			   this._oneCalcAsHTML(nS, oS, rS) + '</td>');
+			   this._oneCalcAsHTML(nS, oS, rS, false) +
+			   '</td>');
 	    }
 	    return  '<div>History<table id="all-history"><tr>' +
 		table.join('') +
@@ -106,6 +145,7 @@ ecalc.vm = {
 	// clear everything
 	this.clear = function () {
 	    this._all = [];
+	    this._last = false;
 	    this._numberStack = [];
 	    this._resultStack = [];
 	    this._opStack = [];

@@ -21,6 +21,19 @@ a:hover {
     text-align: center;
 }
 
+.top {
+    vertical-align: top;
+}
+
+.diff {
+    color: red;
+}
+
+.match {
+    /* color: green; */
+    color: blue;
+}
+
 #container {
     width: 800px;
     /* border: solid black 1px; */
@@ -36,9 +49,6 @@ a:hover {
     font-size: 1.5em;
 }
 
-.top {
-    vertical-align: top;
-}
 td.result {
     padding-left: 20px;
 }

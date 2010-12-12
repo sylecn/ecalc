@@ -175,6 +175,48 @@ var ecalc = {
 	ecalc.defaultVM.pressKey('DOT');
 	ecalc.defaultVM.pressKey('NUM1');
 	ecalc.defaultVM.pressKey('EQUAL');
+    },
+
+    makeTestInputBusinessDataMinorDifference: function () {
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM3');
+	ecalc.defaultVM.pressKey('NUM9');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM5');
+	ecalc.defaultVM.pressKey('NUM0');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM4');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM3');
+	ecalc.defaultVM.pressKey('NUM8');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM9');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM6');
+	ecalc.defaultVM.pressKey('NUM2');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM6');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM0');
+	ecalc.defaultVM.pressKey('BACKSPACE');
+	ecalc.defaultVM.pressKey('BACKSPACE');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM9');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM5');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('EQUAL');
     }
 };
 
@@ -188,9 +230,9 @@ $(document).ready(function () {
     ecalc.defaultVM = new ecalc.vm.VirtualMachine("defaultVM");
     ecalc.updateUI();
 
-    ecalc.makeTestInputBusinessData();
     ecalc.makeTestInputOneToFive();
     ecalc.makeTestInputOneToFiveMinorDifference();
-    // ecalc.makeTestInputBusinessDataMinorDifference();
+    ecalc.makeTestInputBusinessData();
+    ecalc.makeTestInputBusinessDataMinorDifference();
     ecalc.updateUI();
 });
