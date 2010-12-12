@@ -85,8 +85,8 @@ td.delete-history {
 #developer-tools {
     /* padding-top: 20px; */
     position: fixed;
-    left: 70%;
-    top: 50px;
+    left: 15px;
+    top: 60%;
     display: none;
 }
 

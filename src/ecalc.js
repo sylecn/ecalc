@@ -95,6 +95,16 @@ var ecalc = {
 	    this.clearLog();
 	    return;
 	}
+	if ((event.keyCode === 68) &&
+	    event.shiftKey) {
+	    this.debuging = ! this.debuging;
+	    if (ecalc.debuging) {
+		$('#developer-tools').show();
+	    } else {
+		$('#developer-tools').hide();
+	    }
+	    return;
+	}
 	if ((event.keyCode === 67 || event.keyCode === 81) &&
 	    utils.noModifierKey(event)) {
 	    // CLEAR or RESET will also clear web page.
