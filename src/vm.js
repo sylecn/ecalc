@@ -28,20 +28,23 @@ ecalc.vm = {
 	    var format = /[^.]*(\.\d{0,2})?/;
 	    return format.exec(number + '')[0];
 	};
-	this._all = [];
-	this._last = false;
-	this._numberStack = [];
-	this._resultStack = [];
-	this._opStack = [];
-
+	this._all = [{
+	    // _numberStack
+	    nS: [],
+	    // _resultStack
+	    rS: [],
+	    // _opStack
+	    oS: []
+	}];
+	// this.current = ;
 	this.pushNumber = function (number) {
-	    this._numberStack.push(number);
+	    this._all.last().nS.push(number);
 	};
 	this.pushResult = function (number) {
-	    this._resultStack.push(number);
+	    this._all.last().rS.push(number);
 	};
 	this.pushOp = function (op) {
-	    this._opStack.push(op);
+	    this._all.last().oS.push(op);
 	};
 	this.calcDone = function () {
 	    // keep only latest 10
@@ -52,33 +55,35 @@ ecalc.vm = {
 	    if (this._all.length == 10) {
 		this._all.shift();
 	    }
-	    this._last = {
-		nS: this._numberStack,
-		rS: this._resultStack,
-		oS: this._opStack
-	    };
-	    this._all.push(this._last);
-	    this._numberStack = [];
-	    this._resultStack = [];
-	    this._opStack = [];
-	}
-	this._oneCalcAsHTML = function(nS, oS, rS, compareTarget) {
+	    this._all.push({
+		// _numberStack
+		nS: [],
+		// _resultStack
+		rS: [],
+		// _opStack
+		oS: []
+	    });
+	};
+	this._oneCalcAsHTML = function(history, compareTo) {
+	    var nS = history.nS;
+	    var oS = history.oS;
+	    var rS = history.rS;
 	    var table = '<table class="history">';
-	    if (compareTarget !== false) {
+	    if (compareTo !== false) {
 		// use colors to mark diff.
 		for (var i = 0; i < nS.length; i++) {
 		    table += [
 			'<tr><td class="left ',
-			nS[i] === compareTarget.nS[i] ? 'match': 'diff',
+			nS[i] === compareTo.nS[i] ? 'match': 'diff',
 			'">',
 			nS[i],
 			'</td>',
 			'<td class="right result ',
-			rS[i - 1] === compareTarget.rS[i - 1] ? 'match': 'diff',
+			rS[i - 1] === compareTo.rS[i - 1] ? 'match': 'diff',
 			'">',
 			printResult(rS[i - 1] || ''),
 			'</td></tr><tr><td class="left ',
-			oS[i] === compareTarget.oS[i] ? 'match': 'diff',
+			oS[i] === compareTo.oS[i] ? 'match': 'diff',
 			'">',
 			printOp(oS[i] || ''),
 			'</td><td class="right"></td></tr>'].join('');
@@ -103,38 +108,24 @@ ecalc.vm = {
 	    var howMany = 3;
 	    var table = [];
 	    var len = this._all.length;
-	    if (this._numberStack.length) {
-		// easier to type
-		nS = this._numberStack;
-		oS = this._opStack;
-		rS = this._resultStack;
+	    if (! this._all.last().nS.length) {
+		len -= 1;
+	    }
+	    if (len >= 2) {
+		// compare the last session to last but 1 session.
 		table.push('<td class="top">' +
-			   this._oneCalcAsHTML(nS, oS, rS, this._last) +
+			   this._oneCalcAsHTML(this._all[len - 1],
+					       this._all[len - 2]) +
 			   '</td>');
 		howMany -= 1;
-	    } else {
-		if (len >= 2) {
-		    // compare the last session to last but 1 session.
-		    nS = this._all[len - 1].nS;
-		    oS = this._all[len - 1].oS;
-		    rS = this._all[len - 1].rS;
-		    table.push('<td class="top">' +
-			       this._oneCalcAsHTML(nS, oS, rS,
-						   this._all[len - 2]) +
-			       '</td>');
-		    howMany -= 1;
-		    len -= 1;
-		}
+		len -= 1;
 	    }
 	    if (len < howMany) {
 		howMany = len;
 	    }
-	    for (var i = 0; i < howMany; ++i) {
-		nS = this._all[len - i - 1].nS;
-		oS = this._all[len - i - 1].oS;
-		rS = this._all[len - i - 1].rS;
+	    for (var i = 1; i <= howMany; ++i) {
 		table.push('<td class="top">' +
-			   this._oneCalcAsHTML(nS, oS, rS, false) +
+			   this._oneCalcAsHTML(this._all[len - i], false) +
 			   '</td>');
 	    }
 	    return  '<div>History<table id="all-history"><tr>' +
@@ -144,11 +135,14 @@ ecalc.vm = {
 	};
 	// clear everything
 	this.clear = function () {
-	    this._all = [];
-	    this._last = false;
-	    this._numberStack = [];
-	    this._resultStack = [];
-	    this._opStack = [];
+	    this._all = [{
+		// _numberStack
+		nS: [],
+		// _resultStack
+		rS: [],
+		// _opStack
+		oS: []
+	    }];
 	};
     },
     /**
