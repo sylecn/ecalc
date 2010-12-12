@@ -1,10 +1,7 @@
 * 
 * history new feature
-** remove number/op from history.
-** load history to current VM and continue a history.
 ** select any two history and do a diff.
-** select two history, and do a combine if result of the first one and first
-   number on second one is the same.
+   make a new window/div for that
 * test on other browsers
 * is there a tool can list javascript functions that is never called during
   the whole session?
