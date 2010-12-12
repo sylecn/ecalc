@@ -66,15 +66,19 @@ td.delete-history {
     padding-bottom: 10px;
 }
 
-#vms {
-    padding-bottom: 20px;
-}
-
 #developer-tools {
     padding-top: 20px;
     position: fixed;
     left: 70%;
     top: 0px;
+}
+
+#developer-tools > div {
+    padding-bottom: 10px;
+}
+
+#vms {
+    display: none;
 }
 
 /* .keystack { */

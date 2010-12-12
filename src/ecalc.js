@@ -264,7 +264,9 @@ size="5px" value="" onkeydown="ecalc.inputOpKeyDown(event)" />');
     toggleDebugKeyEvent: function () {
 	this.debugKeyEvent = $('#debug_key_event')[0].checked;
     },
-
+    toggleShowVMStates: function () {
+	$('#vms').toggle();
+    },
     // test only
     makeTestInputOneToFive: function () {
 	ecalc.defaultVM.pressKey('NUM1');
@@ -384,7 +386,7 @@ $(document).ready(function () {
     /**
      * init UI
      */
-    $('#input-number').hide();
+    // nothing yet.
 
     /**
      * virtual machine

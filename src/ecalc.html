@@ -19,13 +19,19 @@
     </div>
 
     <div id="developer-tools">
-      <div id="vms"></div>
+      <div id="debug-options">
+	Debug Key Event:
+	<input type="checkbox" name="debug_key_event"
+	       id="debug_key_event"
+	       onchange="ecalc.toggleDebugKeyEvent()" />
+	<br />
+	Show VM states:
+	<input type="checkbox" name="show_vm_states"
+	       id="show_vm_states"
+	       onchange="ecalc.toggleShowVMStates()" />
+      </div>
 
-      Debug Key Event:
-      <input type="checkbox" name="debug_key_event"
-	     id="debug_key_event"
-	     onchange="ecalc.toggleDebugKeyEvent()" />
-      <br />
+      <div id="vms"></div>
       <input type="button" name="clear_log" id="clear_log"
 	     value="clear log"
 	     onclick="ecalc.clearLog()" />
