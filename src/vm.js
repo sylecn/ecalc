@@ -12,7 +12,97 @@ ecalc.vm = {
 	ecalc.log(msg);
     },
     /**
-     * constructor for a VM.
+     * constructor for a History
+     */
+    History: function () {
+	// pretty print Operators
+	var printOp = function (op) {
+	    switch (op) {
+	    case 'ADD': return '+';
+	    case 'SUBTRACT': return '-';
+	    default: return '';
+	    }
+	};
+	// pretty print result, keep 2 digits after point
+	var printResult = function (number) {
+	    var format = /[^.]*(\.\d{0,2})?/;
+	    return format.exec(number + '')[0];
+	};
+	this._all = [];
+	this._numberStack = [];
+	this._resultStack = [];
+	this._opStack = [];
+
+	this.pushNumber = function (number) {
+	    this._numberStack.push(number);
+	};
+	this.pushResult = function (number) {
+	    this._resultStack.push(number);
+	};
+	this.pushOp = function (op) {
+	    this._opStack.push(op);
+	};
+	this.calcDone = function () {
+	    // keep only latest 10
+	    if (this._all.length > 10) {
+		utils.assert(false, 'history._all should never have more than\
+10 members');
+	    }
+	    if (this._all.length == 10) {
+		this._all.shift();
+	    }
+	    this._all.push({
+		nS: this._numberStack,
+		rS: this._resultStack,
+		oS: this._opStack
+	    });
+	    this._numberStack = [];
+	    this._resultStack = [];
+	    this._opStack = [];
+	}
+	this._oneCalcAsHTML = function(nS, oS, rS) {
+	    var table = '<table class="history">';
+	    for (var i = 0; i < nS.length; i++) {
+		table += '<tr><td class="left">' + nS[i] + '</td>' +
+		    '<td class="right result">' + printResult(rS[i - 1] || '') +
+		    '</td></tr><tr><td class="left">' + printOp(oS[i] || '') +
+		    '</td><td class="right"></td></tr>';
+	    };
+	    table += '</table>';
+	    return table;
+	};
+	// show most recent histories.
+	this.asHTML = function () {
+	    var re = '<div>History<table id="all-history"><tr>';
+	    var nS, oS, rS;
+	    // show howMany sessions? default is 3.
+	    var howMany = 3;
+	    var len;
+	    if (this._numberStack.length) {
+		// easier to type
+		nS = this._numberStack;
+		oS = this._opStack;
+		rS = this._resultStack;
+		re += '<td class="top">' +
+		    this._oneCalcAsHTML(nS, oS, rS) + '</td>';
+		howMany -= 1;
+	    }
+	    len = this._all.length;
+	    if (len < howMany) {
+		howMany = len;
+	    }
+	    for (var i = 0; i < howMany; ++i) {
+		nS = this._all[len - i - 1].nS;
+		oS = this._all[len - i - 1].oS;
+		rS = this._all[len - i - 1].rS;
+		re += '<td class="top">' +
+		    this._oneCalcAsHTML(nS, oS, rS) + '</td>';
+	    }
+	    return  re + '</tr></table></div>';
+	};
+    },
+    /**
+     * constructor for a VirtualMachine.
      */
     VirtualMachine: function (name) {
 	var _virtualKeys = [
@@ -31,6 +121,67 @@ ecalc.vm = {
 	    //  advanced features
 	    // ===================
 	];
+
+	/**
+	 * reset partial number states
+	 */
+	this._resetPartialNumber = function () {
+	    this._acceptDot = true;
+	    this._partialNumber = '';
+	}
+
+	/**
+	 * accept partial number.
+	 */
+	this._acceptPartialNumber = function () {
+	    var number = parseFloat(this._partialNumber) || 0;
+	    this._numberStack.push(number);
+	    this._resetPartialNumber();
+
+	    this.history.pushNumber(number);
+	};
+
+	/**
+	 * CLEAR key pressed
+	 */
+	this._clear = function () {
+	    // key stack
+	    this._keyStack = [];
+	    // stacks
+	    this._numberStack = [];
+	    this._opStack = [];
+
+	    this._resetPartialNumber();
+	    this._calcDone = false;
+	    this._partialCalcDone = false;
+	};
+
+	/**
+	 * if opStack is not empty. do calculation.
+	 */
+	this._doCalculationMaybe = function () {
+	    var value1, value2, result;
+
+	    op = this._opStack.pop();
+	    if (op) {
+		// calculate for last OP in stack
+		value2 = this._numberStack.pop();
+		value1 = this._numberStack.pop();
+		switch (op) {
+		case 'ADD':
+		    result = value1 + value2;
+		    break;
+		case 'SUBTRACT':
+		    result = value1 - value2;
+		    break;
+		default:
+		    utils.assert(false, '_doCalculationMaybe(): bad op: ' + op);
+		}
+		this._numberStack.push(result);
+		this._partialCalcDone = true;
+		this.history.pushResult(result);
+	    }
+	};
 
 	/**
 	 * screen obejct
@@ -55,62 +206,6 @@ ecalc.vm = {
 	    }
 	};
 
-	/**
-	 * reset partial number states
-	 */
-	this._resetPartialNumber = function () {
-	    this._acceptDot = true;
-	    this._partialNumber = '';
-	}
-
-	/**
-	 * accept partial number.
-	 */
-	this._acceptPartialNumber = function () {
-	    this._numberStack.push(parseFloat(this._partialNumber) || 0);
-	    this._resetPartialNumber();
-	};
-
-	/**
-	 * CLEAR key pressed
-	 */
-	this._clear = function () {
-	    // key stack
-	    this._keyStack = [];
-	    // stacks
-	    this._numberStack = [];
-	    this._opStack = [];
-
-	    this._resetPartialNumber();
-	    this._calcDone = false;
-	    this._partialCalcDone = false;
-	};
-
-	/**
-	 * if opStack is not empty. do calculation.
-	 */
-	this._doCalculationMaybe = function () {
-	    var value1, value2;
-
-	    op = this._opStack.pop();
-	    if (op) {
-		// calculate for last OP in stack
-		value2 = this._numberStack.pop();
-		value1 = this._numberStack.pop();
-		switch (op) {
-		case 'ADD':
-		    this._numberStack.push(value1 + value2);
-		    break;
-		case 'SUBTRACT':
-		    this._numberStack.push(value1 - value2);
-		    break;
-		default:
-		    utils.assert(false, '_doCalculationMaybe(): bad op: ' + op);
-		}
-		this._partialCalcDone = true;
-	    }
-	};
-
 	// trivial
 	this.name = name;
 	this._keyStack = [];
@@ -123,6 +218,13 @@ ecalc.vm = {
 	this._calcDone = false;
 	this._acceptDot = true;
 	this._partialNumber = '';
+
+	// history
+	this.history = new ecalc.vm.History();
+
+	// ==================
+	//  public functions
+	// ==================
 
 	// represent this VM states in HTML
 	this.asHTML = function () {
@@ -200,6 +302,7 @@ ecalc.vm = {
 		    this._acceptPartialNumber();
 		    this._doCalculationMaybe();
 		    this._calcDone = true;
+		    this.history.calcDone();
 		} else {
 		    ecalc.vm.log('Warning: ignore nonsense EQUAL.');
 		}
@@ -214,6 +317,7 @@ ecalc.vm = {
 		this._doCalculationMaybe();
 
 		this._opStack.push(key);
+		this.history.pushOp(key);
 
 		break;
 	    default:

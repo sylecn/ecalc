@@ -91,6 +91,7 @@ var ecalc = {
     updateUI: function () {
 	$('#screen').text(this.defaultVM.screen_asText());
 	$('#vms').html(this.defaultVM.asHTML());
+	$('#history').html(this.defaultVM.history.asHTML());
     },
     // functions used in HTML
     /**
@@ -98,6 +99,62 @@ var ecalc = {
      */
     toggleDebugKeyEvent: function () {
 	this.debugKeyEvent = $('#debug_key_event')[0].checked;
+    },
+
+    // test only
+    makeTestInputOneToFive: function () {
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM2');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM3');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM4');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM5');
+	ecalc.defaultVM.pressKey('EQUAL');
+    },
+
+    makeTestInputBusinessData: function () {
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM3');
+	ecalc.defaultVM.pressKey('NUM9');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM5');
+	ecalc.defaultVM.pressKey('NUM0');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM4');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM3');
+	ecalc.defaultVM.pressKey('NUM8');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM9');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM6');
+	ecalc.defaultVM.pressKey('NUM2');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM6');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM9');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM0');
+	ecalc.defaultVM.pressKey('BACKSPACE');
+	ecalc.defaultVM.pressKey('BACKSPACE');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM9');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('NUM5');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('DOT');
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('EQUAL');
     }
 };
 
@@ -109,5 +166,9 @@ $(document).ready(function () {
      * virtual machine
      */
     ecalc.defaultVM = new ecalc.vm.VirtualMachine("defaultVM");
+    ecalc.updateUI();
+
+    ecalc.makeTestInputOneToFive();
+    ecalc.makeTestInputBusinessData();
     ecalc.updateUI();
 });

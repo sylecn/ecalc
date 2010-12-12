@@ -31,9 +31,19 @@ a:hover {
 #screen {
     border: solid black 1px;
     width: 300px;
-    margin-left: auto;
-    margin-right: auto;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
     font-size: 1.5em;
+}
+
+.top {
+    vertical-align: top;
+}
+td.result {
+    padding-left: 20px;
+}
+table.history {
+    margin-right: 100px;
 }
 
 #vms {
