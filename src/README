@@ -1,0 +1,29 @@
+
+* impression so far.
+
+last time I try to implement it in Java and use Swing as GUI, it's a
+headache. Compiling classes is slow. build GUI in Java Swing is
+painful. Binding events in Swing bring even more pain.
+
+Now after I know javascript, DOM and jQuery, HTML+CSS+Javascript+Firefox has
+become an excellent environment for GUI development.
+
+HTML + CSS can make most UI controls. They may not display at where you want
+or what size you want at first, but it's easy to get the UI going before
+worrying about beauty of UI. The default layout is usually good enough when
+developing features.
+
+On the backend side, Javascript is very powerful. I have my little script for
+testing and unit testing. But I didn't write many test cases this time. It's
+more exciting to get the thing working. And when it's working, I don't bother
+add tests. TTD is sometimes good, but when you don't have a picture of where
+the system is going, writing tests first makes no sense. Some prototyping is
+more useful. You don't test-first because prototyping changes too fast. If you
+choose test, you are very slow and may fall behind your brain.
+
+Build a system, make most things working, then refactoring it to patterns, add
+tests to guard your refactoring.
+
+I still hope there is a better CSS book and there is a better test framework
+for Javascript. But the whole thing is good enough even now.  Ah, final word,
+I love HTML5.

@@ -1,4 +1,6 @@
 * 
+* now working:
+  delete a history session.
 * add MINUS key
 * test cases
 ** NUM6 EQUAL ADD NUM1 EQUAL NUM1 NUM2 NUM3

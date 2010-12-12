@@ -129,6 +129,10 @@ ecalc.vm = {
 	    var table = '<table class="history">';
 	    utils.assert(utils.isDefined(compareTo),
 			 '_oneCalcAsHTML(): comparedTo should be defined');
+	    table += '<tr><td colspan="2" class="delete-history">\
+<a href="#" onclick="return ecalc.deleteHistory(event, ' + index +
+		')">delete session</a>\
+</td></tr>';
 	    // if comparedTo !== false, use colors to mark diff.
 	    for (var i = 0; i < nS.length; i++) {
 		table += [

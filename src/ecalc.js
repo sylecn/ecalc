@@ -112,6 +112,21 @@ var ecalc = {
     // 	}
     // },
     /**
+     * delete a history session. update UI.
+     */
+    deleteHistory: function (event, index) {
+	if (utils.isInputNode(event.target)) {
+	    return;
+	}
+	if (this.editing) {
+	    return;
+	}
+	this.log('deleteHistory index = ' + index);
+	this.defaultVM.history._all.splice(index, 1);
+	this.updateUI();
+	return false;
+    },
+    /**
      * major dispatcher. edit and recompute history, update UI.
      */
     clickOnHistory: function (event) {
@@ -203,7 +218,7 @@ size="5px" value="" onkeydown="ecalc.inputOpKeyDown(event)" />');
 	    break;
 	default:
 	    // ignore
-	    ecalc.log('ignore click.');
+	    ecalc.log('clickOnHistory(): ignore click.');
 	}
     },
     inputNumberKeyDown: function (event) {
@@ -377,14 +392,27 @@ $(document).ready(function () {
     ecalc.defaultVM = new ecalc.vm.VirtualMachine("defaultVM");
     ecalc.updateUI();
 
+    // ============
+    //  unit tests
+    // ============
+
     utils.assertEqual([3, 7, 11, 16],
 		      ecalc.defaultVM.history.compute(
 			  [1, 2, 4, 4, 5], ['ADD', 'ADD', 'ADD', 'ADD']),
 		      'History.compute is broken.');
+    ecalc.testData = {};
+    ecalc.testData.a = [0, 1, 2, 3, 4];
+    ecalc.testData.a.splice(2, 1);
+    utils.assertEqual([0, 1, 3, 4], ecalc.testData.a,
+		      'Array.splice failed.');
+
+    // ==========
+    //  UI tests
+    // ==========
 
     ecalc.makeTestInputOneToFive();
     ecalc.makeTestInputOneToFiveMinorDifference();
-    // ecalc.makeTestInputBusinessData();
-    // ecalc.makeTestInputBusinessDataMinorDifference();
+    ecalc.makeTestInputBusinessData();
+    ecalc.makeTestInputBusinessDataMinorDifference();
     ecalc.updateUI();
 });

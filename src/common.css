@@ -35,7 +35,8 @@ a:hover {
 
 #container {
     width: 800px;
-    border: solid black 1px;
+    /* border: solid black 1px; */
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -60,6 +61,9 @@ td.result {
 }
 table.history {
     margin-right: 100px;
+}
+td.delete-history {
+    padding-bottom: 10px;
 }
 
 #vms {
