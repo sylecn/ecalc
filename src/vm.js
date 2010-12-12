@@ -58,6 +58,9 @@ ecalc.vm = {
 		oS: []
 	    });
 	};
+	// this.getResult = function () {
+	//     return this._all.last().rS.last();
+	// };
 	/**
 	 * get a rS stack from nS and oS.
 	 * @return rS stack
@@ -307,6 +310,13 @@ ecalc.vm = {
 	    } else {
 		return this._partialNumber || '0';
 	    }
+	};
+
+	this.getResult = function () {
+	    if (this._calcDone || this._partialCalcDone) {
+		return this._numberStack.last();
+	    }
+	    return undefined;
 	};
 
 	// trivial

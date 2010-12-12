@@ -419,15 +419,23 @@ $(document).ready(function () {
     utils.assertEqual([0, 1, 3, 4], ecalc.testData.a,
 		      'Array.splice failed.');
 
+
+
     // ==========
     //  UI tests
     // ==========
     if (true) {
 	ecalc.makeTestInputForContinuesCalc();
+
+	utils.assertEqual(6, ecalc.defaultVM.getResult(),
+			 'wrong result for makeTestInputForContinuesCalc');
     }
 
-    if (false) {
+    if (true) {
 	ecalc.makeTestInputOneToFiveWithMultiply();
+	utils.assertEqual(50, ecalc.defaultVM.getResult(),
+			  'wrong result for makeTestInputOneToFiveWithMultiply'
+			 );
 	// ecalc.makeTestInputOneToFive();
 	// ecalc.makeTestInputOneToFiveMinorDifference();
 	ecalc.makeTestInputBusinessData();
