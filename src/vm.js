@@ -126,8 +126,9 @@ ecalc.vm = {
 
 	// represent this VM states in HTML
 	this.asHTML = function () {
-	    return '<div class="vm">Virtual Machine: ' + name +
-		'<br/>keyStack: ' + this._keyStack.join(' ') +
+	    return '<div class="vm">' + name +
+		// show last 10 Key
+		'<br/>keyStack: ' + this._keyStack.slice(-10).join(' ') +
 		'<br/>_numberStack: ' + this._numberStack.join(' ') +
 		'<br/>_opStack: ' + this._opStack.join(' ') +
 		'<br/>_partialNumber: ' + this._partialNumber +
@@ -182,6 +183,16 @@ ecalc.vm = {
 		    this._acceptDot = false;
 		} else {
 		    ecalc.vm.log('Warning: ignore nonsense DOT.');
+		}
+		break;
+	    case 'BACKSPACE':
+		if (this._calcDone || this._partialCalcDone) {
+		    ecalc.vm.log('Warning: ignore nonsense BACKSPACE.');
+		} else {
+		    if (this._partialNumber.last() === '.') {
+			this._acceptDot = true;
+		    }
+		    this._partialNumber = this._partialNumber.slice(0, -1);
 		}
 		break;
 	    case 'EQUAL':
