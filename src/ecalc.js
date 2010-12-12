@@ -451,6 +451,7 @@ ENTER - 确认\n\
 ESC   - 取消\n\
 ',
 	    'vm.History.history': '历史记录',
+	    'vm.History.current-session': '当前记录',
 	    'vm.History.delete-session': '删除记录',
 	    'ecalc.only-allow-number': '请输入一个数',
 	    'ecalc.only-allow-op': '请输入+, -, 或者 *',
@@ -477,6 +478,7 @@ ENTER - confirm\n\
 ESC   - cancel\n\
 ',
 	    'vm.History.history': 'History',
+	    'vm.History.current-session': 'current session',
 	    'vm.History.delete-session': 'delete session',
 	    'ecalc.only-allow-number': 'Please input a number.',
 	    'ecalc.only-allow-op': 'Please input +/-/*',

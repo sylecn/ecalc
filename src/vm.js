@@ -129,12 +129,21 @@ ecalc.vm = {
 	    var oS = this._all[index].oS;
 	    var rS = this._all[index].rS;
 	    var table = '<table class="history">';
+	    var td;
 	    utils.assert(utils.isDefined(compareTo),
 			 '_oneCalcAsHTML(): comparedTo should be defined');
-	    table += '<tr><td colspan="2" class="delete-history">\
+	    table += '<tr>';
+	    if (index === this._all.length - 1) {
+		td = '<td colspan="2" class="delete-history">' +
+		    ecalc.getString('vm.History.current-session') +
+		    '</td></tr>';
+	    } else {
+		td = '<td colspan="2" class="delete-history">\
 <a href="#" onclick="return ecalc.deleteHistory(event, ' + index +
 		')">' + ecalc.getString('vm.History.delete-session') + '</a>\
 </td></tr>';
+	    }
+	    table += td;
 	    // if comparedTo !== false, use colors to mark diff.
 	    for (var i = 0; i < nS.length; i++) {
 		table += [
@@ -167,9 +176,13 @@ ecalc.vm = {
 	    var howMany = 3;
 	    var table = [];
 	    var len = this._all.length;
+
+	    this.showCurrentCalc = true;
 	    if (! this._all.last().nS.length) {
 		len -= 1;
+		this.showCurrentCalc = false;
 	    }
+
 	    if (len === 0) {
 		return '';
 	    }
