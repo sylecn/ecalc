@@ -11,6 +11,9 @@ ecalc.vm = {
     log: function (msg) {
 	ecalc.log(msg);
     },
+    message: function (msg) {
+	ecalc.messageList.push(msg);
+    },
     /**
      * constructor for a History
      */
@@ -28,16 +31,6 @@ ecalc.vm = {
 	    // _opStack
 	    oS: []
 	}];
-	/**
-	 * pretty print Operators
-	 */
-	this.printOp = function (op) {
-	    switch (op) {
-	    case 'ADD': return '+';
-	    case 'SUBTRACT': return '-';
-	    default: return '';
-	    }
-	};
 	this.pushNumber = function (number) {
 	    this._all.last().nS.push(number);
 	};
@@ -83,6 +76,9 @@ ecalc.vm = {
 		case 'SUBTRACT':
 		    result = nS[0] - nS[1];
 		    break;
+		case 'MULTIPLY':
+		    result = nS[0] * nS[1];
+		    break;
 		default:
 		    // never reacher
 		    utils.assert(false,
@@ -98,6 +94,9 @@ ecalc.vm = {
 		    break;
 		case 'SUBTRACT':
 		    result = rS[i - 1] - nS[i + 1];
+		    break;
+		case 'MULTIPLY':
+		    result = nS[0] * nS[1];
 		    break;
 		default:
 		    // never reacher
@@ -152,7 +151,7 @@ ecalc.vm = {
 					    'match': 'diff'): '',
 		    '" onclick="ecalc.clickOnOp(event, ' + index + ', ' + i,
 		    ')">',
-		    this.printOp(oS[i] || ''),
+		    ecalc.vm.printOp(oS[i] || ''),
 		    '</td><td class="right"></td></tr>'].join('');
 	    }
 	    table += '</table>';
@@ -215,7 +214,7 @@ ecalc.vm = {
 	    'NUM5', 'NUM6', 'NUM7', 'NUM8', 'NUM9',
 	    'DOT', 'NUM00',
 	    // op
-	    'ADD', 'SUBTRACT',
+	    'ADD', 'SUBTRACT', 'MULTIPLY',
 	    // misc
 	    'BACKSPACE', 'EQUAL', 'CLEAR', 'RESET'
 	    // ===================
@@ -274,6 +273,9 @@ ecalc.vm = {
 		    break;
 		case 'SUBTRACT':
 		    result = value1 - value2;
+		    break;
+		case 'MULTIPLY':
+		    result = value1 * value2;
 		    break;
 		default:
 		    utils.assert(false, '_doCalculationMaybe(): bad op: ' + op);
@@ -343,8 +345,13 @@ ecalc.vm = {
 	 */
 	this.pressKey = function (key) {
 	    var value1, value2, op;
-	    utils.assertTrue(utils.inList(key, _virtualKeys),
+	    var isGoodKey = utils.inList(key, _virtualKeys);
+	    utils.assertTrue(isGoodKey,
 			    'pressKey(): bad key: ' + key);
+	    if (! isGoodKey) {
+		this.message('Illegal key: ' + key);
+		return;
+	    }
 	    this._keyStack.push(key);
 
 	    switch (key) {
@@ -421,6 +428,7 @@ ecalc.vm = {
 		break;
 	    case 'ADD':
 	    case 'SUBTRACT':
+	    case 'MULTIPLY':
 		if (this._calcDone) {
 		    this._calcDone = false;
 		} else {
@@ -439,5 +447,29 @@ ecalc.vm = {
 			     '] Not implemented.');
 	    }
 	};
+    },
+    /**
+     * pretty print Operators
+     */
+    printOp: function (op) {
+	switch (op) {
+	case 'ADD': return '+';
+	case 'SUBTRACT': return '-';
+	case 'MULTIPLY': return '*';
+	default: return '';
+	}
+    },
+    /**
+     * virtual key for given Op string
+     * @return a VM virtualkey if there is one.
+     * @return false when no such key.
+     */
+    vkeyForOp: function (str) {
+	switch (str) {
+	case '+': return 'ADD';
+	case '-': return 'SUBTRACT';
+	case '*': return 'MULTIPLY';
+	default: return false;
+	}
     }
 };

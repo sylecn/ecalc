@@ -24,23 +24,28 @@ var ecalc = {
     /**
      translate keyCode to virtual key in ecalc.vm
      acceptable keyCode:
-     | keyboard key |         keyCode | virtualKey in vm |
-     |--------------+-----------------+------------------|
-     | numbers      |           48-57 | NUM0 to NUM9     |
-     | .            |             190 | DOT              |
-     | +            | 61 (with shift) | ADD              |
-     | -            |             109 | SUBTRACT         |
-     | BACKSPACE    |               8 | BACKSPACE        |
-     | ENTER        |              13 | EQUAL            |
-     | =            |              61 | EQUAL            |
-     | c            |              67 | CLEAR            |
-     | q            |              81 | RESET            |
+     | keyboard key |   keyCode | virtualKey in vm |
+     |--------------+-----------+------------------|
+     | numbers      |     48-57 | NUM0 to NUM9     |
+     | .            |       190 | DOT              |
+     | +            | 61 +shift | ADD              |
+     | -            |       109 | SUBTRACT         |
+     | *            | 56 +shift | MULTIPLY         |
+     | BACKSPACE    |         8 | BACKSPACE        |
+     | ENTER        |        13 | EQUAL            |
+     | =            |        61 | EQUAL            |
+     | c            |        67 | CLEAR            |
+     | q            |        81 | RESET            |
      */
     translate: function (event) {
 	var keyCode = event.keyCode;
 	// with modifiers
-	if (event.shiftKey && keyCode === 61) {
-	    return 'ADD';
+	if (event.shiftKey) {
+	    switch (keyCode) {
+	    case 61: return 'ADD';
+	    case 56: return 'MULTIPLY';
+	    default: //do nothing
+	    }
 	}
 	if (! utils.noModifierKey(event)) {
 	    return undefined;
@@ -155,7 +160,7 @@ event, ',
 	var id = 'number-' + x + '-' + y;
 	$(td).replaceWith(['<input type="text" name="',
 			   id, '" id="', id, '" size="5px" value="',
-			   this.defaultVM.history.printOp(oldValue),
+			   this.vm.printOp(oldValue),
 			   '" onkeydown="ecalc.inputOpKeyDown(\
 event, ',
 			   // gee. quotes in HTML and javascript.
@@ -177,12 +182,12 @@ event, ',
 		ecalc.message('Only accept number and dot.');
 		newValue = NaN;
 	    }
-	    this.log('inputNumberKeyDown: ' + oldValue + ' -> ' + newValue);
 	    if (newValue && (newValue !== oldValue)) {
+		this.log('inputNumberKeyDown: ' + oldValue + ' -> ' + newValue);
 		this.defaultVM.history._all[x].nS[y] = newValue;
 		this.defaultVM.history.recompute(x);
+		this.updateUI();
 	    }
-	    this.updateUI();
 	    break;
 	case 27:
 	    ecalc.updateUI();
@@ -201,24 +206,17 @@ event, ',
 	    // confirm edit number
 	    var newValue = $(event.target).val();
 	    // this.log('inputOpKeyDown: newValue=' + newValue);
-	    switch (newValue) {
-	    case '+':
-		newValue = 'ADD';
-		break;
-	    case '-':
-		newValue = 'SUBTRACT';
-		break;
-	    default:
+	    newValue = this.vm.vkeyForOp(newValue);
+	    if (newValue === false) {
 		// give up, alert the user
 		ecalc.message('Only accept +/-');
-		newValue = false;
 	    }
-	    this.log('inputOpKeyDown: ' + oldValue + ' -> ' + newValue);
 	    if (newValue && (newValue !== oldValue)) {
+		this.log('inputOpKeyDown: ' + oldValue + ' -> ' + newValue);
 		this.defaultVM.history._all[x].oS[y] = newValue;
 		this.defaultVM.history.recompute(x);
+		this.updateUI();
 	    }
-	    this.updateUI();
 	    break;
 	case 27:
 	    ecalc.updateUI();
@@ -258,6 +256,19 @@ event, ',
 	ecalc.defaultVM.pressKey('ADD');
 	ecalc.defaultVM.pressKey('NUM4');
 	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM5');
+	ecalc.defaultVM.pressKey('EQUAL');
+    },
+
+    makeTestInputOneToFiveWithMultiply: function () {
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM2');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM3');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM4');
+	ecalc.defaultVM.pressKey('MULTIPLY');
 	ecalc.defaultVM.pressKey('NUM5');
 	ecalc.defaultVM.pressKey('EQUAL');
     },
@@ -383,6 +394,11 @@ $(document).ready(function () {
 		      ecalc.defaultVM.history.compute(
 			  [1, 2, 4, 4, 5], ['ADD', 'ADD', 'ADD', 'ADD']),
 		      'History.compute is broken.');
+    utils.assertEqual([3, 12, 8, 13],
+		      ecalc.defaultVM.history.compute(
+			  [1, 2, 4, 4, 5],
+			  ['ADD', 'MULTIPLY', 'SUBTRACT', 'ADD']),
+		      'History.compute is broken.');
     ecalc.testData = {};
     ecalc.testData.a = [0, 1, 2, 3, 4];
     ecalc.testData.a.splice(2, 1);
@@ -393,8 +409,9 @@ $(document).ready(function () {
     //  UI tests
     // ==========
 
-    ecalc.makeTestInputOneToFive();
-    ecalc.makeTestInputOneToFiveMinorDifference();
+    ecalc.makeTestInputOneToFiveWithMultiply();
+    // ecalc.makeTestInputOneToFive();
+    // ecalc.makeTestInputOneToFiveMinorDifference();
     ecalc.makeTestInputBusinessData();
     ecalc.makeTestInputBusinessDataMinorDifference();
     ecalc.updateUI();
