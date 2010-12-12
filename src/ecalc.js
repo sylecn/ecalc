@@ -76,14 +76,14 @@ var ecalc = {
 	if (key) {
 	    this.defaultVM.pressKey(key);
 	} else {
-	    switch (event.keyCode) {
-	    case 16:
-	    case 17:
-	    case 18:
-	    case 20:
-		// modifiers
-		break;
-	    default:
+	    if (! utils.inList(event.keyCode,
+			     [
+				 // modifiers
+				 16, 17, 18, 20,
+				 // page navigate
+				 33, 34, 35, 36,
+				 37, 38, 38, 40
+			     ])) {
 		this.log('key ignored, keyCode = ' + event.keyCode);
 	    }
 	}
