@@ -1,6 +1,7 @@
 * 
-* now working:
-  delete a history session.
+* refactoring: edit history nS and oS, bind onclick directly on <TD>
+  pass x and y directly to handler function.
+  then remove the giant ecalc.clickOnHistory(event) and param fetching.
 * add MINUS key
 * test cases
 ** NUM6 EQUAL ADD NUM1 EQUAL NUM1 NUM2 NUM3

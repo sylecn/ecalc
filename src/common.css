@@ -67,9 +67,7 @@ td.delete-history {
 }
 
 #vms {
-    position: fixed;
-    left: 70%;
-    bottom: 10px;
+    padding-bottom: 20px;
 }
 
 #developer-tools {
