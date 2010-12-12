@@ -42,10 +42,6 @@ var ecalc = {
 	case 109: return 'SUBTRACT';
 	case 8: return 'BACKSPACE';
 	case 13: return 'EQUAL';
-	case 27:
-	    // ESC clear web page, not passed to VM.
-	    this.clearLog();
-	    return undefined;
 	case 67: return 'CLEAR';
 	default: return undefined;
 	}
@@ -63,6 +59,12 @@ var ecalc = {
 	if (this.debugKeyEvent) {
 	    this.log('keydown event: keyCode = ' + event.keyCode);
 	}
+	if (event.keyCode === 27) {
+	    // ESC clear web page, not passed to VM.
+	    this.clearLog();
+	    return;
+	}
+
 	var key = this.translate(event);
 	if (key) {
 	    this.defaultVM.pressKey(key);
@@ -71,6 +73,7 @@ var ecalc = {
 	    case 16:
 	    case 17:
 	    case 18:
+	    case 20:
 		// modifiers
 		break;
 	    default:
@@ -86,6 +89,7 @@ var ecalc = {
 	}
     },
     updateUI: function () {
+	$('#screen').text(this.defaultVM.screen_asText());
 	$('#vms').html(this.defaultVM.asHTML());
     },
     // functions used in HTML
