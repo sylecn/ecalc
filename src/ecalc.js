@@ -378,7 +378,11 @@ $(document).ready(function () {
     /**
      * init UI
      */
-    // nothing yet.
+    if ($('#show_vm_states')[0].checked) {
+        $('#vms').show();
+    } else {
+        $('#vms').hide();
+    }
 
     /**
      * virtual machine
