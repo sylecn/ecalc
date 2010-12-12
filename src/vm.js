@@ -129,40 +129,31 @@ ecalc.vm = {
 	    var table = '<table class="history">';
 	    utils.assert(utils.isDefined(compareTo),
 			 '_oneCalcAsHTML(): comparedTo should be defined');
-	    if (compareTo !== false) {
-		// use colors to mark diff.
-		for (var i = 0; i < nS.length; i++) {
-		    table += [
-			'<tr><td class="left ',
-			nS[i] === compareTo.nS[i] ? 'match': 'diff',
-			'" data-x="', index,
-			'" data-y="', i,
-			'" data-type="nS"',
-			'">',
-			nS[i],
-			'</td>',
-			'<td class="right result ',
-			rS[i - 1] === compareTo.rS[i - 1] ? 'match': 'diff',
-			'">',
-			printResult(rS[i - 1] || ''),
-			'</td></tr><tr><td class="left ',
-			oS[i] === compareTo.oS[i] ? 'match': 'diff',
-			'" data-x="', index,
-			'" data-y="', i,
-			'" data-type="oS"',
-			'">',
-			this.printOp(oS[i] || ''),
-			'</td><td class="right"></td></tr>'].join('');
-		};
-	    } else {
-		for (var i = 0; i < nS.length; i++) {
-		    table += ['<tr><td class="left">', nS[i], '</td>',
-			      '<td class="right result">',
-			      printResult(rS[i - 1] || ''),
-			      '</td></tr><tr><td class="left">',
-			      this.printOp(oS[i] || ''),
-			      '</td><td class="right"></td></tr>'].join('');
-		};
+	    // if comparedTo !== false, use colors to mark diff.
+	    for (var i = 0; i < nS.length; i++) {
+		table += [
+		    '<tr><td class="left ',
+		    compareTo !== false ? (nS[i] === compareTo.nS[i] ?
+					    'match': 'diff'): '',
+		    '" data-x="', index,
+		    '" data-y="', i,
+		    '" data-type="nS"',
+		    '">',
+		    nS[i],
+		    '</td>',
+		    '<td class="right result ',
+		    compareTo !== false ? (rS[i - 1] === compareTo.rS[i - 1] ?
+					   'match': 'diff'): '', '">',
+		    printResult(rS[i - 1] || ''),
+		    '</td></tr><tr><td class="left ',
+		    compareTo !== false ? (oS[i] === compareTo.oS[i] ?
+					    'match': 'diff'): '',
+		    '" data-x="', index,
+		    '" data-y="', i,
+		    '" data-type="oS"',
+		    '">',
+		    this.printOp(oS[i] || ''),
+		    '</td><td class="right"></td></tr>'].join('');
 	    }
 	    table += '</table>';
 	    return table;

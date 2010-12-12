@@ -115,15 +115,25 @@ var ecalc = {
      * major dispatcher. edit and recompute history, update UI.
      */
     clickOnHistory: function (event) {
+	if (utils.isInputNode(event.target)) {
+	    return;
+	}
+	if (this.editing) {
+	    return;
+	}
 	var td = event.target;
 	var oldValue;
 	x = td.getAttribute('data-x') || '';
 	y = td.getAttribute('data-y') || '';
 	type = td.getAttribute('data-type') || '';
 	// ecalc.log('clickOnHistory: ' + event.target.tagName +
-	// 	  ' x = ' + x +
-	// 	  ' y = ' + y +
-	// 	  ' type = ' + type);
+	// 	  ' _all[' + x +
+	// 	  '].' + type + '[' + y +
+	// 	  '] = ' + (type == 'nS' ?
+	// 		    this.defaultVM.history._all[x].nS[y]:
+	// 		    (type == 'oS' ?
+	// 		     this.defaultVM.history._all[x].oS[y]:
+	// 		     '')));
 
 	// edit this number node
 	switch (type) {
@@ -134,6 +144,7 @@ var ecalc = {
 	    $(td).replaceWith('<input type="text" name="number" id="number" \
 size="5px" value="" onkeydown="ecalc.inputNumberKeyDown(event)" />');
 	    $('#number').val(oldValue);
+	    this.editing = true;
 	    // a closure for x, y, oldValue.
 	    ecalc.confirmEditNumber = function () {
 		var newValue = $('#number').val();
@@ -149,6 +160,7 @@ size="5px" value="" onkeydown="ecalc.inputNumberKeyDown(event)" />');
 		}
 		this.updateUI();
 		ecalc.confirmEditNumber = utils.noop;
+		this.editing = false;
 	    };
 	    $('#number').focus().select();
 	    // update this node, and recompute the session
@@ -160,6 +172,7 @@ size="5px" value="" onkeydown="ecalc.inputNumberKeyDown(event)" />');
 	    $(td).replaceWith('<input type="text" name="op" id="op" \
 size="5px" value="" onkeydown="ecalc.inputOpKeyDown(event)" />');
 	    $('#op').val(this.defaultVM.history.printOp(oldValue));
+	    this.editing = true;
 	    // a closure for x, y, oldValue.
 	    ecalc.confirmEditOp = function () {
 		var newValue = $('#op').val();
@@ -177,11 +190,13 @@ size="5px" value="" onkeydown="ecalc.inputOpKeyDown(event)" />');
 		    newValue = false;
 		}
 		if (newValue && (newValue !== oldValue)) {
+		    ecalc.log('(' + x + ', ' + y + ')');
 		    this.defaultVM.history._all[x].oS[y] = newValue;
 		    this.defaultVM.history.recompute(x);
 		}
 		this.updateUI();
 		ecalc.confirmEditOp = utils.noop;
+		this.editing = false;
 	    };
 	    $('#op').focus().select();
 	    // update this node, and recompute the session
@@ -198,6 +213,7 @@ size="5px" value="" onkeydown="ecalc.inputOpKeyDown(event)" />');
 	    break;
 	case 27:
 	    ecalc.updateUI();
+	    this.editing = false;
 	    break;
 	default: //do nothing
 	}
@@ -209,6 +225,7 @@ size="5px" value="" onkeydown="ecalc.inputOpKeyDown(event)" />');
 	    break;
 	case 27:
 	    ecalc.updateUI();
+	    this.editing = false;
 	    break;
 	default: //do nothing
 	}
@@ -367,7 +384,7 @@ $(document).ready(function () {
 
     ecalc.makeTestInputOneToFive();
     ecalc.makeTestInputOneToFiveMinorDifference();
-    ecalc.makeTestInputBusinessData();
-    ecalc.makeTestInputBusinessDataMinorDifference();
+    // ecalc.makeTestInputBusinessData();
+    // ecalc.makeTestInputBusinessDataMinorDifference();
     ecalc.updateUI();
 });
