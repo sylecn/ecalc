@@ -73,18 +73,18 @@ ecalc.vm = {
 	};
 	// show most recent histories.
 	this.asHTML = function () {
-	    var re = '<div>History<table id="all-history"><tr>';
 	    var nS, oS, rS;
 	    // show howMany sessions? default is 3.
 	    var howMany = 3;
+	    var table = [];
 	    var len;
 	    if (this._numberStack.length) {
 		// easier to type
 		nS = this._numberStack;
 		oS = this._opStack;
 		rS = this._resultStack;
-		re += '<td class="top">' +
-		    this._oneCalcAsHTML(nS, oS, rS) + '</td>';
+		table.push('<td class="top">' +
+			   this._oneCalcAsHTML(nS, oS, rS) + '</td>');
 		howMany -= 1;
 	    }
 	    len = this._all.length;
@@ -95,10 +95,20 @@ ecalc.vm = {
 		nS = this._all[len - i - 1].nS;
 		oS = this._all[len - i - 1].oS;
 		rS = this._all[len - i - 1].rS;
-		re += '<td class="top">' +
-		    this._oneCalcAsHTML(nS, oS, rS) + '</td>';
+		table.push('<td class="top">' +
+			   this._oneCalcAsHTML(nS, oS, rS) + '</td>');
 	    }
-	    return  re + '</tr></table></div>';
+	    return  '<div>History<table id="all-history"><tr>' +
+		table.join('') +
+		// table.reverse().join('') +
+		'</tr></table></div>';
+	};
+	// clear everything
+	this.clear = function () {
+	    this._all = [];
+	    this._numberStack = [];
+	    this._resultStack = [];
+	    this._opStack = [];
 	};
     },
     /**
@@ -116,7 +126,7 @@ ecalc.vm = {
 	    // op
 	    'ADD', 'SUBTRACT',
 	    // misc
-	    'BACKSPACE', 'EQUAL', 'CLEAR'
+	    'BACKSPACE', 'EQUAL', 'CLEAR', 'RESET'
 	    // ===================
 	    //  advanced features
 	    // ===================
@@ -249,6 +259,10 @@ ecalc.vm = {
 	    switch (key) {
 	    case 'CLEAR':
 		this._clear();
+		break;
+	    case 'RESET':
+		this._clear();
+		this.history.clear();
 		break;
 	    case 'NUM0':  //all all the way through
 	    case 'NUM00':

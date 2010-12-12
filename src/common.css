@@ -54,6 +54,9 @@ table.history {
 
 #developer-tools {
     padding-top: 20px;
+    position: fixed;
+    left: 70%;
+    top: 0px;
 }
 
 /* .keystack { */

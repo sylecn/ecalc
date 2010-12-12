@@ -18,8 +18,8 @@
       partial sum result (for every number displayed on tranditional "screen".
       show a diff like compare with colors showing the diff op and number.
         even she still goes for a 3rd time.
-        she can compare all the 3 calc in a diff. which will make she know what
-        wrong in the first calc and 2nd calc.
+        she can compare all the 3 calc in a diff, which will help her know what
+        is wrong in the first calc and 2nd calc.
 *** press A saves the last group of calc in register A.
 **** a group is a series of keys after the CLEAR key.
 **** a register contains all the info for a group. which can be recalled to cmp

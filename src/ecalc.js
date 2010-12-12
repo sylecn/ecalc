@@ -24,6 +24,7 @@ var ecalc = {
      | ENTER        |              13 | EQUAL            |
      | =            |              61 | EQUAL            |
      | c            |              67 | CLEAR            |
+     | q            |              81 | RESET            |
      */
     translate: function (event) {
 	var keyCode = event.keyCode;
@@ -43,6 +44,7 @@ var ecalc = {
 	case 8: return 'BACKSPACE';
 	case 13: return 'EQUAL';
 	case 67: return 'CLEAR';
+	case 81: return 'RESET';
 	default: return undefined;
 	}
     },
@@ -63,6 +65,11 @@ var ecalc = {
 	    // ESC clear web page, not passed to VM.
 	    this.clearLog();
 	    return;
+	}
+	if (event.keyCode === 67 ||
+	    event.keyCode === 81) {
+	    // CLEAR or RESET will also clear web page.
+	    this.clearLog();
 	}
 
 	var key = this.translate(event);
@@ -108,6 +115,19 @@ var ecalc = {
 	ecalc.defaultVM.pressKey('NUM2');
 	ecalc.defaultVM.pressKey('ADD');
 	ecalc.defaultVM.pressKey('NUM3');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM4');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM5');
+	ecalc.defaultVM.pressKey('EQUAL');
+    },
+
+    makeTestInputOneToFiveMinorDifference: function () {
+	ecalc.defaultVM.pressKey('NUM1');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM2');
+	ecalc.defaultVM.pressKey('ADD');
+	ecalc.defaultVM.pressKey('NUM4');
 	ecalc.defaultVM.pressKey('ADD');
 	ecalc.defaultVM.pressKey('NUM4');
 	ecalc.defaultVM.pressKey('ADD');
@@ -168,7 +188,9 @@ $(document).ready(function () {
     ecalc.defaultVM = new ecalc.vm.VirtualMachine("defaultVM");
     ecalc.updateUI();
 
-    ecalc.makeTestInputOneToFive();
     ecalc.makeTestInputBusinessData();
+    ecalc.makeTestInputOneToFive();
+    ecalc.makeTestInputOneToFiveMinorDifference();
+    // ecalc.makeTestInputBusinessDataMinorDifference();
     ecalc.updateUI();
 });
