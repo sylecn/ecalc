@@ -182,12 +182,12 @@ event, ',
 		ecalc.message('Only accept number and dot.');
 		newValue = NaN;
 	    }
-	    if (newValue && (newValue !== oldValue)) {
+	    if ((newValue !== NaN) && (newValue !== oldValue)) {
 		this.log('inputNumberKeyDown: ' + oldValue + ' -> ' + newValue);
 		this.defaultVM.history._all[x].nS[y] = newValue;
 		this.defaultVM.history.recompute(x);
-		this.updateUI();
 	    }
+	    this.updateUI();
 	    break;
 	case 27:
 	    ecalc.updateUI();
@@ -215,8 +215,8 @@ event, ',
 		this.log('inputOpKeyDown: ' + oldValue + ' -> ' + newValue);
 		this.defaultVM.history._all[x].oS[y] = newValue;
 		this.defaultVM.history.recompute(x);
-		this.updateUI();
 	    }
+	    this.updateUI();
 	    break;
 	case 27:
 	    ecalc.updateUI();
