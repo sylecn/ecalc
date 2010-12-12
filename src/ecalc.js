@@ -38,18 +38,20 @@ var ecalc = {
      */
     translate: function (event) {
 	var keyCode = event.keyCode;
-	var shiftKey = event.shiftKey;
+	// with modifiers
+	if (event.shiftKey && keyCode === 61) {
+	    return 'ADD';
+	}
+	if (! utils.noModifierKey(event)) {
+	    return undefined;
+	}
+	// no modifiers
 	if ((keyCode >= 48) && (keyCode <= 57)) {
 	    return 'NUM' + (keyCode - 48);
 	}
 	switch (keyCode) {
 	case 190: return 'DOT';
-	case 61:
-	    if (shiftKey) {
-		return 'ADD';
-	    } else {
-		return 'EQUAL';
-	    }
+	case 61: return 'EQUAL';
 	case 109: return 'SUBTRACT';
 	case 8: return 'BACKSPACE';
 	case 13: return 'EQUAL';
@@ -82,8 +84,8 @@ var ecalc = {
 	    this.clearLog();
 	    return;
 	}
-	if (event.keyCode === 67 ||
-	    event.keyCode === 81) {
+	if ((event.keyCode === 67 || event.keyCode === 81) &&
+	    utils.noModifierKey(event)) {
 	    // CLEAR or RESET will also clear web page.
 	    this.clearLog();
 	}
@@ -91,19 +93,20 @@ var ecalc = {
 	var key = this.translate(event);
 	if (key) {
 	    this.defaultVM.pressKey(key);
+	    this.updateUI();
 	} else {
-	    if (! utils.inList(event.keyCode,
-			     [
-				 // modifiers
-				 16, 17, 18, 20,
-				 // page navigate
-				 33, 34, 35, 36,
-				 37, 38, 38, 40
-			     ])) {
+	    if (utils.noModifierKey(event) &&
+		(! utils.inList(event.keyCode,
+				[
+				    // keyCode for modifiers
+				    16, 17, 18, 20,
+				    // keyCode for page navigate keys
+				    33, 34, 35, 36,
+				    37, 38, 38, 40
+				]))) {
 		this.log('key ignored, keyCode = ' + event.keyCode);
 	    }
 	}
-	this.updateUI();
     },
     // keypress: function (event) {
     // 	var key = event.charCode;
