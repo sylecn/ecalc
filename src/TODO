@@ -1,9 +1,14 @@
 * 
-* refactoring: edit history nS and oS, bind onclick directly on <TD>
-  pass x and y directly to handler function.
-  then remove the giant ecalc.clickOnHistory(event) and param fetching.
+* is there a tool can list javascript functions that is never called during
+  the whole session?
+* [BUG L2] in main keydown dispatch, some keys should accept only single char
+  keydown, not with modifiers.
+  for example, C-c should not send c to VM or ecalc.
 * add MINUS key
 * test cases
 ** NUM6 EQUAL ADD NUM1 EQUAL NUM1 NUM2 NUM3
 ** NUM1 ADD NUM2 EQUAL ADD NUM2 ADD
 ** 1 + 123.4 BACKSPACE BACKSPACE .5 =
+* DONE [BUG L1] refactoring: edit history nS and oS, bind onclick directly
+  on <TD>, pass x and y directly to handler function.
+  then remove the giant ecalc.clickOnHistory(event) and param fetching.

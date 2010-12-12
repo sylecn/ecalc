@@ -118,129 +118,107 @@ var ecalc = {
 	if (utils.isInputNode(event.target)) {
 	    return;
 	}
-	if (this.editing) {
-	    return;
-	}
 	this.log('deleteHistory index = ' + index);
 	this.defaultVM.history._all.splice(index, 1);
 	this.updateUI();
 	return false;
     },
     /**
-     * major dispatcher. edit and recompute history, update UI.
+     * edit Number in history. recompute and update UI if number changed.
+     * @param x index for this.defaultVM.history._all
+     * @param y index for this.defaultVM.history._all[x].nS
      */
-    clickOnHistory: function (event) {
-	if (utils.isInputNode(event.target)) {
-	    return;
-	}
-	if (this.editing) {
-	    return;
-	}
+    clickOnNumber: function (event, x, y) {
 	var td = event.target;
-	var oldValue;
-	x = td.getAttribute('data-x') || '';
-	y = td.getAttribute('data-y') || '';
-	type = td.getAttribute('data-type') || '';
-	// ecalc.log('clickOnHistory: ' + event.target.tagName +
-	// 	  ' _all[' + x +
-	// 	  '].' + type + '[' + y +
-	// 	  '] = ' + (type == 'nS' ?
-	// 		    this.defaultVM.history._all[x].nS[y]:
-	// 		    (type == 'oS' ?
-	// 		     this.defaultVM.history._all[x].oS[y]:
-	// 		     '')));
-
-	// edit this number node
-	switch (type) {
-	case 'nS':
-	    oldValue = this.defaultVM.history._all[x].nS[y];
-	    // ecalc.log(oldValue);
-	    // make this cell editable.
-	    $(td).replaceWith('<input type="text" name="number" id="number" \
-size="5px" value="" onkeydown="ecalc.inputNumberKeyDown(event)" />');
-	    $('#number').val(oldValue);
-	    this.editing = true;
-	    // a closure for x, y, oldValue.
-	    ecalc.confirmEditNumber = function () {
-		var newValue = $('#number').val();
-		try {
-		    newValue = parseFloat(newValue);
-		} catch (e) {
-		    ecalc.message('Only accept number and dot.');
-		    newValue = false;
-		}
-		if (newValue && (newValue !== oldValue)) {
-		    this.defaultVM.history._all[x].nS[y] = newValue;
-		    this.defaultVM.history.recompute(x);
-		}
-		this.updateUI();
-		ecalc.confirmEditNumber = utils.noop;
-		this.editing = false;
-	    };
-	    $('#number').focus().select();
-	    // update this node, and recompute the session
-	    break;
-	case 'oS':
-	    oldValue = this.defaultVM.history._all[x].oS[y];
-	    // ecalc.log(oldValue);
-	    // make this cell editable.
-	    $(td).replaceWith('<input type="text" name="op" id="op" \
-size="5px" value="" onkeydown="ecalc.inputOpKeyDown(event)" />');
-	    $('#op').val(this.defaultVM.history.printOp(oldValue));
-	    this.editing = true;
-	    // a closure for x, y, oldValue.
-	    ecalc.confirmEditOp = function () {
-		var newValue = $('#op').val();
-
-		switch (newValue) {
-		case '+':
-		    newValue = 'ADD';
-		    break;
-		case '-':
-		    newValue = 'SUBTRACT';
-		    break;
-		default:
-		    // give up, alert the user
-		    ecalc.message('Only accept +/-');
-		    newValue = false;
-		}
-		if (newValue && (newValue !== oldValue)) {
-		    ecalc.log('(' + x + ', ' + y + ')');
-		    this.defaultVM.history._all[x].oS[y] = newValue;
-		    this.defaultVM.history.recompute(x);
-		}
-		this.updateUI();
-		ecalc.confirmEditOp = utils.noop;
-		this.editing = false;
-	    };
-	    $('#op').focus().select();
-	    // update this node, and recompute the session
-	    break;
-	default:
-	    // ignore
-	    ecalc.log('clickOnHistory(): ignore click.');
-	}
+	var oldValue = this.defaultVM.history._all[x].nS[y];
+	// ecalc.log(oldValue);
+	var id = 'number-' + x + '-' + y;
+	$(td).replaceWith(['<input type="text" name="',
+			   id, '" id="', id, '" size="5px" value="',
+			   oldValue, '" onkeydown="ecalc.inputNumberKeyDown(\
+event, ',
+			   x, ',', y, ',', oldValue,')" />'].join(''));
+	$('#' + id).focus().select();
     },
-    inputNumberKeyDown: function (event) {
+    /**
+     * edit Op in history. recompute and update UI if number changed.
+     * @param x index for this.defaultVM.history._all
+     * @param y index for this.defaultVM.history._all[x].oS
+     */
+    clickOnOp: function (event, x, y) {
+	var td = event.target;
+	var oldValue = this.defaultVM.history._all[x].oS[y];
+	// ecalc.log(oldValue);
+	var id = 'number-' + x + '-' + y;
+	$(td).replaceWith(['<input type="text" name="',
+			   id, '" id="', id, '" size="5px" value="',
+			   this.defaultVM.history.printOp(oldValue),
+			   '" onkeydown="ecalc.inputOpKeyDown(\
+event, ',
+			   // gee. quotes in HTML and javascript.
+			   x, ', ', y, ', \'', oldValue,'\')" />'].join(''));
+	$('#' + id).focus().select();
+    },
+    /**
+     * confirm or giveup edit a number in history.
+     */
+    inputNumberKeyDown: function (event, x, y, oldValue) {
+	var td, newValue;
 	switch (event.keyCode) {
 	case 13:
-	    ecalc.confirmEditNumber();
+	    // confirm edit number
+	    var newValue = $(event.target).val();
+	    try {
+		newValue = parseFloat(newValue);
+	    } catch (e) {
+		ecalc.message('Only accept number and dot.');
+		newValue = NaN;
+	    }
+	    this.log('inputNumberKeyDown: ' + oldValue + ' -> ' + newValue);
+	    if (newValue && (newValue !== oldValue)) {
+		this.defaultVM.history._all[x].nS[y] = newValue;
+		this.defaultVM.history.recompute(x);
+	    }
+	    this.updateUI();
 	    break;
 	case 27:
 	    ecalc.updateUI();
-	    this.editing = false;
 	    break;
 	default: //do nothing
 	}
     },
-    inputOpKeyDown: function (event) {
+    /**
+     * confirm or giveup edit a number in history.
+     */
+    inputOpKeyDown: function (event, x, y, oldValue) {
+	var td, newValue;
+	// this.log('inputOpKeyDown: keyCode=' + event.keyCode);
 	switch (event.keyCode) {
 	case 13:
-	    ecalc.confirmEditOp();
+	    // confirm edit number
+	    var newValue = $(event.target).val();
+	    // this.log('inputOpKeyDown: newValue=' + newValue);
+	    switch (newValue) {
+	    case '+':
+		newValue = 'ADD';
+		break;
+	    case '-':
+		newValue = 'SUBTRACT';
+		break;
+	    default:
+		// give up, alert the user
+		ecalc.message('Only accept +/-');
+		newValue = false;
+	    }
+	    this.log('inputOpKeyDown: ' + oldValue + ' -> ' + newValue);
+	    if (newValue && (newValue !== oldValue)) {
+		this.defaultVM.history._all[x].oS[y] = newValue;
+		this.defaultVM.history.recompute(x);
+	    }
+	    this.updateUI();
 	    break;
 	case 27:
 	    ecalc.updateUI();
-	    this.editing = false;
 	    break;
 	default: //do nothing
 	}

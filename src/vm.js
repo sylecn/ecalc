@@ -139,10 +139,8 @@ ecalc.vm = {
 		    '<tr><td class="left ',
 		    compareTo !== false ? (nS[i] === compareTo.nS[i] ?
 					    'match': 'diff'): '',
-		    '" data-x="', index,
-		    '" data-y="', i,
-		    '" data-type="nS"',
-		    '">',
+		    '" onclick="ecalc.clickOnNumber(event, ' + index + ', ' + i,
+		    ')">',
 		    nS[i],
 		    '</td>',
 		    '<td class="right result ',
@@ -152,10 +150,8 @@ ecalc.vm = {
 		    '</td></tr><tr><td class="left ',
 		    compareTo !== false ? (oS[i] === compareTo.oS[i] ?
 					    'match': 'diff'): '',
-		    '" data-x="', index,
-		    '" data-y="', i,
-		    '" data-type="oS"',
-		    '">',
+		    '" onclick="ecalc.clickOnOp(event, ' + index + ', ' + i,
+		    ')">',
 		    this.printOp(oS[i] || ''),
 		    '</td><td class="right"></td></tr>'].join('');
 	    }
