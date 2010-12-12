@@ -1,4 +1,14 @@
 
+* i18n best practices
+  http://www.w3.org/International/
+
+  +Web Design in a Nutshell, 2nd Edition+
+  +Chapter 7. Internationalization+
+  +http://docstore.mik.ua/orelly/web2/wdesign/ch07_01.htm+
+
+  +How do you build a multi-language web site?+
+  +http://stackoverflow.com/questions/39562/how-do-you-build-a-multi-language-web-site+
+
 * impression so far.
 
 last time I try to implement it in Java and use Swing as GUI, it's a

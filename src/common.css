@@ -1,4 +1,6 @@
 body {
+    margin: 0px;
+    padding: 0px;
 }
 
 a {
@@ -33,11 +35,25 @@ a:hover {
     color: blue;
 }
 
+#header {
+    position: fixed;
+    left: 70%;
+    top: 10px;
+}
+
+#help {
+    position: fixed;
+    left: 20px;
+    top: 10%;
+    width: 100px;
+}
+
 #container {
     width: 800px;
     /* border: solid black 1px; */
     margin-top: 10px;
-    margin-left: auto;
+    margin-left:300px;
+    /* margin-left: auto; */
     margin-right: auto;
 }
 
@@ -51,9 +67,9 @@ a:hover {
 
 #message {
     position: fixed;
-    top: 10px;
+    bottom: 10px;
+    width: 100%;
     background-color: #FFFF00;
-    color: #00FF00;
 }
 
 td.result {
@@ -67,10 +83,11 @@ td.delete-history {
 }
 
 #developer-tools {
-    padding-top: 20px;
+    /* padding-top: 20px; */
     position: fixed;
     left: 70%;
-    top: 0px;
+    top: 50px;
+    display: none;
 }
 
 #developer-tools > div {

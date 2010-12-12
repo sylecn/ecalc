@@ -133,7 +133,7 @@ ecalc.vm = {
 			 '_oneCalcAsHTML(): comparedTo should be defined');
 	    table += '<tr><td colspan="2" class="delete-history">\
 <a href="#" onclick="return ecalc.deleteHistory(event, ' + index +
-		')">delete session</a>\
+		')">' + ecalc.getString('vm.History.delete-session') + '</a>\
 </td></tr>';
 	    // if comparedTo !== false, use colors to mark diff.
 	    for (var i = 0; i < nS.length; i++) {
@@ -170,6 +170,9 @@ ecalc.vm = {
 	    if (! this._all.last().nS.length) {
 		len -= 1;
 	    }
+	    if (len === 0) {
+		return '';
+	    }
 	    if (len >= 2) {
 		// compare the last session to last but 1 session.
 		table.push('<td class="top">' +
@@ -187,10 +190,12 @@ ecalc.vm = {
 			   this._oneCalcAsHTML(len - i, false) +
 			   '</td>');
 	    }
-	    return  '<div>History<table id="all-history"><tr>' +
-		table.join('') +
-		// table.reverse().join('') +
-		'</tr></table></div>';
+	    return ['<div>',
+		    ecalc.getString('vm.History.history'),
+		    '<table id="all-history"><tr>',
+		    table.join(''),
+		    // table.reverse().join('') +
+		    '</tr></table></div>'].join('');
 	};
 	// clear everything
 	this.clear = function () {

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8">
     <title>ecalc - an online calculator with history, register, and more</title>
@@ -12,6 +11,25 @@
   </head>
 
   <body onkeydown="ecalc.keydown(event)">
+    <div id="header">
+      <p>language:
+	<a href="#" onclick="return ecalc.setLocale('en-US');">English</a>
+	<a href="#" onclick="return ecalc.setLocale('zh-CN');">中文</a>
+      </p>
+    </div>
+
+    <div id="help">
+<pre id="help-message">
+Support keys
+============
+0-9 .
++ - *
+BACKSPACE
+c - clear
+q - reset
+</pre>
+    </div>
+
     <div id="container">
       <div id="screen" class="right">0</div>
       <div id="history"></div>
@@ -20,15 +38,26 @@
 
     <div id="developer-tools">
       <div id="debug-options">
-	Debug Key Event:
-	<input type="checkbox" name="debug_key_event"
-	       id="debug_key_event"
-	       onchange="ecalc.toggleDebugKeyEvent()" />
-	<br />
-	Show VM states:
-	<input type="checkbox" name="show_vm_states"
-	       id="show_vm_states"
-	       onchange="ecalc.toggleShowVMStates()" />
+	<table>
+	  <tr>
+	    <td>Debug Key Event:</td>
+	    <td><input type="checkbox" name="debug_key_event"
+		       id="debug_key_event"
+		       onchange="ecalc.toggleDebugKeyEvent()" /></td>
+	  </tr>
+	  <tr>
+	    <td>Debug History Edit Event:</td>
+	    <td><input type="checkbox" name="debug_history_edit_event"
+		       id="debug_history_edit_event"
+		       onchange="ecalc.toggleDebugHistoryEditEvent()" /></td>
+	  </tr>
+	  <tr>
+	    <td>Show VM states:</td>
+	    <td><input type="checkbox" name="show_vm_states"
+		       id="show_vm_states"
+		       onchange="ecalc.toggleShowVMStates()" /></td>
+	  </tr>
+	</table>
       </div>
 
       <div id="vms"></div>
