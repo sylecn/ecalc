@@ -420,6 +420,7 @@ event, ',
 	if (utils.isDefined(this._strings[locale])) {
 	    this.activeLocale = locale;
 	    document.title = this.getString('title');
+	    $('#choose-language').text(this.getString('choose-language'));
 	    $('#help-message').text(this.getString('help-message'));
 	    this.updateUI();
 	    this.log('set locale to ' + locale);
@@ -432,6 +433,7 @@ event, ',
     _strings: {
 	'zh-CN': {
 	    'title': '易算 - 拥有历史储存功能的在线计算器',
+	    'choose-language': '语言:',
 	    'help-message': '支持的按键\n\
 ============\n\
 0-9 .\n\
@@ -459,6 +461,7 @@ ESC   - 取消\n\
 	'en-US': {
 	    'title': 'ecalc - an online calculator with history, register, and \
 more',
+	    'choose-language': 'Language:',
 	    'help-message': 'Support keys\n\
 ============\n\
 0-9 .\n\
